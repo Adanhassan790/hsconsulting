@@ -1,7 +1,7 @@
 Django==4.2.11
-psycopg2-binary==2.9.9
+psycopg2-binary==2.9.10
 python-decouple==3.8
-Pillow==10.1.0
+Pillow==10.2.0
 django-crispy-forms==2.1
 crispy-bootstrap5==2.0.2
 django-cors-headers==4.3.1
@@ -15,3 +15,4 @@ python-dateutil==2.8.2
 django-filter==23.5
 gunicorn==21.2.0
 whitenoise==6.6.0
+jazzmin==3.0.1
