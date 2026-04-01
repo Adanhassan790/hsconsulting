@@ -21,7 +21,7 @@ ALLOWED_HOSTS = config('ALLOWED_HOSTS', default='localhost,127.0.0.1,*.railway.a
 # Application definition
 INSTALLED_APPS = [
     # 'daphne',  # ASGI support - install when needed
-    'jazzmin',  # Modern admin interface - must be before django.contrib.admin
+    # 'jazzmin',  # Modern admin interface - commenting out, no Python 3.14 wheel available yet
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
