@@ -7,5 +7,7 @@ services:
     envVars:
       - key: DEBUG
         value: "False"
+      - key: ALLOWED_HOSTS
+        value: "hsconsulting.onrender.com"
       - key: PYTHON_VERSION
         value: "3.14.3"
