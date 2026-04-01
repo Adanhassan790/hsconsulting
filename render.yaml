@@ -1,0 +1,11 @@
+services:
+  - type: web
+    name: hsconsulting
+    runtime: python
+    buildCommand: pip install -r requirements.txt
+    startCommand: bash build.sh && gunicorn config.wsgi:application --log-file - --timeout 600
+    envVars:
+      - key: DEBUG
+        value: "False"
+      - key: PYTHON_VERSION
+        value: "3.14.3"
