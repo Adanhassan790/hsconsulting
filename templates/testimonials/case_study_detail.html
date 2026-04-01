@@ -1,0 +1,40 @@
+{% extends 'base/base.html' %}
+
+{% block title %}{{ case_study.title }} - Case Study - HS Consulting{% endblock %}
+
+{% block content %}
+<section class="section-padding">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-2">
+                <a href="{% url 'testimonials:case_studies' %}" class="btn btn-secondary mb-4">← Back</a>
+            </div>
+        </div>
+        
+        <div class="row">
+            <div class="col-md-8 offset-md-2">
+                <h1 class="text-danger mb-3">{{ case_study.title }}</h1>
+                <p class="lead"><strong>Client:</strong> {{ case_study.client_company }} - {{ case_study.client_name }}</p>
+                <hr>
+                
+                <div class="mb-5">
+                    <h3 class="text-danger">The Challenge</h3>
+                    <p>{{ case_study.challenge }}</p>
+                </div>
+                
+                <div class="mb-5">
+                    <h3 class="text-danger">Our Solution</h3>
+                    <p>{{ case_study.solution }}</p>
+                </div>
+                
+                <div class="mb-5">
+                    <h3 class="text-danger">Results</h3>
+                    <p>{{ case_study.results }}</p>
+                </div>
+                
+                <a href="{% url 'appointments:book' %}" class="btn btn-danger btn-lg">Ready to Work With Us?</a>
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock %}

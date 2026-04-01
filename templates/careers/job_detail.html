@@ -1,0 +1,225 @@
+{% extends 'base/base.html' %}
+{% load static %}
+
+{% block title %}{{ job.title }} - HS Consulting Careers{% endblock %}
+
+{% block content %}
+<div class="container py-5">
+    <!-- Breadcrumb -->
+    <nav aria-label="breadcrumb" class="mb-4">
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a href="{% url 'core:home' %}" class="text-danger">Home</a></li>
+            <li class="breadcrumb-item"><a href="{% url 'careers:careers_list' %}" class="text-danger">Careers</a></li>
+            <li class="breadcrumb-item active" aria-current="page">{{ job.title }}</li>
+        </ol>
+    </nav>
+
+    <div class="row">
+        <!-- Main Content -->
+        <div class="col-lg-8">
+            <!-- Job Header -->
+            <div class="card border-0 shadow-sm p-4 mb-4">
+                <div class="row align-items-start">
+                    <div class="col-md-8">
+                        <h1 class="display-5 fw-bold text-danger mb-2">{{ job.title }}</h1>
+                        <p class="text-muted fs-5 mb-0">{{ job.department }}</p>
+                    </div>
+                    <div class="col-md-4 text-md-end">
+                        {% if job.is_deadline_passed %}
+                        <span class="badge bg-danger p-3">Application Closed</span>
+                        {% elif job.status == 'filled' %}
+                        <span class="badge bg-secondary p-3">Position Filled</span>
+                        {% else %}
+                        <span class="badge bg-success p-3">
+                            <i class="bi bi-check-circle"></i> Now Hiring
+                        </span>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+
+            <!-- Job Details Summary -->
+            <div class="row mb-4">
+                <div class="col-md-6 mb-3">
+                    <div class="card border-0 shadow-sm p-3">
+                        <p class="text-muted small mb-1">Employment Type</p>
+                        <p class="fw-bold">{{ job.get_employment_type_display }}</p>
+                    </div>
+                </div>
+                <div class="col-md-6 mb-3">
+                    <div class="card border-0 shadow-sm p-3">
+                        <p class="text-muted small mb-1">Location</p>
+                        <p class="fw-bold">{{ job.location }}</p>
+                    </div>
+                </div>
+                {% if job.salary_range %}
+                <div class="col-md-6 mb-3">
+                    <div class="card border-0 shadow-sm p-3">
+                        <p class="text-muted small mb-1">Salary Range</p>
+                        <p class="fw-bold">{{ job.salary_range }}</p>
+                    </div>
+                </div>
+                {% endif %}
+                <div class="col-md-6 mb-3">
+                    <div class="card border-0 shadow-sm p-3">
+                        <p class="text-muted small mb-1">Application Deadline</p>
+                        <p class="fw-bold">{{ job.deadline|date:"M d, Y" }}</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Job Description -->
+            <div class="card border-0 shadow-sm p-4 mb-4">
+                <h3 class="text-danger fw-bold mb-3">Job Description</h3>
+                <div class="job-description">
+                    {{ job.description|linebreaks }}
+                </div>
+            </div>
+
+            <!-- Responsibilities -->
+            <div class="card border-0 shadow-sm p-4 mb-4">
+                <h3 class="text-danger fw-bold mb-3">Responsibilities</h3>
+                <div class="job-content">
+                    {{ job.responsibilities|linebreaks }}
+                </div>
+            </div>
+
+            <!-- Requirements -->
+            <div class="card border-0 shadow-sm p-4 mb-4">
+                <h3 class="text-danger fw-bold mb-3">Requirements</h3>
+                <div class="job-content">
+                    {{ job.requirements|linebreaks }}
+                </div>
+            </div>
+
+            <!-- Related Jobs -->
+            {% if related_jobs %}
+            <div class="card border-0 shadow-sm p-4">
+                <h4 class="text-danger fw-bold mb-3">You Might Also Like</h4>
+                <div class="row">
+                    {% for related_job in related_jobs %}
+                    <div class="col-md-6 mb-3">
+                        <div class="card h-100 border-0 shadow-sm p-3">
+                            <h6 class="fw-bold text-danger mb-2">{{ related_job.title }}</h6>
+                            <p class="text-muted small mb-2">{{ related_job.get_employment_type_display }} • {{ related_job.location }}</p>
+                            <a href="{% url 'careers:job_detail' related_job.pk %}" class="btn btn-danger btn-sm">
+                                View Job
+                            </a>
+                        </div>
+                    </div>
+                    {% endfor %}
+                </div>
+            </div>
+            {% endif %}
+        </div>
+
+        <!-- Sidebar - Application Form -->
+        <div class="col-lg-4">
+            {% if job.can_apply %}
+            <div class="card border-0 shadow-sm sticky-form p-4" style="top: 20px;">
+                <h3 class="text-danger fw-bold mb-4">Apply Now</h3>
+
+                {% if messages %}
+                {% for message in messages %}
+                <div class="alert alert-{{ message.tags }} alert-dismissible fade show" role="alert">
+                    {{ message }}
+                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                </div>
+                {% endfor %}
+                {% endif %}
+
+                <form method="post" enctype="multipart/form-data" id="application-form">
+                    {% csrf_token %}
+
+                    <div class="mb-3">
+                        <label for="{{ form.full_name.id_for_label }}" class="form-label fw-bold">Full Name</label>
+                        {{ form.full_name }}
+                        {% if form.full_name.errors %}
+                        <div class="text-danger small mt-1">{{ form.full_name.errors }}</div>
+                        {% endif %}
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="{{ form.email.id_for_label }}" class="form-label fw-bold">Email Address</label>
+                        {{ form.email }}
+                        {% if form.email.errors %}
+                        <div class="text-danger small mt-1">{{ form.email.errors }}</div>
+                        {% endif %}
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="{{ form.phone.id_for_label }}" class="form-label fw-bold">Phone Number</label>
+                        {{ form.phone }}
+                        {% if form.phone.errors %}
+                        <div class="text-danger small mt-1">{{ form.phone.errors }}</div>
+                        {% endif %}
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="{{ form.resume.id_for_label }}" class="form-label fw-bold">Upload Resume</label>
+                        {{ form.resume }}
+                        <small class="text-muted d-block mt-1">PDF, DOC, or DOCX format only</small>
+                        {% if form.resume.errors %}
+                        <div class="text-danger small mt-1">{{ form.resume.errors }}</div>
+                        {% endif %}
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="{{ form.cover_letter.id_for_label }}" class="form-label fw-bold">Cover Letter</label>
+                        {{ form.cover_letter }}
+                        {% if form.cover_letter.errors %}
+                        <div class="text-danger small mt-1">{{ form.cover_letter.errors }}</div>
+                        {% endif %}
+                    </div>
+
+                    <button type="submit" class="btn btn-danger w-100 fw-bold py-2">
+                        <i class="bi bi-send"></i> Submit Application
+                    </button>
+
+                    <p class="text-muted small text-center mt-3 mb-0">
+                        We'll review your application and get back to you soon.
+                    </p>
+                </form>
+            </div>
+            {% else %}
+            <div class="card border-0 shadow-sm p-4 bg-warning-light">
+                <div class="alert alert-warning mb-0">
+                    <i class="bi bi-info-circle"></i>
+                    <strong>Applications Closed</strong>
+                    <p class="mb-0 mt-2 small">The application deadline for this position has passed. Please check our <a href="{% url 'careers:careers_list' %}" class="alert-link">careers page</a> for other open positions.</p>
+                </div>
+            </div>
+            {% endif %}
+        </div>
+    </div>
+</div>
+
+<style>
+.sticky-form {
+    position: -webkit-sticky;
+    position: sticky;
+}
+
+.job-description p,
+.job-content p {
+    line-height: 1.8;
+    color: #555;
+    margin-bottom: 1rem;
+}
+
+.job-content ul,
+.job-content ol {
+    margin-left: 1.5rem;
+    margin-bottom: 1rem;
+}
+
+.job-content li {
+    margin-bottom: 0.5rem;
+    color: #555;
+}
+
+.bg-warning-light {
+    background-color: rgba(255, 193, 7, 0.1);
+}
+</style>
+{% endblock %}

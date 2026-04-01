@@ -1,0 +1,29 @@
+{% extends 'base/base.html' %}
+
+{% block title %}Inquiry Submitted - HS Consulting{% endblock %}
+
+{% block content %}
+<section class="section-padding bg-light">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-6 offset-md-3 text-center">
+                <div class="card border-success">
+                    <div class="card-body p-5">
+                        <h1 class="text-success mb-3">✓ Thank You!</h1>
+                        <p class="lead">Your inquiry has been received successfully.</p>
+                        <p class="text-muted">Our team will review your inquiry and get back to you shortly.</p>
+                        
+                        <div class="alert alert-info mt-4">
+                            <strong>Response Time</strong><br>
+                            We typically respond to inquiries within 24-48 business hours.
+                        </div>
+                        
+                        <a href="{% url 'core:home' %}" class="btn btn-danger btn-lg">Return to Home</a>
+                        <a href="{% url 'inquiries:contact' %}" class="btn btn-outline-danger btn-lg ms-2">Send Another Inquiry</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock %}

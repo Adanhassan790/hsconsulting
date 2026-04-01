@@ -1,0 +1,25 @@
+{% extends 'base/base.html' %}
+
+{% block title %}Book Appointment - HS Consulting{% endblock %}
+
+{% block content %}
+<section class="section-padding">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-8 offset-md-2">
+                <h1 class="section-title text-center mb-4 text-danger">Book an Appointment</h1>
+                
+                <form method="POST" class="needs-validation">
+                    {% csrf_token %}
+                    <div class="card">
+                        <div class="card-body">
+                            {{ form.as_p }}
+                            <button type="submit" class="btn btn-danger btn-lg w-100">Book Appointment</button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock %}

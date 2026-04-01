@@ -1,0 +1,204 @@
+{% extends 'base/base.html' %}
+{% load static %}
+
+{% block title %}Careers - HS Consulting{% endblock %}
+
+{% block content %}
+<div class="container py-5">
+    <!-- Page Header -->
+    <div class="row mb-5">
+        <div class="col-lg-8 mx-auto text-center">
+            <h1 class="display-4 fw-bold text-danger mb-3">Join Our Team</h1>
+            <p class="lead text-muted">We're looking for talented professionals to join HS Consulting. Explore our open positions below.</p>
+        </div>
+    </div>
+
+    <!-- Featured Jobs -->
+    {% if featured_jobs %}
+    <div class="row mb-5">
+        <div class="col-12">
+            <h3 class="fw-bold text-danger mb-4">Featured Positions</h3>
+            <div class="row">
+                {% for job in featured_jobs %}
+                <div class="col-md-6 col-lg-4 mb-4">
+                    <div class="card h-100 shadow-sm border-0 hover-card career-card">
+                        <div class="card-body">
+                            <div class="d-flex justify-content-between align-items-start mb-2">
+                                <h5 class="card-title text-danger fw-bold">{{ job.title }}</h5>
+                                <span class="badge bg-danger">Featured</span>
+                            </div>
+                            <p class="text-muted small">{{ job.department }}</p>
+                            <p class="card-text small text-truncate-3">{{ job.description|truncatewords:20 }}</p>
+                            <div class="d-flex gap-2 flex-wrap mt-3 mb-3">
+                                <span class="badge bg-light text-dark">
+                                    <i class="bi bi-briefcase"></i> {{ job.get_employment_type_display }}
+                                </span>
+                                <span class="badge bg-light text-dark">
+                                    <i class="bi bi-geo-alt"></i> {{ job.location }}
+                                </span>
+                            </div>
+                            <a href="{% url 'careers:job_detail' job.pk %}" class="btn btn-danger btn-sm w-100">
+                                View Details & Apply
+                            </a>
+                        </div>
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+    {% endif %}
+
+    <!-- Search and Filter Section -->
+    <div class="row mb-5">
+        <div class="col-12">
+            <div class="card shadow-sm border-0 p-4">
+                <form method="get" class="row g-3">
+                    <div class="col-md-6">
+                        <input type="text" name="search" class="form-control" placeholder="Search jobs..." value="{{ search }}">
+                    </div>
+                    <div class="col-md-4">
+                        <select name="type" class="form-select">
+                            <option value="">All Employment Types</option>
+                            {% for value, label in employment_types %}
+                            <option value="{{ value }}" {% if employment_type == value %}selected{% endif %}>
+                                {{ label }}
+                            </option>
+                            {% endfor %}
+                        </select>
+                    </div>
+                    <div class="col-md-2">
+                        <button type="submit" class="btn btn-danger w-100">Search</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- Job Listings -->
+    <div class="row">
+        <div class="col-12">
+            {% if jobs %}
+            <h3 class="fw-bold text-danger mb-4">All Available Positions ({{ jobs.paginator.count }})</h3>
+            
+            {% for job in jobs %}
+            <div class="row mb-3">
+                <div class="col-12">
+                    <div class="card border-0 shadow-sm p-4 career-listing-card">
+                        <div class="row align-items-center">
+                            <div class="col-md-8">
+                                <h5 class="card-title text-danger fw-bold mb-2">{{ job.title }}</h5>
+                                <p class="text-muted mb-2">
+                                    <strong>{{ job.department }}</strong>
+                                </p>
+                                <p class="card-text small mb-3">{{ job.description|truncatewords:30 }}</p>
+                                <div class="d-flex gap-3 flex-wrap">
+                                    <span class="text-muted small">
+                                        <i class="bi bi-calendar"></i> Posted: {{ job.posted_date|date:"M d, Y" }}
+                                    </span>
+                                    <span class="text-muted small">
+                                        <i class="bi bi-calendar2-x"></i> Deadline: {{ job.deadline|date:"M d, Y" }}
+                                    </span>
+                                    {% if job.salary_range %}
+                                    <span class="text-muted small">
+                                        <i class="bi bi-currency-dollar"></i> {{ job.salary_range }}
+                                    </span>
+                                    {% endif %}
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="d-flex flex-column gap-2">
+                                    <div class="d-flex gap-2 mb-2">
+                                        <span class="badge bg-light text-dark">
+                                            <i class="bi bi-briefcase"></i> {{ job.get_employment_type_display }}
+                                        </span>
+                                        <span class="badge bg-light text-dark">
+                                            <i class="bi bi-geo-alt"></i> {{ job.location }}
+                                        </span>
+                                    </div>
+                                    {% if job.is_deadline_passed %}
+                                    <div class="alert alert-warning p-2 mb-0">
+                                        Application deadline passed
+                                    </div>
+                                    {% else %}
+                                    <a href="{% url 'careers:job_detail' job.pk %}" class="btn btn-danger btn-sm">
+                                        View & Apply
+                                    </a>
+                                    {% endif %}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+
+            <!-- Pagination -->
+            {% if jobs.has_other_pages %}
+            <nav aria-label="Page navigation" class="mt-5">
+                <ul class="pagination justify-content-center">
+                    {% if jobs.has_previous %}
+                    <li class="page-item">
+                        <a class="page-link" href="?page=1{% if search %}&search={{ search }}{% endif %}{% if employment_type %}&type={{ employment_type }}{% endif %}">First</a>
+                    </li>
+                    <li class="page-item">
+                        <a class="page-link" href="?page={{ jobs.previous_page_number }}{% if search %}&search={{ search }}{% endif %}{% if employment_type %}&type={{ employment_type }}{% endif %}">Previous</a>
+                    </li>
+                    {% endif %}
+
+                    {% for num in jobs.paginator.page_range %}
+                    {% if jobs.number == num %}
+                    <li class="page-item active">
+                        <span class="page-link">{{ num }}</span>
+                    </li>
+                    {% else %}
+                    <li class="page-item">
+                        <a class="page-link" href="?page={{ num }}{% if search %}&search={{ search }}{% endif %}{% if employment_type %}&type={{ employment_type }}{% endif %}">{{ num }}</a>
+                    </li>
+                    {% endif %}
+                    {% endfor %}
+
+                    {% if jobs.has_next %}
+                    <li class="page-item">
+                        <a class="page-link" href="?page={{ jobs.next_page_number }}{% if search %}&search={{ search }}{% endif %}{% if employment_type %}&type={{ employment_type }}{% endif %}">Next</a>
+                    </li>
+                    <li class="page-item">
+                        <a class="page-link" href="?page={{ jobs.paginator.num_pages }}{% if search %}&search={{ search }}{% endif %}{% if employment_type %}&type={{ employment_type }}{% endif %}">Last</a>
+                    </li>
+                    {% endif %}
+                </ul>
+            </nav>
+            {% endif %}
+
+            {% else %}
+            <div class="alert alert-info p-5 text-center">
+                <h5>No jobs found</h5>
+                <p class="mb-0">Sorry, we don't have any open positions matching your criteria at the moment. Please check back later!</p>
+            </div>
+            {% endif %}
+        </div>
+    </div>
+</div>
+
+<style>
+.career-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 25px rgba(220, 20, 60, 0.15) !important;
+}
+
+.career-listing-card {
+    transition: all 0.3s ease;
+}
+
+.career-listing-card:hover {
+    box-shadow: 0 8px 20px rgba(220, 20, 60, 0.1) !important;
+}
+
+.text-truncate-3 {
+    display: -webkit-box;
+    -webkit-line-clamp: 3;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+}
+</style>
+{% endblock %}

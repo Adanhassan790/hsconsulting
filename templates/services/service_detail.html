@@ -1,0 +1,193 @@
+{% extends 'base/base.html' %}
+
+{% block title %}{{ service.name }} - HS Consulting{% endblock %}
+
+{% block content %}
+<section class="py-5">
+    <div class="container">
+        <div class="row">
+            <!-- Main Content -->
+            <div class="col-lg-8">
+                <!-- Header -->
+                <div class="mb-5">
+                    <h1 class="display-4 fw-bold text-danger mb-3">{{ service.name }}</h1>
+                    
+                    {% if service.image %}
+                        <img src="{{ service.image.url }}" class="img-fluid rounded mb-4" alt="{{ service.name }}" style="max-height: 400px; object-fit: cover; width: 100%;">
+                    {% endif %}
+                    
+                    <p class="lead text-muted">{{ service.description }}</p>
+                </div>
+
+                <!-- Detailed Description -->
+                {% if service.long_description %}
+                    <div class="service-details mb-5">
+                        <div class="card border-0 shadow-sm p-4">
+                            {{ service.long_description|safe }}
+                        </div>
+                    </div>
+                {% endif %}
+
+                <!-- CTA Button -->
+                <div class="mb-5">
+                    <a href="{% url 'appointments:book' %}" class="btn btn-danger btn-lg me-2">
+                        <i class="fas fa-calendar-alt me-2"></i>Book This Service
+                    </a>
+                    <a href="{% url 'inquiries:contact' %}" class="btn btn-outline-danger btn-lg">
+                        <i class="fas fa-envelope me-2"></i>Request Information
+                    </a>
+                </div>
+            </div>
+
+            <!-- Sidebar -->
+            <div class="col-lg-4">
+                <!-- Service Info Card -->
+                <div class="card border-danger shadow-sm mb-4">
+                    <div class="card-header bg-danger text-white">
+                        <h5 class="mb-0"><i class="fas fa-info-circle me-2"></i>Service Details</h5>
+                    </div>
+                    <div class="card-body">
+                        <div class="mb-3 text-center py-3 bg-light rounded">
+                            <strong class="d-block text-muted small mb-2">SERVICE PRICING</strong>
+                            <p class="text-danger fs-5 mb-0">{{ service.price_label }}</p>
+                        </div>
+                        <p class="small text-muted text-center mb-0">
+                            Contact our team to discuss your specific needs and receive a personalized quotation.
+                        </p>
+                    </div>
+                </div>
+
+                <!-- FAQs Card -->
+                {% if faqs %}
+                    <div class="card border-0 shadow-sm">
+                        <div class="card-header bg-light">
+                            <h5 class="mb-0 text-danger"><i class="fas fa-question-circle me-2"></i>Frequently Asked Questions</h5>
+                        </div>
+                        <div class="card-body p-0">
+                            <div class="accordion accordion-flush" id="faqAccordion">
+                                {% for faq in faqs %}
+                                    <div class="accordion-item">
+                                        <h2 class="accordion-header" id="heading{{ forloop.counter }}">
+                                            <button class="accordion-button {% if not forloop.first %}collapsed{% endif %}" type="button" data-bs-toggle="collapse" data-bs-target="#collapse{{ forloop.counter }}" aria-expanded="{% if forloop.first %}true{% else %}false{% endif %}" aria-controls="collapse{{ forloop.counter }}">
+                                                <strong class="text-danger">Q:</strong> {{ faq.question }}
+                                            </button>
+                                        </h2>
+                                        <div id="collapse{{ forloop.counter }}" class="accordion-collapse collapse {% if forloop.first %}show{% endif %}" aria-labelledby="heading{{ forloop.counter }}" data-bs-parent="#faqAccordion">
+                                            <div class="accordion-body pt-0">
+                                                <p class="mb-0"><strong class="text-success">A:</strong> {{ faq.answer }}</p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                {% endfor %}
+                            </div>
+                        </div>
+                    </div>
+                {% else %}
+                    <div class="card border-0 shadow-sm">
+                        <div class="card-body">
+                            <p class="text-muted mb-0">
+                                <i class="fas fa-lightbulb me-2 text-warning"></i>
+                                No FAQs yet. <a href="{% url 'inquiries:contact' %}">Contact us</a> with your questions!
+                            </p>
+                        </div>
+                    </div>
+                {% endif %}
+
+                <!-- Quick Contact -->
+                <div class="card border-0 shadow-sm mt-4 bg-light">
+                    <div class="card-body text-center">
+                        <h6 class="text-muted mb-3">Need Help Choosing?</h6>
+                        <p class="small mb-3">Our experts can help you find the right service for your needs.</p>
+                        <a href="{% url 'inquiries:contact' %}" class="btn btn-sm btn-danger w-100">Contact Us</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Related Services -->
+        <hr class="my-5">
+        <div class="row mt-5">
+            <div class="col-12">
+                <h3 class="text-danger mb-4">Explore Our Other Services</h3>
+            </div>
+            <div class="col-md-6 col-lg-4 mb-4">
+                <div class="card h-100 border-0 shadow-sm hover-shadow">
+                    <div class="card-body">
+                        <h6 class="card-title text-danger"><i class="fas fa-check me-2"></i>Complete Solutions</h6>
+                        <p class="card-text small">We offer a comprehensive suite of tax and financial services.</p>
+                        <a href="{% url 'services:list' %}" class="btn btn-sm btn-outline-danger">View All Services</a>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6 col-lg-4 mb-4">
+                <div class="card h-100 border-0 shadow-sm hover-shadow">
+                    <div class="card-body">
+                        <h6 class="card-title text-danger"><i class="fas fa-phone me-2"></i>Expert Support</h6>
+                        <p class="card-text small">Our tax professionals are ready to help with your needs.</p>
+                        <a href="{% url 'appointments:book' %}" class="btn btn-sm btn-outline-danger">Schedule Consultation</a>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6 col-lg-4 mb-4">
+                <div class="card h-100 border-0 shadow-sm hover-shadow">
+                    <div class="card-body">
+                        <h6 class="card-title text-danger"><i class="fas fa-envelope me-2"></i>Get in Touch</h6>
+                        <p class="card-text small">Have questions? Our team is happy to help you.</p>
+                        <a href="{% url 'inquiries:contact' %}" class="btn btn-sm btn-outline-danger">Contact Us</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<style>
+    .service-details h3 {
+        color: #dc143c;
+        margin-top: 1.5rem;
+        margin-bottom: 1rem;
+        font-weight: 600;
+    }
+    
+    .service-details h4 {
+        color: #333;
+        margin-top: 1rem;
+        margin-bottom: 0.75rem;
+        font-weight: 600;
+        font-size: 1rem;
+    }
+    
+    .service-details ul {
+        padding-left: 1.5rem;
+    }
+    
+    .service-details li {
+        margin-bottom: 0.5rem;
+        line-height: 1.6;
+    }
+    
+    .service-details p {
+        line-height: 1.8;
+        margin-bottom: 1rem;
+    }
+    
+    .hover-shadow {
+        transition: box-shadow 0.3s ease;
+    }
+    
+    .hover-shadow:hover {
+        box-shadow: 0 8px 16px rgba(220, 20, 60, 0.15) !important;
+    }
+    
+    .accordion-button:not(.collapsed) {
+        background-color: #f8f9fa;
+        color: #dc143c;
+    }
+    
+    .accordion-button:focus {
+        border-color: #dc143c;
+        box-shadow: 0 0 0 0.25rem rgba(220, 20, 60, 0.25);
+    }
+</style>
+
+{% endblock %}

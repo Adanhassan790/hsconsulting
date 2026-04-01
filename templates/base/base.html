@@ -1,0 +1,120 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="HS Consulting - Professional Tax and Financial Solutions in Kenya">
+    <title>{% block title %}HS Consulting - Tax Consulting & Financial Solutions{% endblock %}</title>
+    
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Font Awesome -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+    {% block extra_css %}{% endblock %}
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+        <div class="container">
+            <a class="navbar-brand fw-bold text-danger d-flex align-items-center" href="{% url 'core:home' %}">
+                <img src="{% static 'images/logo.png' %}" alt="HS Consulting" style="height: 50px; margin-right: 10px;">
+                HS CONSULTING
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item"><a class="nav-link" href="{% url 'core:home' %}">Home</a></li>
+                    <li class="nav-item"><a class="nav-link" href="{% url 'core:about' %}">About</a></li>
+                    <li class="nav-item"><a class="nav-link" href="{% url 'services:list' %}">Services</a></li>
+                    <li class="nav-item"><a class="nav-link" href="{% url 'blog:list' %}">Blog</a></li>
+                    <li class="nav-item"><a class="nav-link" href="{% url 'testimonials:list' %}">Testimonials</a></li>
+                    <li class="nav-item"><a class="nav-link" href="{% url 'careers:careers_list' %}">Careers</a></li>
+                    <li class="nav-item"><a class="nav-link" href="{% url 'inquiries:contact' %}">Contact</a></li>
+                    {% if user.is_authenticated %}
+                        <li class="nav-item"><a class="nav-link" href="{% url 'clients:dashboard' %}">Dashboard</a></li>
+                        <li class="nav-item"><a class="nav-link" href="{% url 'accounts:logout' %}">Logout</a></li>
+                    {% else %}
+                        <li class="nav-item"><a class="nav-link" href="{% url 'accounts:login' %}">Login</a></li>
+                        <li class="nav-item"><a class="nav-link btn btn-danger text-white ms-2" href="{% url 'accounts:register' %}">Register</a></li>
+                    {% endif %}
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Messages -->
+    {% if messages %}
+        <div class="container mt-3">
+            {% for message in messages %}
+                <div class="alert alert-{{ message.tags }} alert-dismissible fade show" role="alert">
+                    {{ message }}
+                    <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+                </div>
+            {% endfor %}
+        </div>
+    {% endif %}
+
+    <!-- Main Content -->
+    <main>
+        {% block content %}{% endblock %}
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-dark text-white mt-5 py-4">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-4">
+                    <h5 class="text-danger">HS CONSULTING</h5>
+                    <p>Professional tax and financial solutions for businesses and individuals in Kenya.</p>
+                </div>
+                <div class="col-md-4">
+                    <h5>Quick Links</h5>
+                    <ul class="list-unstyled">
+                        <li><a href="{% url 'services:list' %}" class="text-white-50">Services</a></li>
+                        <li><a href="{% url 'appointments:book' %}" class="text-white-50">Book Appointment</a></li>
+                        <li><a href="{% url 'careers:careers_list' %}" class="text-white-50">Careers</a></li>
+                        <li><a href="{% url 'inquiries:contact' %}" class="text-white-50">Contact Us</a></li>
+                    </ul>
+                </div>
+                <div class="col-md-4">
+                    <h5>Contact</h5>
+                    <p class="text-white-50">
+                        {% if settings %}
+                            <strong>Partner 1:</strong><br>
+                            Email: <a href="mailto:{{ settings.email }}" class="text-white-50">{{ settings.email }}</a><br>
+                            Phone: <a href="tel:{{ settings.phone }}" class="text-white-50">{{ settings.phone }}</a><br>
+                            {% if settings.whatsapp %}
+                            WhatsApp: <a href="https://wa.me/254{{ settings.whatsapp|slice:'1:' }}" class="text-white-50" target="_blank">{{ settings.whatsapp }}</a>
+                            {% endif %}
+                            <br><br>
+                            <strong>Partner 2:</strong><br>
+                            Email: <a href="mailto:{{ settings.email_2 }}" class="text-white-50">{{ settings.email_2 }}</a><br>
+                            Phone: <a href="tel:{{ settings.phone_2 }}" class="text-white-50">{{ settings.phone_2 }}</a><br>
+                            {% if settings.whatsapp_2 %}
+                            WhatsApp: <a href="https://wa.me/254{{ settings.whatsapp_2|slice:'1:' }}" class="text-white-50" target="_blank">{{ settings.whatsapp_2 }}</a>
+                            {% endif %}
+                        {% else %}
+                            Email: info@hsconsulting.co.ke<br>
+                            Phone: 0729592895
+                        {% endif %}
+                    </p>
+                </div>
+            </div>
+            <hr class="bg-white-50">
+            <div class="text-center text-white-50">
+                <p>&copy; 2026 HS Consulting. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="{% static 'js/main.js' %}"></script>
+    {% block extra_js %}{% endblock %}
+</body>
+</html>

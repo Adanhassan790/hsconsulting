@@ -1,0 +1,69 @@
+{% extends 'base/base.html' %}
+
+{% block title %}Admin Dashboard - HS Consulting{% endblock %}
+
+{% block content %}
+<section class="section-padding">
+    <div class="container-fluid">
+        <h1 class="mb-4 text-danger">Admin Dashboard</h1>
+        
+        <div class="row mb-4">
+            <div class="col-md-3">
+                <div class="card text-center">
+                    <div class="card-body">
+                        <h5 class="card-title">New Inquiries</h5>
+                        <h2 class="text-danger">{{ new_inquiries_count }}</h2>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="card text-center">
+                    <div class="card-body">
+                        <h5 class="card-title">Scheduled Appointments</h5>
+                        <h2 class="text-danger">{{ scheduled_appointments_count }}</h2>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="card text-center">
+                    <div class="card-body">
+                        <h5 class="card-title">Total Clients</h5>
+                        <h2 class="text-danger">{{ total_clients }}</h2>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="card text-center">
+                    <div class="card-body">
+                        <h5 class="card-title">Pending Documents</h5>
+                        <h2 class="text-danger">{{ pending_documents }}</h2>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="row">
+            <div class="col-md-6">
+                <div class="card">
+                    <div class="card-header bg-danger text-white">
+                        <h5 class="mb-0">Recent Inquiries</h5>
+                    </div>
+                    <div class="card-body">
+                        <a href="{% url 'admin_dashboard:inquiries_list' %}" class="btn btn-danger">View All Inquiries</a>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="card">
+                    <div class="card-header bg-danger text-white">
+                        <h5 class="mb-0">Upcoming Appointments</h5>
+                    </div>
+                    <div class="card-body">
+                        <a href="{% url 'admin_dashboard:appointments_calendar' %}" class="btn btn-danger">View Calendar</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock %}

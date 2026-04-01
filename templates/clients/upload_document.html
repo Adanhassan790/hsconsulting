@@ -1,0 +1,59 @@
+{% extends 'base/base.html' %}
+
+{% block title %}Upload Documents - HS Consulting{% endblock %}
+
+{% block content %}
+<div class="container py-5">
+    <div class="row">
+        <div class="col-lg-8 mx-auto">
+            <h1 class="text-danger mb-4 fw-bold">Upload Document</h1>
+            
+            {% if messages %}
+                {% for message in messages %}
+                <div class="alert alert-{{ message.tags }} alert-dismissible fade show" role="alert">
+                    {{ message }}
+                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                </div>
+                {% endfor %}
+            {% endif %}
+            
+            <div class="card shadow p-4">
+                <form method="post" enctype="multipart/form-data">
+                    {% csrf_token %}
+                    
+                    <div class="mb-3">
+                        <label for="title" class="form-label fw-bold">Document Title</label>
+                        <input type="text" class="form-control" id="title" name="title" placeholder="e.g., Tax Return 2025" required>
+                    </div>
+                    
+                    <div class="mb-3">
+                        <label for="document_type" class="form-label fw-bold">Document Type</label>
+                        <select class="form-select" id="document_type" name="document_type" required>
+                            <option value="">-- Select Document Type --</option>
+                            {% for value, label in document_types %}
+                            <option value="{{ value }}">{{ label }}</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+                    
+                    <div class="mb-3">
+                        <label for="description" class="form-label fw-bold">Description (Optional)</label>
+                        <textarea class="form-control" id="description" name="description" rows="3" placeholder="Additional details about this document..."></textarea>
+                    </div>
+                    
+                    <div class="mb-3">
+                        <label for="file" class="form-label fw-bold">Select File</label>
+                        <input type="file" class="form-control" id="file" name="file" accept=".pdf,.doc,.docx,.xls,.xlsx,.jpg,.png" required>
+                        <small class="text-muted">Supported formats: PDF, DOC, DOCX, XLS, XLSX, JPG, PNG</small>
+                    </div>
+                    
+                    <div class="d-flex gap-2">
+                        <button type="submit" class="btn btn-danger fw-bold">Upload Document</button>
+                        <a href="{% url 'clients:documents' %}" class="btn btn-outline-secondary fw-bold">Cancel</a>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

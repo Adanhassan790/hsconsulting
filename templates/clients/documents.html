@@ -1,0 +1,56 @@
+{% extends 'base/base.html' %}
+
+{% block title %}My Documents - HS Consulting{% endblock %}
+
+{% block content %}
+<section class="section-padding">
+    <div class="container">
+        <h1 class="mb-4 text-danger">My Documents</h1>
+        
+        <div class="row mb-4">
+            <div class="col-md-12">
+                <a href="{{ upload_url }}" class="btn btn-danger">Upload New Document</a>
+            </div>
+        </div>
+        
+        <div class="row">
+            <div class="col-md-12">
+                {% if documents %}
+                    <div class="table-responsive">
+                        <table class="table table-striped">
+                            <thead class="table-danger">
+                                <tr>
+                                    <th>Document</th>
+                                    <th>Type</th>
+                                    <th>Uploaded</th>
+                                    <th>Status</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for doc in documents %}
+                                    <tr>
+                                        <td><a href="{{ doc.file.url }}">{{ doc.file.name }}</a></td>
+                                        <td>{{ doc.get_document_type_display }}</td>
+                                        <td>{{ doc.uploaded_at|date:'M d, Y' }}</td>
+                                        <td>
+                                            {% if doc.is_verified %}
+                                                <span class="badge bg-success">Verified</span>
+                                            {% else %}
+                                                <span class="badge bg-warning">Pending Review</span>
+                                            {% endif %}
+                                        </td>
+                                    </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                {% else %}
+                    <div class="alert alert-info">
+                        <p>You haven't uploaded any documents yet. <a href="{% url 'clients:upload_document' %}">Upload your first document</a></p>
+                    </div>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock %}

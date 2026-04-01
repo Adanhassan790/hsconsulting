@@ -1,0 +1,32 @@
+{% extends 'base/base.html' %}
+
+{% block title %}Blog - HS Consulting{% endblock %}
+
+{% block content %}
+<section class="section-padding">
+    <div class="container">
+        <h1 class="section-title text-center mb-5">Tax Insights & Articles</h1>
+        
+        <div class="row">
+            {% for post in posts %}
+                <div class="col-md-6 mb-4">
+                    <div class="card h-100">
+                        <div class="card-body">
+                            <h5 class="card-title text-danger">{{ post.title }}</h5>
+                            {% if post.category %}
+                                <span class="badge bg-secondary mb-2">{{ post.category.name }}</span>
+                            {% endif %}
+                            <p class="card-text">{{ post.content|truncatewords:50 }}</p>
+                            <small class="text-muted">{{ post.published_date|date:'M d, Y' }} • Views: {{ post.view_count }}</small>
+                            <br>
+                            <a href="{% url 'blog:detail' post.slug %}" class="btn btn-danger btn-sm mt-2">Read More</a>
+                        </div>
+                    </div>
+                </div>
+            {% empty %}
+                <div class="alert alert-info w-100">No blog posts available yet.</div>
+            {% endfor %}
+        </div>
+    </div>
+</section>
+{% endblock %}

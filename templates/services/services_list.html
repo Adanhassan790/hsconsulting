@@ -1,0 +1,39 @@
+{% extends 'base/base.html' %}
+{% load static %}
+
+{% block title %}Our Services - HS Consulting{% endblock %}
+
+{% block content %}
+<section class="section-padding">
+    <div class="container">
+        <h1 class="section-title text-center mb-5">Our Tax & Financial Services</h1>
+        
+        {% if services %}
+            <div class="row g-4">
+                {% for service in services %}
+                    <div class="col-md-4">
+                        <div class="card service-card h-100">
+                            {% if service.image %}
+                                <img src="{{ service.image.url }}" class="card-img-top" alt="{{ service.name }}">
+                            {% endif %}
+                            <div class="card-body">
+                                <h5 class="card-title text-danger">{{ service.name }}</h5>
+                                <p class="card-text">{{ service.description|truncatewords:30 }}</p>
+                                <div class="mb-3">
+                                    <small class="text-muted d-block mb-1">Pricing:</small>
+                                    <p class="text-danger fw-bold mb-0">{{ service.price_label }}</p>
+                                </div>
+                                <a href="{% url 'services:detail' service.slug %}" class="btn btn-danger btn-sm w-100">View Details</a>
+                            </div>
+                        </div>
+                    </div>
+                {% endfor %}
+            </div>
+        {% else %}
+            <div class="alert alert-info">
+                <p>No services available yet. Check back soon!</p>
+            </div>
+        {% endif %}
+    </div>
+</section>
+{% endblock %}

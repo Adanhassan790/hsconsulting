@@ -1,0 +1,29 @@
+{% extends 'base/base.html' %}
+
+{% block title %}Booking Confirmed - HS Consulting{% endblock %}
+
+{% block content %}
+<section class="section-padding bg-light">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-6 offset-md-3 text-center">
+                <div class="card border-success">
+                    <div class="card-body p-5">
+                        <h1 class="text-success mb-3">✓ Booking Confirmed!</h1>
+                        <p class="lead">Your appointment has been successfully booked.</p>
+                        <p class="text-muted">A confirmation email has been sent to your inbox with all the details.</p>
+                        
+                        <div class="alert alert-info mt-4">
+                            <strong>What's Next?</strong><br>
+                            We will send you reminders via email and SMS before your appointment.
+                        </div>
+                        
+                        <a href="{% url 'core:home' %}" class="btn btn-danger btn-lg">Return to Home</a>
+                        <a href="{% url 'clients:dashboard' %}" class="btn btn-outline-danger btn-lg ms-2">Go to Dashboard</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock %}

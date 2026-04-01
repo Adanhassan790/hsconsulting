@@ -1,0 +1,131 @@
+{% extends 'base/base.html' %}
+{% load static %}
+
+{% block title %}Register - HS Consulting{% endblock %}
+
+{% block extra_css %}
+<style>
+    .register-container {
+        min-height: 80vh;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        background: linear-gradient(135deg, #f5f5f5 0%, #e9ecef 100%);
+        padding: 40px 0;
+    }
+    .register-card {
+        box-shadow: 0 10px 40px rgba(0,0,0,0.1);
+        border-radius: 10px;
+        overflow: hidden;
+        border: none;
+    }
+    .register-header {
+        background: linear-gradient(135deg, #DC143C 0%, #a01030 100%);
+        padding: 40px 20px;
+        text-align: center;
+        color: white;
+    }
+    .register-header h2 {
+        margin: 0;
+        font-weight: bold;
+    }
+    .register-body {
+        padding: 40px;
+    }
+    .form-control {
+        border-radius: 5px;
+        border: 1px solid #ddd;
+        padding: 12px;
+    }
+    .form-control:focus {
+        border-color: #DC143C;
+        box-shadow: 0 0 0 0.2rem rgba(220, 20, 60, 0.25);
+    }
+    .btn-register {
+        background-color: #DC143C;
+        border: none;
+        padding: 12px;
+        font-weight: bold;
+        font-size: 16px;
+        margin-top: 20px;
+    }
+    .btn-register:hover {
+        background-color: #a01030;
+    }
+    .login-link {
+        text-align: center;
+        margin-top: 20px;
+        padding-top: 20px;
+        border-top: 1px solid #ddd;
+    }
+    .login-link a {
+        color: #DC143C;
+        text-decoration: none;
+        font-weight: bold;
+    }
+    .form-group {
+        margin-bottom: 20px;
+    }
+    .form-group label {
+        font-weight: 600;
+        color: #333;
+        margin-bottom: 8px;
+    }
+    .form-text {
+        font-size: 12px;
+        color: #666;
+    }
+    .alert {
+        border-radius: 5px;
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="register-container">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-6 offset-md-3">
+                <div class="card register-card">
+                    <div class="register-header">
+                        <h2>Create Your Account</h2>
+                        <p class="m-0">Join HS Consulting Now</p>
+                    </div>
+                    <div class="register-body">
+                        {% if form.non_field_errors %}
+                            <div class="alert alert-danger">
+                                {{ form.non_field_errors }}
+                            </div>
+                        {% endif %}
+                        
+                        <form method="POST" novalidate>
+                            {% csrf_token %}
+                            
+                            {% for field in form %}
+                                <div class="form-group">
+                                    <label for="{{ field.id_for_label }}">{{ field.label }}</label>
+                                    {{ field }}
+                                    {% if field.help_text %}
+                                        <small class="form-text d-block mt-1">{{ field.help_text|safe }}</small>
+                                    {% endif %}
+                                    {% if field.errors %}
+                                        <div class="text-danger small mt-1">{{ field.errors }}</div>
+                                    {% endif %}
+                                </div>
+                            {% endfor %}
+                            
+                            <button type="submit" class="btn btn-register btn-danger w-100">Create Account</button>
+                        </form>
+                        
+                        <div class="login-link">
+                            <p>Already have an account?</p>
+                            <a href="{% url 'accounts:login' %}" class="btn btn-outline-danger btn-sm">Login Here</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+

@@ -1,0 +1,27 @@
+{% extends 'base/base.html' %}
+
+{% block title %}{{ post.title }} - HS Consulting Blog{% endblock %}
+
+{% block content %}
+<section class="section-padding">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-8 offset-md-2">
+                <h1 class="text-danger mb-3">{{ post.title }}</h1>
+                <small class="text-muted">{{ post.published_date|date:'M d, Y' }} • Views: {{ post.view_count }}</small>
+                <hr>
+                
+                <div class="blog-content mb-5">
+                    {{ post.content }}
+                </div>
+                
+                {% if post.category %}
+                    <p><strong>Category:</strong> {{ post.category.name }}</p>
+                {% endif %}
+                
+                <a href="{% url 'blog:list' %}" class="btn btn-secondary">← Back to Blog</a>
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock %}

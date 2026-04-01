@@ -1,0 +1,27 @@
+{% extends 'base/base.html' %}
+
+{% block title %}Kenyan Tax Calendar - HS Consulting{% endblock %}
+
+{% block content %}
+<section class="section-padding">
+    <div class="container">
+        <h1 class="section-title text-center mb-5">Kenyan Tax Deadlines Calendar</h1>
+        
+        <div class="row">
+            {% for deadline in upcoming_deadlines %}
+                <div class="col-md-6 mb-3">
+                    <div class="card border-danger">
+                        <div class="card-body">
+                            <h5 class="card-title text-danger">{{ deadline.name }}</h5>
+                            <p class="card-text">{{ deadline.description }}</p>
+                            <p class="mb-0"><strong>Due Date:</strong> <span class="badge bg-danger">{{ deadline.deadline_date|date:'M d, Y' }}</span></p>
+                        </div>
+                    </div>
+                </div>
+            {% empty %}
+                <div class="alert alert-info">No tax deadlines available.</div>
+            {% endfor %}
+        </div>
+    </div>
+</section>
+{% endblock %}
