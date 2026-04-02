@@ -42,8 +42,8 @@ if created:
     print("✓ CoreSettings initialized")
 else:
     if not settings.email_2:
-        settings.email_2 = 'admin@hsconsulting.co.ke'
-        settings.phone_2 = '+254729592895'
+        settings.email_2 = 'ibrahimhussein481@gmail.com'
+        settings.phone_2 = '+254746645534'
         settings.whatsapp_2 = '+254729592895'
         settings.save()
         print("✓ CoreSettings updated with partner 2 info")
