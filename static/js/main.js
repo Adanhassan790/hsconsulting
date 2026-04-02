@@ -1,10 +1,15 @@
 /* Main JavaScript */
 
 // Logo flip animation on page load
-window.addEventListener('load', function() {
+document.addEventListener('DOMContentLoaded', function() {
     // Trigger logo flip animation
-    const logoImg = document.querySelector('.navbar-brand img');
+    const logoImg = document.getElementById('navbar-logo');
     if (logoImg) {
+        // Remove loaded state first
+        logoImg.classList.remove('loaded');
+        // Force reflow to restart animation
+        void logoImg.offsetWidth;
+        // Add loaded state to trigger animation
         logoImg.classList.add('loaded');
     }
 });

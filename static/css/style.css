@@ -41,25 +41,32 @@ h1, h2, h3, h4, h5, h6 {
     font-size: 1.5rem;
     font-weight: bold;
     letter-spacing: 1px;
-    perspective: 1000px;
+    perspective: 1200px;
+    display: inline-flex;
+    align-items: center;
 }
 
 .navbar-brand img {
     transition: transform 0.6s cubic-bezier(0.68, -0.55, 0.265, 1.55);
     display: inline-block;
+    opacity: 0.5;
 }
 
 .navbar-brand img.loaded {
-    animation: logoFlip 0.8s ease-out;
+    animation: logoFlip 0.8s ease-out forwards;
 }
 
 @keyframes logoFlip {
     0% {
-        transform: rotateY(0deg) scale(0.5);
+        transform: rotateY(-180deg) scale(0.3);
         opacity: 0;
     }
-    50% {
-        transform: rotateY(720deg) scale(1.05);
+    60% {
+        transform: rotateY(20deg) scale(1.1);
+        opacity: 1;
+    }
+    80% {
+        transform: rotateY(-10deg) scale(1.05);
     }
     100% {
         transform: rotateY(0deg) scale(1);
@@ -121,13 +128,15 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 .btn-danger {
-    background: var(--primary-red);
+    background: var(--primary-red) !important;
+    color: white !important;
+    border: none !important;
 }
 
 .btn-danger:hover {
-    background: var(--accent-red);
+    background: var(--accent-red) !important;
     transform: translateY(-2px);
-    box-shadow: 0 5px 15px rgba(217, 147, 154, 0.4);
+    box-shadow: 0 5px 15px rgba(217, 147, 154, 0.4) !important;
 }
 
 .btn-primary {

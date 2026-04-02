@@ -5,80 +5,80 @@
 
 {% block content %}
 
-<!-- Hero Section -->
-<section class="py-5 hero">
-    <div class="container">
-        <h1 class="display-4 fw-bold mb-3">Professional Tax & Financial Solutions</h1>
-        <p class="lead mb-4">Simplifying tax compliance and financial management for businesses in Kenya</p>
-        <div>
-            <a href="{% url 'appointments:book' %}" class="btn btn-danger btn-lg me-2">Book Appointment</a>
-            <a href="{% url 'services:list' %}" class="btn btn-light btn-lg">View Services</a>
+<!-- Hero Section - Full Screen -->
+<section class="py-5 hero" style="min-height: 100vh; display: flex; align-items: center; justify-content: center;">
+    <div class="container text-center">
+        <h1 class="display-3 fw-bold mb-4">Professional Tax & Financial Solutions</h1>
+        <p class="lead mb-5" style="font-size: 1.3rem; color: #f0f0f0;">Simplifying tax compliance and financial management for businesses in Kenya</p>
+        <div class="d-flex justify-content-center gap-3 flex-wrap">
+            <a href="{% url 'appointments:book' %}" class="btn btn-lg" style="background-color: #D9939A; color: white; border: none; padding: 12px 40px;">Book Appointment</a>
+            <a href="{% url 'services:list' %}" class="btn btn-lg" style="background-color: white; color: #333; border: 2px solid #D9939A; padding: 12px 40px;">View Services</a>
         </div>
     </div>
 </section>
 
 <!-- Services Section -->
-<section class="py-5">
+<section class="py-5" style="margin-top: 60px;">
     <div class="container">
         <h2 class="text-center mb-5">Our Services</h2>
         <div class="row g-4">
             <div class="col-md-6 col-lg-4">
                 <div class="card h-100 shadow-sm border-0">
                     <div class="card-body text-center">
-                        <h5 class="card-title text-danger">📊 Tax Return Filing</h5>
+                        <h5 class="card-title text-danger">Tax Return Filing</h5>
                         <p class="card-text">Complete tax return preparation and filing for individuals and businesses.</p>
-                        <a href="{% url 'services:list' %}" class="btn btn-sm btn-danger">Learn More</a>
+                        <a href="{% url 'services:list' %}" class="btn btn-sm" style="background-color: #D9939A; color: white; border: none;">Learn More</a>
                     </div>
                 </div>
             </div>
             <div class="col-md-6 col-lg-4">
                 <div class="card h-100 shadow-sm border-0">
                     <div class="card-body text-center">
-                        <h5 class="card-title text-danger">💳 VAT & ETIMS</h5>
+                        <h5 class="card-title text-danger">VAT & ETIMS</h5>
                         <p class="card-text">Comprehensive VAT management and ETIMS compliance for KRA.</p>
-                        <a href="{% url 'services:list' %}" class="btn btn-sm btn-danger">Learn More</a>
+                        <a href="{% url 'services:list' %}" class="btn btn-sm" style="background-color: #D9939A; color: white; border: none;">Learn More</a>
                     </div>
                 </div>
             </div>
             <div class="col-md-6 col-lg-4">
                 <div class="card h-100 shadow-sm border-0">
                     <div class="card-body text-center">
-                        <h5 class="card-title text-danger">👥 Payroll Processing</h5>
+                        <h5 class="card-title text-danger">Payroll Processing</h5>
                         <p class="card-text">Monthly payroll processing and statutory deductions.</p>
-                        <a href="{% url 'services:list' %}" class="btn btn-sm btn-danger">Learn More</a>
+                        <a href="{% url 'services:list' %}" class="btn btn-sm" style="background-color: #D9939A; color: white; border: none;">Learn More</a>
                     </div>
                 </div>
             </div>
             <div class="col-md-6 col-lg-4">
                 <div class="card h-100 shadow-sm border-0">
                     <div class="card-body text-center">
-                        <h5 class="card-title text-danger">🔍 Audit Services</h5>
+                        <h5 class="card-title text-danger">Audit Services</h5>
                         <p class="card-text">Professional external and internal audit services.</p>
-                        <a href="{% url 'services:list' %}" class="btn btn-sm btn-danger">Learn More</a>
+                        <a href="{% url 'services:list' %}" class="btn btn-sm" style="background-color: #D9939A; color: white; border: none;">Learn More</a>
                     </div>
                 </div>
             </div>
             <div class="col-md-6 col-lg-4">
                 <div class="card h-100 shadow-sm border-0">
                     <div class="card-body text-center">
-                        <h5 class="card-title text-danger">💼 Tax Advisory</h5>
+                        <h5 class="card-title text-danger">Tax Advisory</h5>
                         <p class="card-text">Optimize your tax position and reduce liabilities.</p>
-                        <a href="{% url 'services:list' %}" class="btn btn-sm btn-danger">Learn More</a>
+                        <a href="{% url 'services:list' %}" class="btn btn-sm" style="background-color: #D9939A; color: white; border: none;">Learn More</a>
                     </div>
                 </div>
             </div>
             <div class="col-md-6 col-lg-4">
                 <div class="card h-100 shadow-sm border-0">
                     <div class="card-body text-center">
-                        <h5 class="card-title text-danger">📋 Financial Consulting</h5>
+                        <h5 class="card-title text-danger">Financial Consulting</h5>
                         <p class="card-text">Expert guidance on financial management and forecasting.</p>
-                        <a href="{% url 'services:list' %}" class="btn btn-sm btn-danger">Learn More</a>
+                        <a href="{% url 'services:list' %}" class="btn btn-sm" style="background-color: #D9939A; color: white; border: none;">Learn More</a>
                     </div>
                 </div>
             </div>
         </div>
         <div class="text-center mt-5">
-            <a href="{% url 'services:list' %}" class="btn btn-danger btn-lg">View All Services</a>
+            <a href="{% url 'services:list' %}" class="btn btn-lg" style="background-color: #D9939A; color: white; border: none; padding: 10px 30px;">View All Services</a>
         </div>
     </div>
 </section>
@@ -141,7 +141,7 @@
                         </p>
                     </div>
                     <div class="card-footer bg-light text-center border-0">
-                        <a href="{% url 'appointments:book' %}" class="btn btn-sm btn-danger">
+                        <a href="{% url 'appointments:book' %}" class="btn btn-sm" style="background-color: #D9939A; color: white; border: none;">
                             <i class="fas fa-calendar-check"></i> Schedule Appointment
                         </a>
                     </div>
@@ -152,7 +152,7 @@
         
         <div class="text-center mt-5">
             <p class="text-muted mb-3">View all tax deadlines and plan your compliance calendar</p>
-            <a href="{% url 'appointments:tax_calendar' %}" class="btn btn-danger btn-lg">
+            <a href="{% url 'appointments:tax_calendar' %}" class="btn btn-lg" style="background-color: #D9939A; color: white; border: none; padding: 10px 30px;">
                 <i class="fas fa-calendar"></i> View Full Tax Calendar
             </a>
         </div>
@@ -254,7 +254,7 @@
                         <small class="text-danger fw-bold">March 29, 2026</small>
                         <h5 class="card-title mt-2">Tax Deductions for Small Business Owners</h5>
                         <p class="card-text">Discover the most overlooked tax deductions...</p>
-                        <a href="{% url 'blog:list' %}" class="btn btn-sm btn-danger">Read More</a>
+                        <a href="{% url 'blog:list' %}" class="btn btn-sm" style="background-color: #D9939A; color: white; border: none;">Read More</a>
                     </div>
                 </div>
             </div>
@@ -264,7 +264,7 @@
                         <small class="text-danger fw-bold">March 22, 2026</small>
                         <h5 class="card-title mt-2">Understanding ETIMS: A Complete Guide</h5>
                         <p class="card-text">Complete guide to ETIMS compliance requirements...</p>
-                        <a href="{% url 'blog:list' %}" class="btn btn-sm btn-danger">Read More</a>
+                        <a href="{% url 'blog:list' %}" class="btn btn-sm" style="background-color: #D9939A; color: white; border: none;">Read More</a>
                     </div>
                 </div>
             </div>
@@ -274,7 +274,7 @@
                         <small class="text-danger fw-bold">March 15, 2026</small>
                         <h5 class="card-title mt-2">2026 VAT Changes: What You Need to Know</h5>
                         <p class="card-text">Latest updates on VAT regulations for 2026...</p>
-                        <a href="{% url 'blog:list' %}" class="btn btn-sm btn-danger">Read More</a>
+                        <a href="{% url 'blog:list' %}" class="btn btn-sm" style="background-color: #D9939A; color: white; border: none;">Read More</a>
                     </div>
                 </div>
             </div>
@@ -288,7 +288,7 @@
         <h2 class="mb-4">Ready to Streamline Your Tax Operations?</h2>
         <p class="lead mb-4">Get a free consultation from our expert team</p>
         <div>
-            <a href="{% url 'appointments:book' %}" class="btn btn-danger btn-lg me-2">Book Free Consultation</a>
+            <a href="{% url 'appointments:book' %}" class="btn btn-lg me-2" style="background-color: #D9939A; color: white; border: none; padding: 10px 30px;">Book Free Consultation</a>
             <a href="{% url 'inquiries:contact' %}" class="btn btn-outline-light btn-lg">Send an Inquiry</a>
         </div>
     </div>
