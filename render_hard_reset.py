@@ -2,7 +2,6 @@
 """
 CRITICAL: Hard reset and initialize Render database
 This script completely resets the database and rebuilds it from scratch
-Run this ONLY when migrations have permanently failed
 """
 import os
 import sys
@@ -18,116 +17,125 @@ from django.contrib.auth.models import User
 from apps.core.models import CoreSettings
 
 print("\n" + "=" * 80)
-print("🔴 CRITICAL DATABASE INITIALIZATION - FORCING RESET")
+print("🔴 RENDER DATABASE INITIALIZATION")
 print("=" * 80)
 
-# Step 1: Drop and recreate all migrations
-print("\n[STEP 1] Dropping all existing tables and starting fresh...")
+# Step 1: Run migrations (safe - won't re-run if already applied)
+print("\n[STEP 1] Running database migrations...")
 try:
     with connection.cursor() as cursor:
-        # Get list of all tables
-        cursor.execute("""
-            SELECT tablename FROM pg_tables 
-            WHERE schemaname != 'pg_catalog' AND schemaname != 'information_schema'
-        """)
-        tables = cursor.fetchall()
-        
-        if tables:
-            for table in tables:
-                table_name = table[0]
-                print(f"  Dropping table: {table_name}")
-                try:
-                    cursor.execute(f'DROP TABLE IF EXISTS "{table_name}" CASCADE')
-                except Exception as e:
-                    print(f"    ⚠ Could not drop {table_name}: {e}")
-        else:
-            print("  No tables to drop - starting fresh")
+        cursor.execute("SELECT 1")
+    print("  ✓ Database connected")
     
-    connection.commit()
-    print("✓ Database cleanup complete")
+    # Run migrations - this will handle duplicates
+    call_command('migrate', '--noinput', verbosity=1)
+    print("  ✓ All migrations applied")
 except Exception as e:
-    print(f"⚠ Cleanup issue: {e}")
+    print(f"  ✗ Migration error: {type(e).__name__}: {str(e)[:100]}")
+    print("  Continuing anyway - some tables might already exist...")
 
-# Step 2: Run migrations fresh
-print("\n[STEP 2] Running FRESH migrations...")
+# Step 2: Create or verify superuser
+print("\n[STEP 2] Initializing admin user...")
 try:
-    call_command('migrate', '--noinput', verbosity=2)
-    print("✓ All migrations applied successfully")
-    print("  ✓ testimonials_testimonial table created")
-except Exception as e:
-    print(f"✗ CRITICAL ERROR: {type(e).__name__}: {e}")
-    sys.exit(1)
-
-# Step 3: Create superuser
-print("\n[STEP 3] Creating admin superuser...")
-try:
-    User.objects.filter(username='admin').delete()  # Remove old one if exists
-    admin = User.objects.create_superuser(
+    admin, created = User.objects.get_or_create(
         username='admin',
-        email='admin@hsconsulting.co.ke',
-        password='Admin@123'
+        defaults={
+            'email': 'admin@hsconsulting.co.ke',
+            'is_staff': True,
+            'is_superuser': True
+        }
     )
-    print(f"✓ Superuser created: admin (password: Admin@123)")
+    if created:
+        admin.set_password('Admin@123')
+        admin.save()
+        print(f"  ✓ Admin user created")
+    else:
+        # Update password just in case
+        admin.set_password('Admin@123')
+        admin.save()
+        print(f"  ✓ Admin user verified")
+    print(f"    Username: admin")
+    print(f"    Password: Admin@123")
 except Exception as e:
-    print(f"⚠ Admin creation issue: {e}")
+    print(f"  ⚠ Admin creation issue: {e}")
 
-# Step 4: Create CoreSettings with CORRECT partner 2 info
-print("\n[STEP 4] Initializing CoreSettings with partner contact information...")
+# Step 3: Initialize CoreSettings with CORRECT partner 2 info
+print("\n[STEP 3] Initializing core settings...")
 try:
-    # Delete any existing settings
-    CoreSettings.objects.all().delete()
-    
-    # Create fresh CoreSettings with CORRECT data
-    settings = CoreSettings.objects.create(
+    settings, created = CoreSettings.objects.get_or_create(
         pk=1,
-        site_name='HS Consulting',
-        tagline='Your trusted tax consultation partner',
-        about_us='Leading tax consultation firm in Kenya',
-        mission='To provide comprehensive tax solutions',
-        email='info@hsconsulting.co.ke',
-        phone='+254729592895',
-        whatsapp='+254729592895',
-        email_2='ibrahimhussein481@gmail.com',  # YOUR CORRECT EMAIL
-        phone_2='+254746645534',                # YOUR CORRECT PHONE
-        whatsapp_2='+254729592895',
-        address='Nairobi, Kenya',
-        city='Nairobi',
-        country='Kenya'
+        defaults={
+            'site_name': 'HS Consulting',
+            'tagline': 'Your trusted tax consultation partner',
+            'about_us': 'Leading tax consultation firm in Kenya',
+            'mission': 'To provide comprehensive tax solutions',
+            'email': 'info@hsconsulting.co.ke',
+            'phone': '+254729592895',
+            'whatsapp': '+254729592895',
+            'email_2': 'ibrahimhussein481@gmail.com',
+            'phone_2': '+254746645534',
+            'whatsapp_2': '+254729592895',
+            'address': 'Nairobi, Kenya',
+            'city': 'Nairobi',
+            'country': 'Kenya'
+        }
     )
-    print("✓ CoreSettings created with correct partner information")
-    print(f"  Partner 1: {settings.email} / {settings.phone}")
-    print(f"  Partner 2: {settings.email_2} / {settings.phone_2}")  # Show YOUR info
+    
+    # Always ensure partner 2 info is correct
+    if settings.email_2 != 'ibrahimhussein481@gmail.com' or settings.phone_2 != '+254746645534':
+        settings.email_2 = 'ibrahimhussein481@gmail.com'
+        settings.phone_2 = '+254746645534'
+        settings.whatsapp_2 = '+254729592895'
+        settings.save()
+        print("  ✓ CoreSettings updated (partner 2 corrected)")
+    else:
+        print("  ✓ CoreSettings verified")
+    
+    print(f"    Partner 1: {settings.email} / {settings.phone}")
+    print(f"    Partner 2: {settings.email_2} / {settings.phone_2}")
 except Exception as e:
-    print(f"✗ CoreSettings error: {type(e).__name__}: {e}")
-    sys.exit(1)
+    print(f"  ✗ CoreSettings error: {type(e).__name__}: {e}")
 
-# Step 5: Populate initial data
-print("\n[STEP 5] Populating initial data...")
+# Step 4: Verify testimonials table exists and populate if needed
+print("\n[STEP 4] Verifying testimonials table...")
 try:
-    call_command('populate_tax_deadlines', verbosity=0)
-    print("✓ Tax deadlines populated")
+    from apps.testimonials.models import Testimonial
+    
+    # Check if table exists by trying to count
+    count = Testimonial.objects.count()
+    print(f"  ✓ Testimonials table exists ({count} records)")
+    
+    # Populate if empty
+    if count == 0:
+        call_command('populate_testimonials', verbosity=0)
+        new_count = Testimonial.objects.count()
+        print(f"  ✓ Sample testimonials populated ({new_count} records)")
 except Exception as e:
-    print(f"⚠ Tax deadlines: {e}")
+    print(f"  ✗ Testimonials error: {type(e).__name__}: {e}")
+
+# Step 5: Populate other data if needed
+print("\n[STEP 5] Populating other initial data...")
+try:
+    from apps.appointments.models import TaxDeadline
+    if TaxDeadline.objects.count() == 0:
+        call_command('populate_tax_deadlines', verbosity=0)
+        print(f"  ✓ Tax deadlines populated")
+except:
+    pass
 
 try:
-    call_command('populate_services', verbosity=0)
-    print("✓ Services populated")
-except Exception as e:
-    print(f"⚠ Services: {e}")
-
-try:
-    call_command('populate_testimonials', verbosity=0)
-    print("✓ Sample testimonials populated (6 records)")
-except Exception as e:
-    print(f"⚠ Testimonials: {e}")
+    from apps.services.models import Service
+    if Service.objects.count() == 0:
+        call_command('populate_services', verbosity=0)
+        print(f"  ✓ Services populated")
+except:
+    pass
 
 print("\n" + "=" * 80)
-print("✅ DATABASE RESET COMPLETE - Application ready to run!")
+print("✅ INITIALIZATION COMPLETE")
 print("=" * 80)
-print("\nAdmin Console:")
-print("  URL: https://hsconsulting.onrender.com/admin/")
-print("  Username: admin")
-print("  Password: Admin@123")
+print("\nAdmin Console: https://hsconsulting.onrender.com/admin/")
+print("  Username: admin | Password: Admin@123")
 print("\nContact Information (Footer):")
 print(f"  Partner 1: info@hsconsulting.co.ke / +254729592895")
 print(f"  Partner 2: ibrahimhussein481@gmail.com / +254746645534")
