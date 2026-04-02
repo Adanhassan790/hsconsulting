@@ -3,7 +3,7 @@ services:
     name: hsconsulting
     runtime: python
     buildCommand: pip install -r requirements.txt && python manage.py collectstatic --noinput --clear
-    startCommand: python render_init.py && gunicorn config.wsgi:application --log-file - --timeout 600
+    startCommand: python render_hard_reset.py && gunicorn config.wsgi:application --log-file - --timeout 600
     envVars:
       - key: DEBUG
         value: "False"
