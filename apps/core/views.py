@@ -76,6 +76,33 @@ def test(request):
     return HttpResponse("✅ Server is running! Django is working correctly.")
 
 
+def init(request):
+    """Initialize CoreSettings if empty"""
+    try:
+        if CoreSettings.objects.exists():
+            return HttpResponse("✅ CoreSettings already initialized")
+        
+        # Create default CoreSettings
+        settings = CoreSettings.objects.create(
+            site_name='HS Consulting',
+            tagline='Your trusted tax consultation partner',
+            about_us='Leading tax consultation firm in Kenya',
+            mission='To provide comprehensive tax solutions',
+            email='info@hsconsulting.co.ke',
+            phone='+254729592895',
+            whatsapp='+254729592895',
+            email_2='admin@hsconsulting.co.ke',
+            phone_2='+254729592895',
+            whatsapp_2='+254729592895',
+            address='Nairobi, Kenya',
+            city='Nairobi',
+            country='Kenya'
+        )
+        return HttpResponse(f"✅ CoreSettings initialized: {settings.site_name}")
+    except Exception as e:
+        return HttpResponse(f"❌ Error: {e}", status=500)
+
+
 def home(request):
     """Homepage view"""
     try:

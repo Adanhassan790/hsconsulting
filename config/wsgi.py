@@ -24,7 +24,8 @@ if os.environ.get('DATABASE_URL'):
         
         # Try to run migrations
         try:
-            call_command('migrate', '--noinput', verbosity=0)
+            # Use --fake-initial to handle cases where tables exist but migrations aren't recorded
+            call_command('migrate', '--noinput', '--fake-initial', verbosity=0)
             print("✓ Migrations applied successfully", file=sys.stderr)
         except Exception as e:
             print(f"⚠ Migration error: {e}", file=sys.stderr)
