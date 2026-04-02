@@ -107,18 +107,20 @@ WSGI_APPLICATION = 'config.wsgi.application'
 ASGI_APPLICATION = 'config.asgi.application'
 
 # Database
-# For production on Render, require DATABASE_URL
-# For development, use SQLite
-if not DEBUG and not config('DATABASE_URL', default=''):
-    raise ValueError("DATABASE_URL is required in production!")
-
-if config('DATABASE_URL', default=''):
+# For production on Render, use DATABASE_URL
+# For development, use SQLite fallback
+database_url = config('DATABASE_URL', default='')
+if database_url:
     # Production: Use dj-database-url for Render/Railway
     DATABASES = {
-        'default': dj_database_url.config(conn_max_age=600, conn_health_checks=True)
+        'default': dj_database_url.config(
+            default=database_url,
+            conn_max_age=600,
+            conn_health_checks=True
+        )
     }
 else:
-    # Development: Use SQLite
+    # Development: Use SQLite (no DATABASE_URL required locally)
     DATABASES = {
         'default': {
             'ENGINE': 'django.db.backends.sqlite3',
@@ -195,7 +197,12 @@ LOGIN_REDIRECT_URL = 'admin_dashboard:dashboard'
 LOGOUT_REDIRECT_URL = 'core:home'
 
 # Static files configuration for production
-STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
+if DEBUG:
+    # Development: use standard static files storage
+    STATICFILES_STORAGE = 'django.contrib.staticfiles.storage.StaticFilesStorage'
+else:
+    # Production: use WhiteNoise with compression (no manifest required)
+    STATICFILES_STORAGE = 'whitenoise.storage.CompressedStaticFilesStorage'
 
 
 # Jazzmin Admin Configuration (DISABLED - not installing jazzmin for Python 3.14 compatibility)
