@@ -51,6 +51,15 @@ if os.environ.get('DATABASE_URL'):
                 print("✓ Tax deadlines populated", file=sys.stderr)
         except Exception as e:
             print(f"⚠ Tax deadline population error: {e}", file=sys.stderr)
+        
+        # Try to populate services
+        try:
+            from apps.services.models import Service
+            if Service.objects.count() == 0:
+                call_command('populate_services', verbosity=0)
+                print("✓ Services populated", file=sys.stderr)
+        except Exception as e:
+            print(f"⚠ Services population error: {e}", file=sys.stderr)
     
     except OperationalError as e:
         print(f"✗ Database connection failed: {e}", file=sys.stderr)

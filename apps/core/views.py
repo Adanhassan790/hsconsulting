@@ -120,6 +120,23 @@ def populate_deadlines(request):
         return HttpResponse(f"❌ Error: {e}", status=500)
 
 
+def populate_services(request):
+    """Populate services from management command"""
+    try:
+        from django.core.management import call_command
+        from apps.services.models import Service
+        
+        # Only populate if empty
+        if Service.objects.count() > 0:
+            return HttpResponse(f"✅ Services already exist: {Service.objects.count()} records")
+        
+        call_command('populate_services', verbosity=0)
+        count = Service.objects.count()
+        return HttpResponse(f"✅ Services populated: {count} records created")
+    except Exception as e:
+        return HttpResponse(f"❌ Error: {e}", status=500)
+
+
 def home(request):
     """Homepage view"""
     try:
