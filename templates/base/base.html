@@ -19,8 +19,9 @@
     <!-- Navigation -->
     <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
         <div class="container">
-            <a class="navbar-brand fw-bold text-danger d-flex align-items-center" href="{% url 'core:home' %}">
-                <img src="{% static 'images/logo.png' %}" alt="HS Consulting" style="height: 50px; margin-right: 10px;" loading="lazy">
+            <a class="navbar-brand fw-bold text-danger d-flex align-items-center" href="{% url 'core:home' %}" style="font-size: 1.5rem; letter-spacing: 2px;">
+                <img src="{% static 'images/logo.png' %}" alt="HS Consulting" style="height: 45px; width: auto; margin-right: 10px; display: none;" loading="lazy" onerror="this.style.display='none'">
+                <span style="display: inline;">HS CONSULTING</span>
             </a>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
                 <span class="navbar-toggler-icon"></span>
