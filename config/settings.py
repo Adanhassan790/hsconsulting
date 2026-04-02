@@ -16,7 +16,7 @@ SECRET_KEY = config('DJANGO_SECRET_KEY', default='django-insecure-change-this-ke
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = config('DEBUG', default=False, cast=bool)
 
-ALLOWED_HOSTS = config('ALLOWED_HOSTS', default='localhost,127.0.0.1,*.onrender.com,*.railway.app,hsconsulting.onrender.com', cast=lambda v: [s.strip() for s in v.split(',')])
+ALLOWED_HOSTS = config('ALLOWED_HOSTS', default='localhost,127.0.0.1,*.onrender.com,hsconsulting.onrender.com', cast=lambda v: [s.strip() for s in v.split(',')])
 
 # Application definition
 INSTALLED_APPS = [
@@ -106,20 +106,22 @@ WSGI_APPLICATION = 'config.wsgi.application'
 ASGI_APPLICATION = 'config.asgi.application'
 
 # Database
-# Use dj-database-url for Render/Railway deployments, fallback to manual config
+# For production on Render, require DATABASE_URL
+# For development, use SQLite
+if not DEBUG and not config('DATABASE_URL', default=''):
+    raise ValueError("DATABASE_URL is required in production!")
+
 if config('DATABASE_URL', default=''):
+    # Production: Use dj-database-url for Render/Railway
     DATABASES = {
-        'default': dj_database_url.config(conn_max_age=600)
+        'default': dj_database_url.config(conn_max_age=600, conn_health_checks=True)
     }
 else:
+    # Development: Use SQLite
     DATABASES = {
         'default': {
-            'ENGINE': config('DB_ENGINE', default='django.db.backends.sqlite3'),
-            'NAME': config('DB_NAME', default=str(BASE_DIR / 'db.sqlite3')),
-            'USER': config('DB_USER', default=''),
-            'PASSWORD': config('DB_PASSWORD', default=''),
-            'HOST': config('DB_HOST', default=''),
-            'PORT': config('DB_PORT', default=''),
+            'ENGINE': 'django.db.backends.sqlite3',
+            'NAME': BASE_DIR / 'db.sqlite3',
         }
     }
 
