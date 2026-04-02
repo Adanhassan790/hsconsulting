@@ -60,8 +60,8 @@ if os.environ.get('DATABASE_URL'):
                     'email': 'info@hsconsulting.co.ke',
                     'phone': '+254729592895',
                     'whatsapp': '+254729592895',
-                    'email_2': 'admin@hsconsulting.co.ke',
-                    'phone_2': '+254729592895',
+                    'email_2': 'ibrahimhussein481@gmail.com',
+                    'phone_2': '+254746645534',
                     'whatsapp_2': '+254729592895',
                     'address': 'Nairobi, Kenya',
                     'city': 'Nairobi',
@@ -73,8 +73,8 @@ if os.environ.get('DATABASE_URL'):
             else:
                 # Update if partner 2 info is missing
                 if not settings.email_2:
-                    settings.email_2 = 'admin@hsconsulting.co.ke'
-                    settings.phone_2 = '+254729592895'
+                    settings.email_2 = 'ibrahimhussein481@gmail.com'
+                    settings.phone_2 = '+254746645534'
                     settings.whatsapp_2 = '+254729592895'
                     settings.save()
                     print("✓ STARTUP: CoreSettings updated", file=sys.stderr)
