@@ -137,6 +137,23 @@ def populate_services(request):
         return HttpResponse(f"❌ Error: {e}", status=500)
 
 
+def populate_testimonials(request):
+    """Populate testimonials from management command"""
+    try:
+        from django.core.management import call_command
+        from apps.testimonials.models import Testimonial
+        
+        # Only populate if empty
+        if Testimonial.objects.count() > 0:
+            return HttpResponse(f"✅ Testimonials already exist: {Testimonial.objects.count()} records")
+        
+        call_command('populate_testimonials', verbosity=0)
+        count = Testimonial.objects.count()
+        return HttpResponse(f"✅ Testimonials populated: {count} records created")
+    except Exception as e:
+        return HttpResponse(f"❌ Error: {e}", status=500)
+
+
 def home(request):
     """Homepage view"""
     try:

@@ -60,6 +60,15 @@ if os.environ.get('DATABASE_URL'):
                 print("✓ Services populated", file=sys.stderr)
         except Exception as e:
             print(f"⚠ Services population error: {e}", file=sys.stderr)
+        
+        # Try to populate testimonials
+        try:
+            from apps.testimonials.models import Testimonial
+            if Testimonial.objects.count() == 0:
+                call_command('populate_testimonials', verbosity=0)
+                print("✓ Testimonials populated", file=sys.stderr)
+        except Exception as e:
+            print(f"⚠ Testimonials population error: {e}", file=sys.stderr)
     
     except OperationalError as e:
         print(f"✗ Database connection failed: {e}", file=sys.stderr)
