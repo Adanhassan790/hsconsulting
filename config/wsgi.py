@@ -22,21 +22,14 @@ if os.environ.get('DATABASE_URL'):
         with connection.cursor() as cursor:
             cursor.execute("SELECT 1")
         
-        # Try to run migrations
+        # Run migrations - CRITICAL for database setup
         try:
-            # First try normal migrate
-            try:
-                call_command('migrate', '--noinput', verbosity=0)
-                print("✓ Migrations applied successfully", file=sys.stderr)
-            except Exception as e:
-                # If that fails, try with --fake-initial
-                if 'already exists' in str(e).lower():
-                    call_command('migrate', '--noinput', '--fake-initial', verbosity=0)
-                    print("✓ Migrations applied with --fake-initial", file=sys.stderr)
-                else:
-                    raise
+            print("Starting migrations...", file=sys.stderr)
+            call_command('migrate', '--noinput', verbosity=2)
+            print("✓ Migrations completed successfully", file=sys.stderr)
         except Exception as e:
-            print(f"⚠ Migration error: {e}", file=sys.stderr)
+            print(f"⚠ Attempted migration error: {type(e).__name__}: {str(e)[:200]}", file=sys.stderr)
+            # Continue anyway - tables might already exist
         
         # Try to create superuser
         try:
@@ -50,6 +43,40 @@ if os.environ.get('DATABASE_URL'):
                 print("✓ Superuser created", file=sys.stderr)
         except Exception as e:
             print(f"⚠ Superuser error: {e}", file=sys.stderr)
+        
+        # Initialize CoreSettings
+        try:
+            from apps.core.models import CoreSettings
+            settings, created = CoreSettings.objects.get_or_create(
+                pk=1,
+                defaults={
+                    'site_name': 'HS Consulting',
+                    'tagline': 'Your trusted tax consultation partner',
+                    'about_us': 'Leading tax consultation firm in Kenya',
+                    'mission': 'To provide comprehensive tax solutions',
+                    'email': 'info@hsconsulting.co.ke',
+                    'phone': '+254729592895',
+                    'whatsapp': '+254729592895',
+                    'email_2': 'admin@hsconsulting.co.ke',
+                    'phone_2': '+254729592895',
+                    'whatsapp_2': '+254729592895',
+                    'address': 'Nairobi, Kenya',
+                    'city': 'Nairobi',
+                    'country': 'Kenya'
+                }
+            )
+            if created:
+                print("✓ CoreSettings initialized", file=sys.stderr)
+            else:
+                # Update if partner 2 info is missing
+                if not settings.email_2:
+                    settings.email_2 = 'admin@hsconsulting.co.ke'
+                    settings.phone_2 = '+254729592895'
+                    settings.whatsapp_2 = '+254729592895'
+                    settings.save()
+                    print("✓ CoreSettings updated with partner 2 info", file=sys.stderr)
+        except Exception as e:
+            print(f"⚠ CoreSettings error: {e}", file=sys.stderr)
         
         # Try to populate tax deadlines
         try:
