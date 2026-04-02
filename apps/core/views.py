@@ -199,13 +199,43 @@ def home(request):
     except Exception as e:
         return HttpResponse(f"Error loading settings: {e}")
     
-    # Get upcoming tax deadlines
+    # Get upcoming tax deadlines and group them
     try:
         from apps.appointments.models import TaxDeadline
         from datetime import date
-        upcoming_deadlines = TaxDeadline.objects.filter(
+        
+        # Get all upcoming deadlines
+        all_deadlines = TaxDeadline.objects.filter(
             deadline_date__gte=date.today()
-        ).order_by('deadline_date')[:5]  # Get top 5 upcoming deadlines
+        ).order_by('deadline_date')
+        
+        # Group PAYE, VAT, and Excise Duty (assume same deadline), keep Income Tax separate
+        grouped_deadlines = []
+        processed_dates = set()
+        
+        for deadline in all_deadlines:
+            deadline_key = deadline.deadline_date
+            
+            # Skip if we've already added a deadline for this date
+            if deadline_key in processed_dates:
+                continue
+            
+            # For non-income-tax deadlines, group them as "PAYE & VAT"
+            if deadline.deadline_type == 'income_tax':
+                # Keep income tax as is
+                grouped_deadlines.append(deadline)
+                processed_dates.add(deadline_key)
+            else:
+                # Create a pseudo-deadline for grouped "PAYE & VAT" or other
+                if deadline.deadline_type in ['paye', 'vat', 'excise_duty', 'other']:
+                    grouped_deadlines.append(deadline)
+                    processed_dates.add(deadline_key)
+            
+            # Only keep first 2 distinct deadlines
+            if len(grouped_deadlines) >= 2:
+                break
+        
+        upcoming_deadlines = grouped_deadlines[:2]
     except Exception as e:
         print(f"Error loading deadlines: {e}")
         upcoming_deadlines = []

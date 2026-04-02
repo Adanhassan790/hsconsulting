@@ -1,18 +1,24 @@
 /* Main JavaScript */
 
-// Dark mode toggle (optional)
-function toggleDarkMode() {
-    document.body.classList.toggle('dark-mode');
-}
+// Logo flip animation on page load
+window.addEventListener('load', function() {
+    // Trigger logo flip animation
+    const logoImg = document.querySelector('.navbar-brand img');
+    if (logoImg) {
+        logoImg.classList.add('loaded');
+    }
+});
 
 // Form validation
 function validateForm(formId) {
     const form = document.getElementById(formId);
-    if (form.checkValidity() === false) {
+    if (form && form.checkValidity() === false) {
         event.preventDefault();
         event.stopPropagation();
     }
-    form.classList.add('was-validated');
+    if (form) {
+        form.classList.add('was-validated');
+    }
 }
 
 // Smooth scroll for internal links
@@ -31,9 +37,22 @@ document.addEventListener('DOMContentLoaded', function() {
     const alerts = document.querySelectorAll('.alert');
     alerts.forEach(alert => {
         setTimeout(() => {
-            const bsAlert = new bootstrap.Alert(alert);
-            bsAlert.close();
+            try {
+                const bsAlert = new bootstrap.Alert(alert);
+                bsAlert.close();
+            } catch (e) {
+                alert.style.display = 'none';
+            }
         }, 5000);
+    });
+    
+    // Initialize countdowns for all deadline elements
+    const countdownElements = document.querySelectorAll('.countdown[data-deadline]');
+    countdownElements.forEach(element => {
+        const deadline = element.getAttribute('data-deadline');
+        if (deadline) {
+            startCountdownElement(deadline, element);
+        }
     });
 });
 
@@ -46,9 +65,9 @@ function formatPhoneNumber(phone) {
     return phone;
 }
 
-// Countdown timer for tax deadlines
-function startCountdown(endDate, elementId) {
-    const timer = setInterval(() => {
+// Countdown timer for tax deadlines - updated for new structure
+function startCountdownElement(endDate, element) {
+    const updateCountdown = () => {
         const now = new Date().getTime();
         const distance = new Date(endDate).getTime() - now;
 
@@ -57,28 +76,57 @@ function startCountdown(endDate, elementId) {
         const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
         const seconds = Math.floor((distance % (1000 * 60)) / 1000);
 
-        const element = document.getElementById(elementId);
         if (element) {
-            element.innerHTML = `
-                <div>${days} <small>DAYS</small></div>
-                <div>${hours} <small>HRS</small></div>
-                <div>${minutes} <small>MINS</small></div>
-                <div>${seconds} <small>SECS</small></div>
-            `;
+            // Update the countdown values
+            const daysSpan = element.querySelector('.days-value');
+            const hoursSpan = element.querySelector('.hours-value');
+            const minsSpan = element.querySelector('.mins-value');
+            const secsSpan = element.querySelector('.secs-value');
+            
+            if (daysSpan) daysSpan.textContent = String(days).padStart(2, '0');
+            if (hoursSpan) hoursSpan.textContent = String(hours).padStart(2, '0');
+            if (minsSpan) minsSpan.textContent = String(minutes).padStart(2, '0');
+            if (secsSpan) secsSpan.textContent = String(seconds).padStart(2, '0');
         }
 
         if (distance < 0) {
-            clearInterval(timer);
-            if (element) {
-                element.innerHTML = 'DEADLINE PASSED';
-            }
+            return true; // Return true to signal the timer should stop
         }
-    }, 1000);
+        return false;
+    };
+    
+    // Update immediately
+    const shouldStop = updateCountdown();
+    
+    // Update every second
+    if (!shouldStop) {
+        const timer = setInterval(() => {
+            if (updateCountdown()) {
+                clearInterval(timer);
+            }
+        }, 1000);
+    }
+}
+
+// Legacy function for backward compatibility
+function startCountdown(endDate, elementId) {
+    const element = document.getElementById(elementId);
+    if (element) {
+        startCountdownElement(endDate, element);
+    }
 }
 
 // Tab switching
 function switchTab(tabName) {
     const tabs = document.querySelectorAll('.tab-content');
     tabs.forEach(tab => tab.style.display = 'none');
-    document.getElementById(tabName).style.display = 'block';
+    const tab = document.getElementById(tabName);
+    if (tab) {
+        tab.style.display = 'block';
+    }
+}
+
+// Dark mode toggle (optional)
+function toggleDarkMode() {
+    document.body.classList.toggle('dark-mode');
 }

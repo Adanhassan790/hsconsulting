@@ -6,7 +6,7 @@
 {% block content %}
 
 <!-- Hero Section -->
-<section class="py-5" style="background: linear-gradient(135deg, #1a1a1a 0%, rgba(220, 20, 60, 0.1) 100%); color: white; text-align: center;">
+<section class="py-5 hero">
     <div class="container">
         <h1 class="display-4 fw-bold mb-3">Professional Tax & Financial Solutions</h1>
         <p class="lead mb-4">Simplifying tax compliance and financial management for businesses in Kenya</p>
@@ -14,99 +14,6 @@
             <a href="{% url 'appointments:book' %}" class="btn btn-danger btn-lg me-2">Book Appointment</a>
             <a href="{% url 'services:list' %}" class="btn btn-light btn-lg">View Services</a>
         </div>
-    </div>
-</section>
-
-<!-- Tax Calendar Section -->
-<section class="py-5" style="background: linear-gradient(135deg, #f8f9fa 0%, #fff5f5 100%);">
-    <div class="container">
-        <h2 class="text-center mb-2 text-danger">
-            <i class="fas fa-calendar-alt"></i> Kenyan Tax Calendar 2026
-        </h2>
-        <p class="text-center text-muted mb-5">Never miss important tax deadlines - Track them live</p>
-        
-        {% if upcoming_deadlines %}
-        <div class="row g-4">
-            {% for deadline in upcoming_deadlines %}
-            <div class="col-md-6 col-lg-4 mb-4">
-                <div class="card h-100 shadow-sm border-danger" style="border-width: 2px;">
-                    <div class="card-body text-center">
-                        <h5 class="card-title text-danger mb-3">
-                            {% if deadline.deadline_type == 'paye' %}
-                            <i class="fas fa-wallet"></i> PAYE DUE IN:
-                            {% elif deadline.deadline_type == 'vat' %}
-                            <i class="fas fa-percentage"></i> VAT DUE IN:
-                            {% elif deadline.deadline_type == 'income_tax' %}
-                            <i class="fas fa-file-invoice-dollar"></i> INCOME TAX DUE IN:
-                            {% else %}
-                            <i class="fas fa-hourglass-end"></i> {{ deadline.name|upper }} DUE IN:
-                            {% endif %}
-                        </h5>
-                        
-                        <!-- Countdown Display -->
-                        <div class="countdown mb-3" data-deadline="{{ deadline.deadline_date|date:'Y-m-d' }}">
-                            <div class="row g-2 justify-content-center">
-                                <div class="col-6 col-sm-3">
-                                    <div class="countdown-item">
-                                        <div class="countdown-value" style="background: #e8f0fe; border-radius: 50%; width: 70px; height: 70px; display: flex; align-items: center; justify-content: center; margin: auto; font-size: 24px; font-weight: bold; color: #dc143c;">
-                                            <span class="days-value">00</span>
-                                        </div>
-                                        <div style="font-size: 12px; font-weight: bold; color: #666; margin-top: 8px;">DAYS</div>
-                                    </div>
-                                </div>
-                                <div class="col-6 col-sm-3">
-                                    <div class="countdown-item">
-                                        <div class="countdown-value" style="background: #e8f0fe; border-radius: 50%; width: 70px; height: 70px; display: flex; align-items: center; justify-content: center; margin: auto; font-size: 24px; font-weight: bold; color: #dc143c;">
-                                            <span class="hours-value">00</span>
-                                        </div>
-                                        <div style="font-size: 12px; font-weight: bold; color: #666; margin-top: 8px;">HRS</div>
-                                    </div>
-                                </div>
-                                <div class="col-6 col-sm-3">
-                                    <div class="countdown-item">
-                                        <div class="countdown-value" style="background: #e8f0fe; border-radius: 50%; width: 70px; height: 70px; display: flex; align-items: center; justify-content: center; margin: auto; font-size: 24px; font-weight: bold; color: #dc143c;">
-                                            <span class="mins-value">00</span>
-                                        </div>
-                                        <div style="font-size: 12px; font-weight: bold; color: #666; margin-top: 8px;">MINS</div>
-                                    </div>
-                                </div>
-                                <div class="col-6 col-sm-3">
-                                    <div class="countdown-item">
-                                        <div class="countdown-value" style="background: #e8f0fe; border-radius: 50%; width: 70px; height: 70px; display: flex; align-items: center; justify-content: center; margin: auto; font-size: 24px; font-weight: bold; color: #dc143c;">
-                                            <span class="secs-value">00</span>
-                                        </div>
-                                        <div style="font-size: 12px; font-weight: bold; color: #666; margin-top: 8px;">SECS</div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        
-                        <p class="card-text small text-muted mb-0">
-                            <strong>Due:</strong> {{ deadline.deadline_date|date:'M d, Y' }}<br>
-                            {{ deadline.description }}
-                        </p>
-                    </div>
-                    <div class="card-footer bg-light text-center">
-                        <a href="{% url 'appointments:book' %}" class="btn btn-sm btn-danger">
-                            <i class="fas fa-calendar-check"></i> Schedule Appointment
-                        </a>
-                    </div>
-                </div>
-            </div>
-            {% endfor %}
-        </div>
-        
-        <div class="text-center mt-5">
-            <p class="text-muted mb-3">View all tax deadlines and plan ahead</p>
-            <a href="{% url 'appointments:tax_calendar' %}" class="btn btn-danger btn-lg">
-                <i class="fas fa-calendar"></i> View Full Tax Calendar
-            </a>
-        </div>
-        {% else %}
-        <div class="alert alert-info text-center">
-            <i class="fas fa-info-circle"></i> Tax deadlines will be displayed here. Contact us for more information.
-        </div>
-        {% endif %}
     </div>
 </section>
 
@@ -173,6 +80,87 @@
         <div class="text-center mt-5">
             <a href="{% url 'services:list' %}" class="btn btn-danger btn-lg">View All Services</a>
         </div>
+    </div>
+</section>
+
+<!-- Tax Calendar Section -->
+<section class="py-5" style="background: linear-gradient(135deg, #f8f9fa 0%, #fff5f5 100%);">
+    <div class="container">
+        <h2 class="text-center mb-2 text-danger">
+            <i class="fas fa-calendar-alt"></i> Kenyan Tax Deadlines 2026
+        </h2>
+        <p class="text-center text-muted mb-5">Never miss important tax obligations - Track key deadlines</p>
+        
+        {% if upcoming_deadlines %}
+        <div class="row g-4 justify-content-center">
+            {% for deadline in upcoming_deadlines %}
+            <div class="col-md-6 col-lg-5 mb-4">
+                <div class="card h-100 shadow-sm tax-deadline-card border-0">
+                    <div class="card-body text-center">
+                        <h5 class="card-title text-danger mb-3">
+                            {% if deadline.deadline_type == 'paye' %}
+                            <i class="fas fa-wallet"></i> PAYE & VAT
+                            {% elif deadline.deadline_type == 'income_tax' %}
+                            <i class="fas fa-file-invoice-dollar"></i> INCOME TAX
+                            {% else %}
+                            <i class="fas fa-hourglass-end"></i> {{ deadline.name|upper }}
+                            {% endif %}
+                        </h5>
+                        
+                        <!-- Horizontal Countdown Display -->
+                        <div class="countdown mb-3" data-deadline="{{ deadline.deadline_date|date:'Y-m-d' }}">
+                            <div class="countdown-item">
+                                <div class="countdown-value" style="background: #f0e8f0;">
+                                    <span class="days-value">00</span>
+                                </div>
+                                <div class="countdown-label">DAYS</div>
+                            </div>
+                            <div class="countdown-item">
+                                <div class="countdown-value" style="background: #f0e8f0;">
+                                    <span class="hours-value">00</span>
+                                </div>
+                                <div class="countdown-label">HRS</div>
+                            </div>
+                            <div class="countdown-item">
+                                <div class="countdown-value" style="background: #f0e8f0;">
+                                    <span class="mins-value">00</span>
+                                </div>
+                                <div class="countdown-label">MINS</div>
+                            </div>
+                            <div class="countdown-item">
+                                <div class="countdown-value" style="background: #f0e8f0;">
+                                    <span class="secs-value">00</span>
+                                </div>
+                                <div class="countdown-label">SECS</div>
+                            </div>
+                        </div>
+                        
+                        <p class="card-text small text-muted mb-0">
+                            <strong>Due:</strong> {{ deadline.deadline_date|date:'M d, Y' }}<br>
+                            {{ deadline.description }}
+                        </p>
+                    </div>
+                    <div class="card-footer bg-light text-center border-0">
+                        <a href="{% url 'appointments:book' %}" class="btn btn-sm btn-danger">
+                            <i class="fas fa-calendar-check"></i> Schedule Appointment
+                        </a>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+        
+        <div class="text-center mt-5">
+            <p class="text-muted mb-3">View all tax deadlines and plan your compliance calendar</p>
+            <a href="{% url 'appointments:tax_calendar' %}" class="btn btn-danger btn-lg">
+                <i class="fas fa-calendar"></i> View Full Tax Calendar
+            </a>
+        </div>
+        {% else %}
+        <div class="alert alert-info text-center">
+            <i class="fas fa-info-circle"></i> Tax deadlines will be displayed here. Contact us for more information.
+        </div>
+        {% endif %}
     </div>
 </section>
 

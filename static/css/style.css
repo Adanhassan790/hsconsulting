@@ -1,12 +1,17 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&family=Inter:wght@300;400;500;600;700&display=swap');
+
 /* HS Consulting - Main Stylesheet */
-/* Red: #DC143C, Black: #1A1A1A, White: #FFFFFF */
+/* Faint Red: #D9939A, Black: #1A1A1A, White: #FFFFFF */
 
 :root {
-    --primary-red: #DC143C;
+    --primary-red: #D9939A;
+    --accent-red: #C1757F;
     --dark-black: #1A1A1A;
     --light-white: #FFFFFF;
     --light-gray: #F5F5F5;
     --text-dark: #333333;
+    --font-primary: 'Poppins', sans-serif;
+    --font-secondary: 'Inter', sans-serif;
 }
 
 * {
@@ -16,9 +21,14 @@
 }
 
 html, body {
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    font-family: var(--font-secondary);
     color: var(--text-dark);
     line-height: 1.6;
+}
+
+h1, h2, h3, h4, h5, h6 {
+    font-family: var(--font-primary);
+    font-weight: 600;
 }
 
 /* Navigation */
@@ -31,6 +41,30 @@ html, body {
     font-size: 1.5rem;
     font-weight: bold;
     letter-spacing: 1px;
+    perspective: 1000px;
+}
+
+.navbar-brand img {
+    transition: transform 0.6s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+    display: inline-block;
+}
+
+.navbar-brand img.loaded {
+    animation: logoFlip 0.8s ease-out;
+}
+
+@keyframes logoFlip {
+    0% {
+        transform: rotateY(0deg) scale(0.5);
+        opacity: 0;
+    }
+    50% {
+        transform: rotateY(720deg) scale(1.05);
+    }
+    100% {
+        transform: rotateY(0deg) scale(1);
+        opacity: 1;
+    }
 }
 
 .navbar-brand .text-danger {
@@ -55,7 +89,11 @@ html, body {
 
 /* Hero Section */
 .hero {
-    background: linear-gradient(135deg, var(--dark-black) 0%, rgba(220, 20, 60, 0.1) 100%);
+    background: linear-gradient(135deg, rgba(26, 26, 26, 0.7) 0%, rgba(217, 147, 154, 0.3) 100%), 
+                url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 600"><defs><linearGradient id="grad" x1="0%25" y1="0%25" x2="100%25" y2="100%25"><stop offset="0%25" style="stop-color:%23f0f0f0;stop-opacity:0.15" /><stop offset="100%25" style="stop-color:%23d9939a;stop-opacity:0.1" /></linearGradient></defs><rect width="1200" height="600" fill="url(%23grad)"/></svg>');
+    background-size: cover;
+    background-position: center;
+    background-attachment: fixed;
     color: var(--light-white);
     padding: 100px 0;
     text-align: center;
@@ -87,9 +125,9 @@ html, body {
 }
 
 .btn-danger:hover {
-    background: #A80A2A;
+    background: var(--accent-red);
     transform: translateY(-2px);
-    box-shadow: 0 5px 15px rgba(220, 20, 60, 0.3);
+    box-shadow: 0 5px 15px rgba(217, 147, 154, 0.4);
 }
 
 .btn-primary {
@@ -111,7 +149,7 @@ html, body {
 
 .card:hover {
     transform: translateY(-5px);
-    box-shadow: 0 5px 20px rgba(220, 20, 60, 0.2);
+    box-shadow: 0 5px 20px rgba(217, 147, 154, 0.2);
 }
 
 .card-body {
@@ -163,7 +201,7 @@ html, body {
 
 .form-control:focus {
     border-color: var(--primary-red);
-    box-shadow: 0 0 0 0.2rem rgba(220, 20, 60, 0.25);
+    box-shadow: 0 0 0 0.2rem rgba(217, 147, 154, 0.25);
 }
 
 .form-label {
@@ -179,8 +217,8 @@ html, body {
 }
 
 .alert-danger {
-    background: rgba(220, 20, 60, 0.1);
-    color: #A80A2A;
+    background: rgba(217, 147, 154, 0.1);
+    color: #8B5A62;
     border-left: 4px solid var(--primary-red);
 }
 
@@ -208,6 +246,101 @@ html, body {
     width: 60px;
     height: 4px;
     background: var(--primary-red);
+    border-radius: 2px;
+}
+
+/* Countdown Timer - Horizontal Display */
+.countdown {
+    display: flex !important;
+    justify-content: center;
+    align-items: center;
+    gap: 12px;
+    flex-wrap: wrap;
+}
+
+.countdown-item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 5px;
+}
+
+.countdown-value {
+    border-radius: 8px !important;
+    min-width: 55px !important;
+    min-height: 55px !important;
+    font-size: 18px !important;
+    padding: 8px 12px !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+}
+
+.countdown-label {
+    font-size: 11px !important;
+    font-weight: 600;
+    letter-spacing: 0.5px;
+}
+
+@media (max-width: 768px) {
+    .countdown {
+        gap: 10px;
+    }
+    
+    .countdown-value {
+        min-width: 50px !important;
+        min-height: 50px !important;
+        font-size: 16px !important;
+    }
+    
+    .countdown-label {
+        font-size: 10px !important;
+    }
+}
+
+/* Deadline Card Styles - Smaller for Mobile */
+.tax-deadline-card {
+    padding: 0 !important;
+}
+
+.tax-deadline-card .card-body {
+    padding: 15px !important;
+}
+
+.tax-deadline-card .card-title {
+    font-size: 0.95rem !important;
+    margin-bottom: 10px !important;
+}
+
+.tax-deadline-card .card-text {
+    font-size: 0.85rem !important;
+}
+
+.tax-deadline-card .card-footer {
+    padding: 10px !important;
+}
+
+.tax-deadline-card .btn-sm {
+    padding: 6px 12px !important;
+    font-size: 0.8rem !important;
+}
+
+@media (max-width: 768px) {
+    .tax-deadline-card .card-body {
+        padding: 12px !important;
+    }
+    
+    .tax-deadline-card .card-title {
+        font-size: 0.85rem !important;
+    }
+    
+    .tax-deadline-card .card-text {
+        font-size: 0.75rem !important;
+    }
+    
+    .tax-deadline-card .card-footer {
+        padding: 8px !important;
+    }
 }
 
 /* Footer */
