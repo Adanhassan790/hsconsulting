@@ -42,6 +42,15 @@ if os.environ.get('DATABASE_URL'):
                 print("✓ Superuser created", file=sys.stderr)
         except Exception as e:
             print(f"⚠ Superuser error: {e}", file=sys.stderr)
+        
+        # Try to populate tax deadlines
+        try:
+            from apps.appointments.models import TaxDeadline
+            if TaxDeadline.objects.count() == 0:
+                call_command('populate_tax_deadlines', verbosity=0)
+                print("✓ Tax deadlines populated", file=sys.stderr)
+        except Exception as e:
+            print(f"⚠ Tax deadline population error: {e}", file=sys.stderr)
     
     except OperationalError as e:
         print(f"✗ Database connection failed: {e}", file=sys.stderr)

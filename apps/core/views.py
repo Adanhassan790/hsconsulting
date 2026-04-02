@@ -103,6 +103,23 @@ def init(request):
         return HttpResponse(f"❌ Error: {e}", status=500)
 
 
+def populate_deadlines(request):
+    """Populate tax deadlines from management command"""
+    try:
+        from django.core.management import call_command
+        from apps.appointments.models import TaxDeadline
+        
+        # Only populate if empty
+        if TaxDeadline.objects.count() > 0:
+            return HttpResponse(f"✅ Tax deadlines already exist: {TaxDeadline.objects.count()} records")
+        
+        call_command('populate_tax_deadlines', verbosity=0)
+        count = TaxDeadline.objects.count()
+        return HttpResponse(f"✅ Tax deadlines populated: {count} records created")
+    except Exception as e:
+        return HttpResponse(f"❌ Error: {e}", status=500)
+
+
 def home(request):
     """Homepage view"""
     try:

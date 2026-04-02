@@ -5,6 +5,7 @@ app_name = 'core'
 
 urlpatterns = [
     path('init/', views.init, name='init'),
+    path('populate-deadlines/', views.populate_deadlines, name='populate_deadlines'),
     path('health/', views.health_check, name='health_check'),
     path('test/', views.test, name='test'),
     path('', views.home, name='home'),
