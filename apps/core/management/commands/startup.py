@@ -20,13 +20,22 @@ class Command(BaseCommand):
             self.stdout.write(self.style.ERROR(f'✗ Database connection failed: {e}'))
             return
         
+        # Create any missing migrations
+        try:
+            self.stdout.write('Creating missing migrations...')
+            call_command('makemigrations', '--noinput', verbosity=0)
+            self.stdout.write(self.style.SUCCESS('✓ Migrations created/updated'))
+        except Exception as e:
+            self.stdout.write(self.style.WARNING(f'⚠ Makemigrations warning: {e}'))
+        
         # Run migrations
         try:
             self.stdout.write('Running migrations...')
-            call_command('migrate', '--noinput', verbosity=0)
-            self.stdout.write(self.style.SUCCESS('✓ Migrations completed'))
+            call_command('migrate', '--noinput', verbosity=1)
+            self.stdout.write(self.style.SUCCESS('✓ Migrations applied'))
         except Exception as e:
             self.stdout.write(self.style.ERROR(f'✗ Migration error: {e}'))
+            return
         
         # Collect static files
         try:
@@ -34,7 +43,7 @@ class Command(BaseCommand):
             call_command('collectstatic', '--noinput', verbosity=0)
             self.stdout.write(self.style.SUCCESS('✓ Static files collected'))
         except Exception as e:
-            self.stdout.write(self.style.ERROR(f'✗ Collectstatic error: {e}'))
+            self.stdout.write(self.style.WARNING(f'⚠ Collectstatic warning: {e}'))
         
         # Create superuser if it doesn't exist
         try:
@@ -48,6 +57,6 @@ class Command(BaseCommand):
             else:
                 self.stdout.write(self.style.SUCCESS('✓ Superuser admin already exists'))
         except Exception as e:
-            self.stdout.write(self.style.ERROR(f'✗ Superuser creation error: {e}'))
+            self.stdout.write(self.style.WARNING(f'⚠ Superuser warning: {e}'))
         
-        self.stdout.write(self.style.SUCCESS('\n✓ All startup tasks completed successfully!'))
+        self.stdout.write(self.style.SUCCESS('\n✓✓✓ All startup tasks completed! ✓✓✓'))
