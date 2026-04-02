@@ -1,17 +1,29 @@
 from django.shortcuts import render, get_object_or_404
+from django.http import HttpResponse
 from .models import Testimonial, CaseStudy
 
 
 def testimonials_list(request):
     """List testimonials"""
-    testimonials = Testimonial.objects.filter(is_published=True)
-    featured = testimonials.filter(is_featured=True)[:3]
-    
-    context = {
-        'testimonials': testimonials,
-        'featured': featured,
-    }
-    return render(request, 'testimonials/list.html', context)
+    try:
+        testimonials = Testimonial.objects.filter(is_published=True)
+        featured = testimonials.filter(is_featured=True)[:3]
+        
+        context = {
+            'testimonials': testimonials,
+            'featured': featured,
+        }
+        return render(request, 'testimonials/list.html', context)
+    except Exception as e:
+        import traceback
+        error_details = traceback.format_exc()
+        return HttpResponse(
+            f"<h1>Error loading testimonials</h1>"
+            f"<p><strong>Error:</strong> {type(e).__name__}: {str(e)}</p>"
+            f"<p><strong>Traceback:</strong></p><pre>{error_details}</pre>",
+            status=500,
+            content_type='text/html'
+        )
 
 
 def case_studies_list(request):

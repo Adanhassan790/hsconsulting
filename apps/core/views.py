@@ -154,6 +154,33 @@ def populate_testimonials(request):
         return HttpResponse(f"❌ Error: {e}", status=500)
 
 
+def testimonials_debug(request):
+    """Debug testimonials - check database and table"""
+    try:
+        import json
+        from apps.testimonials.models import Testimonial
+        
+        # Check if table exists
+        debug_info = {}
+        
+        # Check count
+        count = Testimonial.objects.count()
+        debug_info['count'] = count
+        debug_info['status'] = 'OK' if count > 0 else 'NO DATA'
+        
+        if count > 0:
+            # List testimonials
+            testimonials = list(Testimonial.objects.values('id', 'client_name', 'is_published', 'is_featured'))
+            debug_info['testimonials'] = testimonials
+        
+        debug_info['message'] = "Testimonials table exists and is queryable"
+        
+        html = f"<h2>Testimonials Debug Report</h2><pre>{json.dumps(debug_info, indent=2)}</pre>"
+        return HttpResponse(html, content_type='text/html')
+    except Exception as e:
+        return HttpResponse(f"❌ Error accessing testimonials: {type(e).__name__}: {str(e)}", status=500, content_type='text/html')
+
+
 def home(request):
     """Homepage view"""
     try:
