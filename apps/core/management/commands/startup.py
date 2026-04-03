@@ -11,8 +11,22 @@ class Command(BaseCommand):
     def handle(self, *args, **options):
         """Execute all startup tasks"""
         self.stdout.write('\n' + '='*70)
-        self.stdout.write('STARTUP: Database initialization...')
+        self.stdout.write('STARTUP: Initializing application...')
         self.stdout.write('='*70)
+        
+        # FIRST: Ensure static files are collected (critical for CSS/JS/images)
+        import os
+        from pathlib import Path
+        staticfiles_dir = Path(__file__).resolve().parent.parent.parent.parent.parent / 'staticfiles'
+        if not staticfiles_dir.exists():
+            self.stdout.write('Static files directory missing, collecting now...')
+            try:
+                call_command('collectstatic', '--noinput', verbosity=1)
+                self.stdout.write(self.style.SUCCESS('✓ Static files collected'))
+            except Exception as e:
+                self.stdout.write(self.style.ERROR(f'✗ Static files collection failed: {e}'))
+        else:
+            self.stdout.write(self.style.SUCCESS(f'✓ Static files directory exists ({len(list(staticfiles_dir.glob("**/*")))} files)'))
         
         # Check database connection
         try:
@@ -39,13 +53,13 @@ class Command(BaseCommand):
         except Exception as e:
             self.stdout.write(self.style.ERROR(f'✗ Migration error: {e}'))
         
-        # Collect static files
+        # Collect static files (with error logging)
         try:
-            self.stdout.write('Collecting static files...')
-            call_command('collectstatic', '--noinput', '--clear', verbosity=0)
-            self.stdout.write(self.style.SUCCESS('✓ Static files collected'))
+            self.stdout.write('Collecting any new static files...')
+            call_command('collectstatic', '--noinput', verbosity=1)
+            self.stdout.write(self.style.SUCCESS('✓ Static files updated'))
         except Exception as e:
-            self.stdout.write(self.style.WARNING(f'⚠ Collectstatic: {str(e)[:100]}'))
+            self.stdout.write(self.style.ERROR(f'✗ Collectstatic error: {str(e)[:200]}'))
         
         # Create superuser if it doesn't exist
         try:
