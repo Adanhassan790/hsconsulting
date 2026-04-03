@@ -6,98 +6,256 @@
 {% block content %}
 
 <!-- Hero Section - Full Screen -->
-<section class="py-5 hero" style="min-height: 100vh; display: flex; align-items: center; justify-content: center;">
+<section class="hero" style="min-height: 100vh; display: flex; align-items: center; justify-content: center; padding-bottom: 0;">
     <div class="container text-center">
-        <h1 class="display-3 fw-bold mb-4">Professional Tax & Financial Solutions</h1>
-        <p class="lead mb-5" style="font-size: 1.3rem; color: #f0f0f0;">Simplifying tax compliance and financial management for businesses in Kenya</p>
-        <div class="d-flex justify-content-center gap-3 flex-wrap">
-            <a href="{% url 'appointments:book' %}" class="btn btn-lg" style="background-color: #D9939A; color: white; border: none; padding: 12px 40px;">Book Appointment</a>
-            <a href="{% url 'services:list' %}" class="btn btn-lg" style="background-color: white; color: #333; border: 2px solid #D9939A; padding: 12px 40px;">View Services</a>
+        <h1 class="display-2 fw-bold mb-4" style="color: white; font-size: 3.5rem;">Professional Tax & Financial Solutions</h1>
+        <p class="lead mb-5" style="font-size: 1.3rem; color: #E8E8E8; font-weight: 300;">Simplifying tax compliance and financial management for businesses in Kenya</p>
+        <div class="d-flex justify-content-center gap-3 flex-wrap" style="position: relative; z-index: 10;">
+            <a href="{% url 'appointments:book' %}" class="btn btn-lg" style="background-color: #E60000; color: white; border: none; padding: 14px 45px; font-weight: 600; border-radius: 4px; transition: all 0.3s ease;" onmouseover="this.style.backgroundColor='#CC0000'; this.style.transform='translateY(-2px)';" onmouseout="this.style.backgroundColor='#E60000'; this.style.transform='translateY(0)';">Book Appointment</a>
+            <a href="{% url 'services:list' %}" class="btn btn-lg" style="background-color: white; color: #E60000; border: 2px solid white; padding: 14px 45px; font-weight: 600; border-radius: 4px; transition: all 0.3s ease;" onmouseover="this.style.backgroundColor='#E60000'; this.style.color='white';" onmouseout="this.style.backgroundColor='white'; this.style.color='#E60000';">View Services</a>
         </div>
     </div>
 </section>
 
+<!-- Wave Divider 1 -->
+<svg class="wave-divider" viewBox="0 0 1200 120" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="none">
+    <path d="M0,60 Q150,20 300,60 T600,60 T900,60 T1200,60 L1200,120 L0,120 Z" fill="#E60000" opacity="0.9"/>
+    <path d="M0,70 Q150,40 300,70 T600,70 T900,70 T1200,70 L1200,120 L0,120 Z" fill="white" opacity="0.3"/>
+</svg>
+
 <!-- Services Section -->
-<section class="py-5" style="margin-top: 60px;">
+<section class="section-white">
     <div class="container">
-        <h2 class="text-center mb-5">Our Services</h2>
+        <h2 class="section-title text-center">Our Services</h2>
+        <p class="section-subtitle text-center">We provide comprehensive tax and financial solutions tailored to your business needs</p>
         <div class="row g-4">
             <div class="col-md-6 col-lg-4">
-                <div class="card h-100 shadow-sm border-0">
-                    <div class="card-body text-center">
-                        <h5 class="card-title text-danger">Tax Return Filing</h5>
+                <div class="card service-card">
+                    <div class="card-body">
+                        <i class="fas fa-file-invoice-dollar service-icon mb-3"></i>
+                        <h5 class="card-title">Tax Return Filing</h5>
                         <p class="card-text">Complete tax return preparation and filing for individuals and businesses.</p>
-                        <a href="{% url 'services:list' %}" class="btn btn-sm" style="background-color: #D9939A; color: white; border: none;">Learn More</a>
+                        <a href="{% url 'services:list' %}" class="btn btn-sm btn-danger">Learn More</a>
                     </div>
                 </div>
             </div>
             <div class="col-md-6 col-lg-4">
-                <div class="card h-100 shadow-sm border-0">
-                    <div class="card-body text-center">
-                        <h5 class="card-title text-danger">VAT & ETIMS</h5>
+                <div class="card service-card">
+                    <div class="card-body">
+                        <i class="fas fa-percentage service-icon mb-3"></i>
+                        <h5 class="card-title">VAT & ETIMS</h5>
                         <p class="card-text">Comprehensive VAT management and ETIMS compliance for KRA.</p>
-                        <a href="{% url 'services:list' %}" class="btn btn-sm" style="background-color: #D9939A; color: white; border: none;">Learn More</a>
+                        <a href="{% url 'services:list' %}" class="btn btn-sm btn-danger">Learn More</a>
                     </div>
                 </div>
             </div>
             <div class="col-md-6 col-lg-4">
-                <div class="card h-100 shadow-sm border-0">
-                    <div class="card-body text-center">
-                        <h5 class="card-title text-danger">Payroll Processing</h5>
+                <div class="card service-card">
+                    <div class="card-body">
+                        <i class="fas fa-users service-icon mb-3"></i>
+                        <h5 class="card-title">Payroll Processing</h5>
                         <p class="card-text">Monthly payroll processing and statutory deductions.</p>
-                        <a href="{% url 'services:list' %}" class="btn btn-sm" style="background-color: #D9939A; color: white; border: none;">Learn More</a>
+                        <a href="{% url 'services:list' %}" class="btn btn-sm btn-danger">Learn More</a>
                     </div>
                 </div>
             </div>
             <div class="col-md-6 col-lg-4">
-                <div class="card h-100 shadow-sm border-0">
-                    <div class="card-body text-center">
-                        <h5 class="card-title text-danger">Audit Services</h5>
+                <div class="card service-card">
+                    <div class="card-body">
+                        <i class="fas fa-search service-icon mb-3"></i>
+                        <h5 class="card-title">Audit Services</h5>
                         <p class="card-text">Professional external and internal audit services.</p>
-                        <a href="{% url 'services:list' %}" class="btn btn-sm" style="background-color: #D9939A; color: white; border: none;">Learn More</a>
+                        <a href="{% url 'services:list' %}" class="btn btn-sm btn-danger">Learn More</a>
                     </div>
                 </div>
             </div>
             <div class="col-md-6 col-lg-4">
-                <div class="card h-100 shadow-sm border-0">
-                    <div class="card-body text-center">
-                        <h5 class="card-title text-danger">Tax Advisory</h5>
+                <div class="card service-card">
+                    <div class="card-body">
+                        <i class="fas fa-chart-line service-icon mb-3"></i>
+                        <h5 class="card-title">Tax Advisory</h5>
                         <p class="card-text">Optimize your tax position and reduce liabilities.</p>
-                        <a href="{% url 'services:list' %}" class="btn btn-sm" style="background-color: #D9939A; color: white; border: none;">Learn More</a>
+                        <a href="{% url 'services:list' %}" class="btn btn-sm btn-danger">Learn More</a>
                     </div>
                 </div>
             </div>
             <div class="col-md-6 col-lg-4">
-                <div class="card h-100 shadow-sm border-0">
-                    <div class="card-body text-center">
-                        <h5 class="card-title text-danger">Financial Consulting</h5>
+                <div class="card service-card">
+                    <div class="card-body">
+                        <i class="fas fa-handshake service-icon mb-3"></i>
+                        <h5 class="card-title">Financial Consulting</h5>
                         <p class="card-text">Expert guidance on financial management and forecasting.</p>
-                        <a href="{% url 'services:list' %}" class="btn btn-sm" style="background-color: #D9939A; color: white; border: none;">Learn More</a>
+                        <a href="{% url 'services:list' %}" class="btn btn-sm btn-danger">Learn More</a>
                     </div>
                 </div>
             </div>
         </div>
         <div class="text-center mt-5">
-            <a href="{% url 'services:list' %}" class="btn btn-lg" style="background-color: #D9939A; color: white; border: none; padding: 10px 30px;">View All Services</a>
+            <a href="{% url 'services:list' %}" class="btn btn-lg btn-danger">View All Services</a>
         </div>
     </div>
 </section>
 
+<!-- Wave Divider 2 -->
+<svg class="wave-divider" style="margin-top: -2px;" viewBox="0 0 1200 120" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="none">
+    <path d="M0,60 Q150,100 300,60 T600,60 T900,60 T1200,60 L1200,0 L0,0 Z" fill="#F8F8F8"/>
+</svg>
+
 <!-- Tax Calendar Section -->
-<section class="py-5" style="background: linear-gradient(135deg, #f8f9fa 0%, #fff5f5 100%);">
+<section class="section-light-gray">
     <div class="container">
-        <h2 class="text-center mb-2 text-danger">
-            <i class="fas fa-calendar-alt"></i> Kenyan Tax Deadlines 2026
-        </h2>
-        <p class="text-center text-muted mb-5">Never miss important tax obligations - Track key deadlines</p>
+        <h2 class="section-title text-center">Kenyan Tax Deadlines 2026</h2>
+        <p class="section-subtitle text-center">Never miss important tax obligations - Track key deadlines and plan ahead</p>
         
         {% if upcoming_deadlines %}
         <div class="row g-4 justify-content-center">
             {% for deadline in upcoming_deadlines %}
             <div class="col-md-6 col-lg-5 mb-4">
-                <div class="card h-100 shadow-sm tax-deadline-card border-0">
-                    <div class="card-body text-center">
-                        <h5 class="card-title text-danger mb-3">
+                <div class="card h-100 tax-deadline-card" style="border-left: 4px solid #E60000;">
+                    <div class="card-body">
+                        <h5 class="card-title mb-3" style="color: #E60000; font-size: 1.2rem;">
+                            {% if deadline.deadline_type == 'paye' %}
+                            <i class="fas fa-wallet"></i> PAYE & VAT
+                            {% elif deadline.deadline_type == 'income_tax' %}
+                            <i class="fas fa-file-invoice-dollar"></i> INCOME TAX
+                            {% else %}
+                            <i class="fas fa-hourglass-end"></i> {{ deadline.name|upper }}
+                            {% endif %}
+                        </h5>
+                        
+                        <!-- Horizontal Countdown Display -->
+                        <div class="countdown mb-3" data-deadline="{{ deadline.deadline_date|date:'Y-m-d' }}">
+                            <div class="countdown-item">
+                                <div class="countdown-value" style="background: #E60000; color: white; font-weight: 700;">
+                                    <span class="days-value">00</span>
+                                </div>
+                                <div class="countdown-label" style="color: #2A2A2A;">DAYS</div>
+                            </div>
+                            <div class="countdown-item">
+                                <div class="countdown-value" style="background: #E60000; color: white; font-weight: 700;">
+                                    <span class="hours-value">00</span>
+                                </div>
+                                <div class="countdown-label" style="color: #2A2A2A;">HRS</div>
+                            </div>
+                            <div class="countdown-item">
+                                <div class="countdown-value" style="background: #E60000; color: white; font-weight: 700;">
+                                    <span class="mins-value">00</span>
+                                </div>
+                                <div class="countdown-label" style="color: #2A2A2A;">MINS</div>
+                            </div>
+                            <div class="countdown-item">
+                                <div class="countdown-value" style="background: #E60000; color: white; font-weight: 700;">
+                                    <span class="secs-value">00</span>
+                                </div>
+                                <div class="countdown-label" style="color: #2A2A2A;">SECS</div>
+                            </div>
+                        </div>
+                        
+                        <p class="card-text small" style="color: #666666; line-height: 1.8;">
+                            <strong style="color: #2A2A2A;">Due:</strong> {{ deadline.deadline_date|date:'M d, Y' }}<br>
+                            {{ deadline.description }}
+                        </p>
+                    </div>
+                    <div class="card-footer" style="background: white; border-top: 1px solid #E8E8E8;">
+                        <a href="{% url 'appointments:book' %}" class="btn btn-sm btn-danger">
+                            <i class="fas fa-calendar-check"></i> Schedule Appointment
+                        </a>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+        
+        <div class="text-center mt-5">
+            <p class="text-muted mb-3">View all tax deadlines and plan your compliance calendar</p>
+            <a href="{% url 'appointments:tax_calendar' %}" class="btn btn-lg btn-danger">
+                <i class="fas fa-calendar"></i> View Full Tax Calendar
+            </a>
+        </div>
+        {% else %}
+        <div class="alert alert-info text-center">
+            <i class="fas fa-info-circle"></i> Tax deadlines will be displayed here. Contact us for more information.
+        </div>
+        {% endif %}
+    </div>
+</section>
+
+<!-- Wave Divider 3 -->
+<svg class="wave-divider" style="margin-top: -2px;" viewBox="0 0 1200 120" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="none">
+    <path d="M0,60 Q150,20 300,60 T600,60 T900,60 T1200,60 L1200,120 L0,120 Z" fill="white"/>
+</svg>
+
+<!-- Why Choose Us -->
+<section class="section-white">
+    <div class="container">
+        <h2 class="section-title text-center">Why Choose HS Consulting?</h2>
+        <div class="row align-items-center g-5">
+            <div class="col-lg-6">
+                <ul class="list-unstyled">
+                    <li class="mb-4">
+                        <div style="display: flex; align-items: flex-start; gap: 15px;">
+                            <i class="fas fa-check-circle" style="color: #E60000; font-size: 1.5rem; flex-shrink: 0;"></i>
+                            <div>
+                                <h5 style="color: #2A2A2A; margin-bottom: 8px;">Expert Team</h5>
+                                <p style="color: #666666; margin: 0;">Highly qualified professionals with years of experience in Kenyan tax law</p>
+                            </div>
+                        </div>
+                    </li>
+                    <li class="mb-4">
+                        <div style="display: flex; align-items: flex-start; gap: 15px;">
+                            <i class="fas fa-check-circle" style="color: #E60000; font-size: 1.5rem; flex-shrink: 0;"></i>
+                            <div>
+                                <h5 style="color: #2A2A2A; margin-bottom: 8px;">Compliance Assured</h5>
+                                <p style="color: #666666; margin: 0;">100% compliance with all KRA requirements and regulations</p>
+                            </div>
+                        </div>
+                    </li>
+                    <li class="mb-4">
+                        <div style="display: flex; align-items: flex-start; gap: 15px;">
+                            <i class="fas fa-check-circle" style="color: #E60000; font-size: 1.5rem; flex-shrink: 0;"></i>
+                            <div>
+                                <h5 style="color: #2A2A2A; margin-bottom: 8px;">Cost Savings</h5>
+                                <p style="color: #666666; margin: 0;">Reduce your tax burden and optimize your financial operations</p>
+                            </div>
+                        </div>
+                    </li>
+                    <li>
+                        <div style="display: flex; align-items: flex-start; gap: 15px;">
+                            <i class="fas fa-check-circle" style="color: #E60000; font-size: 1.5rem; flex-shrink: 0;"></i>
+                            <div>
+                                <h5 style="color: #2A2A2A; margin-bottom: 8px;">24/7 Support</h5>
+                                <p style="color: #666666; margin: 0;">Dedicated support throughout your tax journey</p>
+                            </div>
+                        </div>
+                    </li>
+                </ul>
+            </div>
+            <div class="col-lg-6">
+                <div class="card" style="border-left: 4px solid #E60000; box-shadow: 0 10px 30px rgba(230, 0, 0, 0.1);">
+                    <div class="card-body p-4">
+                        <h4 style="color: #E60000; margin-bottom: 25px; font-weight: 700; font-size: 1.5rem;"><i class="fas fa-trophy"></i> Our Stats</h4>
+                        <div style="margin-bottom: 20px;">
+                            <div style="font-size: 2.2rem; font-weight: 800; color: #E60000;">500+</div>
+                            <p style="color: #666666; margin: 5px 0 0 0;">Businesses Served</p>
+                        </div>
+                        <div style="margin-bottom: 20px;">
+                            <div style="font-size: 2.2rem; font-weight: 800; color: #E60000;">15+</div>
+                            <p style="color: #666666; margin: 5px 0 0 0;">Years Experience</p>
+                        </div>
+                        <div style="margin-bottom: 20px;">
+                            <div style="font-size: 2.2rem; font-weight: 800; color: #E60000;">98%</div>
+                            <p style="color: #666666; margin: 5px 0 0 0;">Client Satisfaction</p>
+                        </div>
+                        <div>
+                            <div style="font-size: 2.2rem; font-weight: 800; color: #E60000;">24/7</div>
+                            <p style="color: #666666; margin: 5px 0 0 0;">Professional Support</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
                             {% if deadline.deadline_type == 'paye' %}
                             <i class="fas fa-wallet"></i> PAYE & VAT
                             {% elif deadline.deadline_type == 'income_tax' %}
@@ -189,53 +347,62 @@
                     </li>
                 </ul>
             </div>
-            <div class="col-lg-6">
-                <div class="card border-danger">
-                    <div class="card-body p-4">
-                        <h4 class="text-danger mb-3">Our Stats</h4>
-                        <p><strong>500+</strong> Businesses Served</p>
-                        <p><strong>15+</strong> Years Experience</p>
-                        <p><strong>98%</strong> Client Satisfaction</p>
-                        <p><strong>24/7</strong> Professional Support</p>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-</section>
+<!-- Wave Divider 4 -->
+<svg class="wave-divider" style="margin-top: -2px;" viewBox="0 0 1200 120" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="none">
+    <path d="M0,60 Q150,100 300,60 T600,60 T900,60 T1200,60 L1200,0 L0,0 Z" fill="#F8F8F8"/>
+</svg>
 
 <!-- Testimonials -->
-<section class="py-5">
+<section class="section-light-gray">
     <div class="container">
-        <h2 class="text-center mb-5">What Our Clients Say</h2>
+        <h2 class="section-title text-center">What Our Clients Say</h2>
+        <p class="section-subtitle text-center">Trusted by over 500 businesses across Kenya</p>
         <div class="row g-4">
             <div class="col-md-4">
-                <div class="card border-danger h-100">
+                <div class="card h-100" style="border-left: 4px solid #E60000;">
                     <div class="card-body">
-                        <p class="card-text">"HS Consulting has been instrumental in managing our tax compliance. Their professionalism is exceptional!"</p>
-                        <h6 class="card-title text-danger mt-3">John Mwangi</h6>
-                        <small class="text-muted">Tech Solutions Ltd</small>
-                        <div>⭐⭐⭐⭐⭐</div>
+                        <div style="color: #E60000; margin-bottom: 10px;">
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                        </div>
+                        <p class="card-text" style="font-style: italic; color: #666666; line-height: 1.8; margin-bottom: 15px;">"HS Consulting has been instrumental in managing our tax compliance. Their professionalism is exceptional!"</p>
+                        <h6 style="color: #E60000; font-weight: 700; margin: 0;">John Mwangi</h6>
+                        <small style="color: #999999;">Tech Solutions Ltd</small>
                     </div>
                 </div>
             </div>
             <div class="col-md-4">
-                <div class="card border-danger h-100">
+                <div class="card h-100" style="border-left: 4px solid #E60000;">
                     <div class="card-body">
-                        <p class="card-text">"They helped us save thousands in tax liability while ensuring full compliance. Highly recommended!"</p>
-                        <h6 class="card-title text-danger mt-3">Sarah Kipchoge</h6>
-                        <small class="text-muted">Fashion Boutique</small>
-                        <div>⭐⭐⭐⭐⭐</div>
+                        <div style="color: #E60000; margin-bottom: 10px;">
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                        </div>
+                        <p class="card-text" style="font-style: italic; color:#666666; line-height: 1.8; margin-bottom: 15px;">"They helped us save thousands in tax liability while ensuring full compliance. Highly recommended!"</p>
+                        <h6 style="color: #E60000; font-weight: 700; margin: 0;">Sarah Kipchoge</h6>
+                        <small style="color: #999999;">Fashion Boutique</small>
                     </div>
                 </div>
             </div>
             <div class="col-md-4">
-                <div class="card border-danger h-100">
+                <div class="card h-100" style="border-left: 4px solid #E60000;">
                     <div class="card-body">
-                        <p class="card-text">"The team's expertise in ETIMS and VAT compliance is unmatched. Excellent service!"</p>
-                        <h6 class="card-title text-danger mt-3">James Okonkwo</h6>
-                        <small class="text-muted">Manufacturing Ltd</small>
-                        <div>⭐⭐⭐⭐⭐</div>
+                        <div style="color: #E60000; margin-bottom: 10px;">
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                        </div>
+                        <p class="card-text" style="font-style: italic; color:#666666; line-height: 1.8; margin-bottom: 15px;">"The team's expertise in ETIMS and VAT compliance is unmatched. Excellent service!"</p>
+                        <h6 style="color: #E60000; font-weight: 700; margin: 0;">James Okonkwo</h6>
+                        <small style="color: #999999;">Manufacturing Ltd</small>
                     </div>
                 </div>
             </div>
@@ -243,38 +410,53 @@
     </div>
 </section>
 
-<!-- Blog -->
-<section class="py-5 bg-light">
+<!-- Wave Divider 5 -->
+<svg class="wave-divider" style="margin-top: -2px;" viewBox="0 0 1200 120" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="none">
+    <path d="M0,60 Q150,20 300,60 T600,60 T900,60 T1200,60 L1200,120 L0,120 Z" fill="white"/>
+</svg>
+
+<!-- Blog/Latest Tips -->
+<section class="section-white">
     <div class="container">
-        <h2 class="text-center mb-5">Latest Tax Tips</h2>
+        <h2 class="section-title text-center">Latest Tax Tips & Insights</h2>
+        <p class="section-subtitle text-center">Stay updated with the latest tax regulations and business insights</p>
         <div class="row g-4">
             <div class="col-md-4">
-                <div class="card h-100 shadow-sm border-0">
+                <div class="card h-100" style="border-top: 3px solid #E60000;">
+                    <div style="height: 180px; background: linear-gradient(135deg, #E60000, #CC0000); display: flex; align-items: center; justify-content: center;">
+                        <i class="fas fa-lightbulb" style="font-size: 4rem; color: white; opacity: 0.7;"></i>
+                    </div>
                     <div class="card-body">
-                        <small class="text-danger fw-bold">March 29, 2026</small>
-                        <h5 class="card-title mt-2">Tax Deductions for Small Business Owners</h5>
-                        <p class="card-text">Discover the most overlooked tax deductions...</p>
-                        <a href="{% url 'blog:list' %}" class="btn btn-sm" style="background-color: #D9939A; color: white; border: none;">Read More</a>
+                        <small style="color: #E60000; font-weight: 700;">March 29, 2026</small>
+                        <h5 class="card-title mt-2" style="color: #2A2A2A;">Tax Deductions for Small Business Owners</h5>
+                        <p class="card-text" style="color: #666666;">Discover the most overlooked tax deductions that could save your business thousands...</p>
+                        <a href="{% url 'blog:list' %}" class="btn btn-sm btn-danger" style="margin-top: 10px;">Read More</a>
                     </div>
                 </div>
             </div>
             <div class="col-md-4">
-                <div class="card h-100 shadow-sm border-0">
+                <div class="card h-100" style="border-top: 3px solid #E60000;">
+                    <div style="height: 180px; background: linear-gradient(135deg, #E60000, #CC0000); display: flex; align-items: center; justify-content: center;">
+                        <i class="fas fa-book" style="font-size: 4rem; color: white; opacity: 0.7;"></i>
+                    </div>
                     <div class="card-body">
-                        <small class="text-danger fw-bold">March 22, 2026</small>
-                        <h5 class="card-title mt-2">Understanding ETIMS: A Complete Guide</h5>
-                        <p class="card-text">Complete guide to ETIMS compliance requirements...</p>
-                        <a href="{% url 'blog:list' %}" class="btn btn-sm" style="background-color: #D9939A; color: white; border: none;">Read More</a>
+                        <small style="color: #E60000; font-weight: 700;">March 22, 2026</small>
+                        <h5 class="card-title mt-2" style="color: #2A2A2A;">Understanding ETIMS: A Complete Guide</h5>
+                        <p class="card-text" style="color: #666666;">Complete guide to ETIMS compliance requirements and implementation...</p>
+                        <a href="{% url 'blog:list' %}" class="btn btn-sm btn-danger" style="margin-top: 10px;">Read More</a>
                     </div>
                 </div>
             </div>
             <div class="col-md-4">
-                <div class="card h-100 shadow-sm border-0">
+                <div class="card h-100" style="border-top: 3px solid #E60000;">
+                    <div style="height: 180px; background: linear-gradient(135deg, #E60000, #CC0000); display: flex; align-items: center; justify-content: center;">
+                        <i class="fas fa-chart-pie" style="font-size: 4rem; color: white; opacity: 0.7;"></i>
+                    </div>
                     <div class="card-body">
-                        <small class="text-danger fw-bold">March 15, 2026</small>
-                        <h5 class="card-title mt-2">2026 VAT Changes: What You Need to Know</h5>
-                        <p class="card-text">Latest updates on VAT regulations for 2026...</p>
-                        <a href="{% url 'blog:list' %}" class="btn btn-sm" style="background-color: #D9939A; color: white; border: none;">Read More</a>
+                        <small style="color: #E60000; font-weight: 700;">March 15, 2026</small>
+                        <h5 class="card-title mt-2" style="color: #2A2A2A;">2026 VAT Changes: What You Need</h5>
+                        <p class="card-text" style="color: #666666;">Latest updates on VAT regulations and compliance requirements for 2026...</p>
+                        <a href="{% url 'blog:list' %}" class="btn btn-sm btn-danger" style="margin-top: 10px;">Read More</a>
                     </div>
                 </div>
             </div>
@@ -282,14 +464,23 @@
     </div>
 </section>
 
-<!-- CTA -->
-<section class="py-5 bg-dark text-white text-center">
+<!-- Wave Divider 6 -->
+<svg class="wave-divider" style="margin-top: -2px;" viewBox="0 0 1200 120" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="none">
+    <path d="M0,60 Q150,100 300,60 T600,60 T900,60 T1200,60 L1200,0 L0,0 Z" fill="#2A2A2A"/>
+</svg>
+
+<!-- CTA Section -->
+<section class="section-dark text-center" style="padding: 100px 0;">
     <div class="container">
-        <h2 class="mb-4">Ready to Streamline Your Tax Operations?</h2>
-        <p class="lead mb-4">Get a free consultation from our expert team</p>
-        <div>
-            <a href="{% url 'appointments:book' %}" class="btn btn-lg me-2" style="background-color: #D9939A; color: white; border: none; padding: 10px 30px;">Book Free Consultation</a>
-            <a href="{% url 'inquiries:contact' %}" class="btn btn-outline-light btn-lg">Send an Inquiry</a>
+        <h2 style="color: white; font-size: 2.5rem; font-weight: 800; margin-bottom: 15px;">Ready to Transform Your Tax Management?</h2>
+        <p style="color: #CCCCCC; font-size: 1.2rem; margin-bottom: 40px; font-weight: 300;">Get a free consultation from our expert team today</p>
+        <div style="display: flex; justify-content: center; gap: 15px; flex-wrap: wrap;">
+            <a href="{% url 'appointments:book' %}" class="btn btn-lg btn-danger">
+                <i class="fas fa-calendar-check"></i> Book Free Consultation
+            </a>
+            <a href="{% url 'inquiries:contact' %}" class="btn btn-lg" style="background: white; color: #E60000; border: none; font-weight: 600; transition: all 0.3s ease;" onmouseover="this.style.backgroundColor='#F0F0F0';" onmouseout="this.style.backgroundColor='white';">
+                <i class="fas fa-envelope"></i> Send an Inquiry
+            </a>
         </div>
     </div>
 </section>
