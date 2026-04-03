@@ -57,8 +57,8 @@ h1, h2, h3, h4, h5, h6 {
     opacity: 0.5;
 }
 
-.navbar-brand img.loaded {
-    animation: logoFlip 0.8s ease-out forwards;
+.navbar-brand img {
+    animation: logoFlip 2.5s ease-out forwards;
 }
 
 @keyframes logoFlip {
@@ -66,11 +66,11 @@ h1, h2, h3, h4, h5, h6 {
         transform: rotateY(-180deg) scale(0.3);
         opacity: 0;
     }
-    60% {
+    40% {
         transform: rotateY(20deg) scale(1.1);
         opacity: 1;
     }
-    80% {
+    60% {
         transform: rotateY(-10deg) scale(1.05);
     }
     100% {
