@@ -63,6 +63,13 @@ h1, h2, h3, h4, h5, h6 {
     z-index: 9999;
 }
 
+.hero-logo {
+    animation: logoFlipFullScreen 3s ease-in-out forwards;
+    position: relative;
+    z-index: 100;
+    filter: drop-shadow(0 8px 24px rgba(230, 0, 0, 0.3));
+}
+
 @keyframes logoFlipFullScreen {
     0% {
         transform: translateX(-150vw) rotateY(-180deg) scale(0.3);
