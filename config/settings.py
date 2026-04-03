@@ -3,21 +3,35 @@ Django settings for HS Consulting project.
 """
 
 from pathlib import Path
-from decouple import config
+from decouple import config, Config, RepositoryEnv
 import os
 import dj_database_url
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
+# Explicitly load .env file
+env_path = BASE_DIR / '.env'
+if env_path.exists():
+    env_config = Config(RepositoryEnv(str(env_path)))
+else:
+    env_config = config
+
 # SECURITY WARNING: keep the secret key used in production secret!
 # Use environment variable, fallback to a placeholder if not set
-SECRET_KEY = config('DJANGO_SECRET_KEY', default='django-insecure-change-this-key-in-production-NOW')
+SECRET_KEY = env_config('DJANGO_SECRET_KEY', default='django-insecure-change-this-key-in-production-NOW')
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = config('DEBUG', default=False, cast=bool)
+# For local development, force DEBUG=True. Environment variable can override in production.
+DEBUG = env_config('DEBUG', default='True').lower() in ['true', '1', 'yes', 'on']
+if not DEBUG:
+    # If config says False, only use that in production (check if we're on Render)
+    import sys
+    if 'manage.py' in sys.argv and 'runserver' in sys.argv:
+        # We're running the development server locally, force DEBUG=True
+        DEBUG = True
 
-ALLOWED_HOSTS = config('ALLOWED_HOSTS', default='localhost,127.0.0.1,*.onrender.com,hsconsulting.onrender.com', cast=lambda v: [s.strip() for s in v.split(',')])
+ALLOWED_HOSTS = env_config('ALLOWED_HOSTS', default='localhost,127.0.0.1,*.onrender.com,hsconsulting.onrender.com', cast=lambda v: [s.strip() for s in v.split(',')])
 
 # Application definition
 INSTALLED_APPS = [
