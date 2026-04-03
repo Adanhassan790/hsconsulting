@@ -3,7 +3,7 @@ services:
     name: hsconsulting
     runtime: python
     buildCommand: pip install -r requirements.txt
-    startCommand: bash -c 'python manage.py migrate --noinput && python manage.py collectstatic --noinput && python manage.py startup && gunicorn config.wsgi:application --log-file - --timeout 600'
+    startCommand: bash -c 'set -e; echo "=== MIGRATE ==="; python manage.py migrate --noinput; echo "=== COLLECTSTATIC ==="; python manage.py collectstatic --noinput -v2; echo "=== STARTUP ==="; python manage.py startup; echo "=== GUNICORN ==="; gunicorn config.wsgi:application --log-file - --timeout 600'
     envVars:
       - key: DEBUG
         value: "False"
