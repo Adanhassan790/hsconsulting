@@ -2,8 +2,8 @@ services:
   - type: web
     name: hsconsulting
     runtime: python
-    buildCommand: bash -c 'pip install -r requirements.txt && python manage.py migrate --noinput && python render_hard_reset.py && python manage.py collectstatic --noinput --clear'
-    startCommand: gunicorn config.wsgi:application --log-file - --timeout 600 --workers 2
+    buildCommand: bash -c 'pip install -r requirements.txt && python manage.py migrate --noinput && python manage.py collectstatic --noinput --clear'
+    startCommand: bash -c 'python manage.py startup && gunicorn config.wsgi:application --log-file - --timeout 600'
     envVars:
       - key: DEBUG
         value: "False"

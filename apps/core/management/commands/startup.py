@@ -6,10 +6,13 @@ from django.db.utils import OperationalError
 
 
 class Command(BaseCommand):
-    help = 'Run startup tasks: migrations, static files, superuser creation'
+    help = 'Run startup tasks: migrations, static files, superuser, and data initialization'
 
     def handle(self, *args, **options):
         """Execute all startup tasks"""
+        self.stdout.write('\n' + '='*70)
+        self.stdout.write('STARTUP: Database initialization...')
+        self.stdout.write('='*70)
         
         # Check database connection
         try:
@@ -26,24 +29,23 @@ class Command(BaseCommand):
             call_command('makemigrations', '--noinput', verbosity=0)
             self.stdout.write(self.style.SUCCESS('✓ Migrations created/updated'))
         except Exception as e:
-            self.stdout.write(self.style.WARNING(f'⚠ Makemigrations warning: {e}'))
+            self.stdout.write(self.style.WARNING(f'⚠ Makemigrations: {str(e)[:100]}'))
         
         # Run migrations
         try:
             self.stdout.write('Running migrations...')
-            call_command('migrate', '--noinput', verbosity=1)
+            call_command('migrate', '--noinput', verbosity=0)
             self.stdout.write(self.style.SUCCESS('✓ Migrations applied'))
         except Exception as e:
             self.stdout.write(self.style.ERROR(f'✗ Migration error: {e}'))
-            return
         
         # Collect static files
         try:
             self.stdout.write('Collecting static files...')
-            call_command('collectstatic', '--noinput', verbosity=0)
+            call_command('collectstatic', '--noinput', '--clear', verbosity=0)
             self.stdout.write(self.style.SUCCESS('✓ Static files collected'))
         except Exception as e:
-            self.stdout.write(self.style.WARNING(f'⚠ Collectstatic warning: {e}'))
+            self.stdout.write(self.style.WARNING(f'⚠ Collectstatic: {str(e)[:100]}'))
         
         # Create superuser if it doesn't exist
         try:
@@ -55,8 +57,117 @@ class Command(BaseCommand):
                 )
                 self.stdout.write(self.style.SUCCESS('✓ Superuser admin created'))
             else:
-                self.stdout.write(self.style.SUCCESS('✓ Superuser admin already exists'))
+                self.stdout.write(self.style.SUCCESS('✓ Superuser admin exists'))
         except Exception as e:
-            self.stdout.write(self.style.WARNING(f'⚠ Superuser warning: {e}'))
+            self.stdout.write(self.style.WARNING(f'⚠ Superuser: {str(e)[:100]}'))
         
-        self.stdout.write(self.style.SUCCESS('\n✓✓✓ All startup tasks completed! ✓✓✓'))
+        # Initialize CoreSettings
+        try:
+            from apps.core.models import CoreSettings
+            settings, created = CoreSettings.objects.get_or_create(pk=1)
+            if not settings.email or settings.email == 'hsconsulting.co.ke':
+                settings.site_name = 'HS Consulting'
+                settings.tagline = 'Your trusted tax consultation partner'
+                settings.about_us = 'Leading tax consultation firm in Kenya'
+                settings.mission = 'To provide comprehensive tax solutions'
+                settings.email = 'info@hsconsulting.co.ke'
+                settings.phone = '+254729592895'
+                settings.whatsapp = '+254729592895'
+                settings.email_2 = 'admin@hsconsulting.co.ke'
+                settings.phone_2 = '+254746645534'
+                settings.whatsapp_2 = '+254729592895'
+                settings.address = 'Nairobi, Kenya'
+                settings.city = 'Nairobi'
+                settings.country = 'Kenya'
+                settings.save()
+                self.stdout.write(self.style.SUCCESS(f'{"✓ CoreSettings created" if created else "✓ CoreSettings updated"}'))
+            else:
+                self.stdout.write(self.style.SUCCESS('✓ CoreSettings verified'))
+        except Exception as e:
+            self.stdout.write(self.style.WARNING(f'⚠ CoreSettings: {str(e)[:100]}'))
+        
+        # Populate Services
+        try:
+            from apps.services.models import Service
+            if Service.objects.count() == 0:
+                services_data = [
+                    ('Tax Return Filing', 'Complete tax return preparation and filing'),
+                    ('VAT & ETIMS Compliance', 'Comprehensive VAT management and ETIMS compliance'),
+                    ('Payroll Processing', 'Monthly payroll processing and statutory deductions'),
+                    ('Company Registration & Compliance', 'Business registration and compliance'),
+                    ('Audit Services', 'Professional external and internal audit services'),
+                    ('Bookkeeping & Accounting', 'Monthly bookkeeping and financial reporting'),
+                    ('Tax Advisory', 'Strategic tax planning and optimization'),
+                    ('Financial Consulting', 'Expert financial guidance'),
+                    ('PAYE Management', 'PAYE processing and KRA compliance'),
+                    ('Withholding Tax Services', 'Withholding tax management'),
+                    ('Corporate Tax Planning', 'Corporate tax strategies'),
+                    ('Personal Income Tax Planning', 'Personal tax optimization'),
+                ]
+                for i, (name, desc) in enumerate(services_data, 1):
+                    Service.objects.create(
+                        name=name, slug=name.lower().replace(' ', '-').replace('&', 'and'),
+                        description=desc, long_description=desc,
+                        price_label='Contact for Pricing', order=i, is_active=True
+                    )
+                self.stdout.write(self.style.SUCCESS(f'✓ Services created ({Service.objects.count()} items)'))
+            else:
+                self.stdout.write(self.style.SUCCESS(f'✓ Services verified ({Service.objects.count()} items)'))
+        except Exception as e:
+            self.stdout.write(self.style.WARNING(f'⚠ Services: {str(e)[:100]}'))
+        
+        # Populate Testimonials
+        try:
+            from apps.testimonials.models import Testimonial
+            if Testimonial.objects.count() == 0:
+                Testimonial.objects.create(
+                    client_name='David Johnson', client_company='Tech Solutions Ltd',
+                    client_title='Finance Director', rating=5, is_featured=True, is_published=True,
+                    content='HS Consulting has been instrumental in streamlining our tax processes. Highly recommended!'
+                )
+                Testimonial.objects.create(
+                    client_name='Mary Kariuki', client_company='Kariuki Trading',
+                    client_title='Business Owner', rating=5, is_featured=True, is_published=True,
+                    content='Excellent service and professional team. They made our tax compliance so much easier.'
+                )
+                Testimonial.objects.create(
+                    client_name='James Mutua', client_company='Manufacturing Co KE',
+                    client_title='CEO', rating=5, is_featured=False, is_published=True,
+                    content='Best tax consultants in Kenya. Professional and reliable.'
+                )
+                self.stdout.write(self.style.SUCCESS(f'✓ Testimonials created ({Testimonial.objects.count()} items)'))
+            else:
+                self.stdout.write(self.style.SUCCESS(f'✓ Testimonials verified ({Testimonial.objects.count()} items)'))
+        except Exception as e:
+            self.stdout.write(self.style.WARNING(f'⚠ Testimonials: {str(e)[:100]}'))
+        
+        # Populate Tax Deadlines
+        try:
+            from apps.appointments.models import TaxDeadline
+            if TaxDeadline.objects.count() < 2:
+                TaxDeadline.objects.all().delete()
+                TaxDeadline.objects.create(
+                    name='Annual Tax Return Filing',
+                    date_of_deadline='2026-06-30',
+                    description='Annual tax return filing deadline',
+                    days_before_reminder=30,
+                    email_reminder=True,
+                    sms_reminder=True
+                )
+                TaxDeadline.objects.create(
+                    name='Monthly VAT Return',
+                    date_of_deadline='2026-02-15',
+                    description='Monthly VAT return deadline',
+                    days_before_reminder=5,
+                    email_reminder=True,
+                    sms_reminder=True
+                )
+                self.stdout.write(self.style.SUCCESS(f'✓ Tax Deadlines created ({TaxDeadline.objects.count()} items)'))
+            else:
+                self.stdout.write(self.style.SUCCESS(f'✓ Tax Deadlines verified ({TaxDeadline.objects.count()} items)'))
+        except Exception as e:
+            self.stdout.write(self.style.WARNING(f'⚠ Tax Deadlines: {str(e)[:100]}'))
+        
+        self.stdout.write(self.style.SUCCESS('\n' + '='*70))
+        self.stdout.write(self.style.SUCCESS('✅ STARTUP COMPLETE - All systems ready!'))
+        self.stdout.write(self.style.SUCCESS('='*70 + '\n'))

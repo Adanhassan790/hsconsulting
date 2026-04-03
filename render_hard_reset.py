@@ -191,27 +191,30 @@ try:
     if Testimonial.objects.count() == 0:
         Testimonial.objects.create(
             client_name='David Johnson',
-            company='Tech Solutions Ltd',
+            client_company='Tech Solutions Ltd',
+            client_title='Finance Director',
+            content='HS Consulting has been instrumental in streamlining our tax processes. Highly recommended!',
             rating=5,
-            testimonial='HS Consulting has been instrumental in streamlining our tax processes. Highly recommended!',
-            is_active=True,
-            position='Finance Director'
+            is_featured=True,
+            is_published=True
         )
         Testimonial.objects.create(
             client_name='Mary Kariuki',
-            company='Kariuki Trading',
+            client_company='Kariuki Trading',
+            client_title='Business Owner',
+            content='Excellent service and professional team. They made our tax compliance so much easier.',
             rating=5,
-            testimonial='Excellent service and professional team. They made our tax compliance so much easier.',
-            is_active=True,
-            position='Business Owner'
+            is_featured=True,
+            is_published=True
         )
         Testimonial.objects.create(
             client_name='James Mutua',
-            company='Manufacturing Co KE',
+            client_company='Manufacturing Co KE',
+            client_title='CEO',
+            content='Best tax consultants in Kenya. Professional, reliable, and always available to help.',
             rating=5,
-            testimonial='Best tax consultants in Kenya. Professional, reliable, and always available to help.',
-            is_active=True,
-            position='CEO'
+            is_featured=False,
+            is_published=True
         )
         print(f"  ✓ Testimonials populated ({Testimonial.objects.count()} testimonials)")
     else:
