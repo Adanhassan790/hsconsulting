@@ -36,7 +36,7 @@ ALLOWED_HOSTS = env_config('ALLOWED_HOSTS', default='localhost,127.0.0.1,*.onren
 # Application definition
 INSTALLED_APPS = [
     # 'daphne',  # ASGI support - install when needed
-    # 'jazzmin',  # Modern admin interface - commenting out, no Python 3.14 wheel available yet
+    'jazzmin',  # Modern admin interface
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -218,7 +218,5 @@ else:
     # Production: use WhiteNoise with compression (no manifest required)
     STATICFILES_STORAGE = 'whitenoise.storage.CompressedStaticFilesStorage'
 
-
-# Jazzmin Admin Configuration (DISABLED - not installing jazzmin for Python 3.14 compatibility)
-# JAZZMIN_SETTINGS and JAZZMIN_UI_TWEAKS settings removed
-# Standard Django admin will be used instead
+# Jazzmin Admin Configuration
+from jazzmin_config import JAZZMIN_SETTINGS, JAZZMIN_UI_TWEAKS
