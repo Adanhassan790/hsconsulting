@@ -47,6 +47,11 @@ class Command(BaseCommand):
                 'address': 'Nairobi, Kenya',
                 'city': 'Nairobi',
                 'country': 'Kenya',
+                'linkedin_url': 'https://www.linkedin.com/company/hsconsulting-ke/',
+                'twitter_url': 'https://twitter.com/hsconsulting',
+                'instagram_url': 'https://www.instagram.com/hsconsulting_ke/',
+                'facebook_url': 'https://www.facebook.com/hsconsulting.ke/',
+                'whatsapp_message': 'Hello! I would like to inquire about your services.',
             })
             print('✓ Core settings initialized\n')
         except Exception as e:

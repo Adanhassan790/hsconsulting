@@ -23,6 +23,8 @@ class CoreSettings(models.Model):
     linkedin_url = models.URLField(blank=True)
     twitter_url = models.URLField(blank=True)
     instagram_url = models.URLField(blank=True)
+    facebook_url = models.URLField(blank=True)
+    whatsapp_message = models.CharField(max_length=255, default='Hello! I would like to inquire about your services.')
     
     # Address
     address = models.TextField()

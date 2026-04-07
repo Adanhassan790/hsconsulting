@@ -68,11 +68,42 @@
     <footer class="bg-dark text-white mt-5 py-4">
         <div class="container">
             <div class="row">
-                <div class="col-md-4">
+                <div class="col-md-3">
                     <h5 class="text-danger">HS CONSULTING</h5>
                     <p>Professional tax and financial solutions for businesses and individuals in Kenya.</p>
+                    <!-- Social Media Links -->
+                    <div class="mt-3">
+                        <h6 class="text-white">Follow Us</h6>
+                        <div class="d-flex gap-3">
+                            {% if settings.twitter_url %}
+                            <a href="{{ settings.twitter_url }}" target="_blank" rel="noopener" class="text-white-50 text-decoration-none" title="X (Twitter)">
+                                <i class="fab fa-x-twitter fs-5"></i>
+                            </a>
+                            {% endif %}
+                            {% if settings.instagram_url %}
+                            <a href="{{ settings.instagram_url }}" target="_blank" rel="noopener" class="text-white-50 text-decoration-none" title="Instagram">
+                                <i class="fab fa-instagram fs-5"></i>
+                            </a>
+                            {% endif %}
+                            {% if settings.facebook_url %}
+                            <a href="{{ settings.facebook_url }}" target="_blank" rel="noopener" class="text-white-50 text-decoration-none" title="Facebook">
+                                <i class="fab fa-facebook fs-5"></i>
+                            </a>
+                            {% endif %}
+                            {% if settings.linkedin_url %}
+                            <a href="{{ settings.linkedin_url }}" target="_blank" rel="noopener" class="text-white-50 text-decoration-none" title="LinkedIn">
+                                <i class="fab fa-linkedin fs-5"></i>
+                            </a>
+                            {% endif %}
+                            {% if settings.whatsapp %}
+                            <a href="https://wa.me/254{{ settings.whatsapp|slice:'1:' }}?text={{ settings.whatsapp_message|urlencode }}" target="_blank" rel="noopener" class="text-white-50 text-decoration-none" title="WhatsApp">
+                                <i class="fab fa-whatsapp fs-5"></i>
+                            </a>
+                            {% endif %}
+                        </div>
+                    </div>
                 </div>
-                <div class="col-md-4">
+                <div class="col-md-3">
                     <h5>Quick Links</h5>
                     <ul class="list-unstyled">
                         <li><a href="{% url 'services:list' %}" class="text-white-50">Services</a></li>
@@ -81,26 +112,40 @@
                         <li><a href="{% url 'inquiries:contact' %}" class="text-white-50">Contact Us</a></li>
                     </ul>
                 </div>
-                <div class="col-md-4">
+                <div class="col-md-3">
                     <h5>Contact</h5>
-                    <p class="text-white-50">
+                    <p class="text-white-50 small">
                         {% if settings %}
                             <strong>Partner 1:</strong><br>
-                            Email: <a href="mailto:{{ settings.email }}" class="text-white-50">{{ settings.email }}</a><br>
-                            Phone: <a href="tel:{{ settings.phone }}" class="text-white-50">{{ settings.phone }}</a><br>
+                            <a href="mailto:{{ settings.email }}" class="text-white-50">{{ settings.email }}</a><br>
+                            <a href="tel:{{ settings.phone }}" class="text-white-50">{{ settings.phone }}</a><br>
                             {% if settings.whatsapp %}
-                            WhatsApp: <a href="https://wa.me/254{{ settings.whatsapp|slice:'1:' }}" class="text-white-50" target="_blank">{{ settings.whatsapp }}</a>
-                            {% endif %}
-                            <br><br>
-                            <strong>Partner 2:</strong><br>
-                            Email: <a href="mailto:{{ settings.email_2 }}" class="text-white-50">{{ settings.email_2 }}</a><br>
-                            Phone: <a href="tel:{{ settings.phone_2 }}" class="text-white-50">{{ settings.phone_2 }}</a><br>
-                            {% if settings.whatsapp_2 %}
-                            WhatsApp: <a href="https://wa.me/254{{ settings.whatsapp_2|slice:'1:' }}" class="text-white-50" target="_blank">{{ settings.whatsapp_2 }}</a>
+                            <a href="https://wa.me/254{{ settings.whatsapp|slice:'1:' }}?text={{ settings.whatsapp_message|urlencode }}" class="text-white-50" target="_blank">
+                                <i class="fab fa-whatsapp"></i> {{ settings.whatsapp }}
+                            </a>
                             {% endif %}
                         {% else %}
-                            Email: info@hsconsulting.co.ke<br>
-                            Phone: 0729592895
+                            info@hsconsulting.co.ke<br>
+                            0729592895
+                        {% endif %}
+                    </p>
+                </div>
+                <div class="col-md-3">
+                    <h5>Secondary Contact</h5>
+                    <p class="text-white-50 small">
+                        {% if settings %}
+                            {% if settings.email_2 %}
+                            <strong>Partner 2:</strong><br>
+                            <a href="mailto:{{ settings.email_2 }}" class="text-white-50">{{ settings.email_2 }}</a><br>
+                            {% endif %}
+                            {% if settings.phone_2 %}
+                            <a href="tel:{{ settings.phone_2 }}" class="text-white-50">{{ settings.phone_2 }}</a><br>
+                            {% endif %}
+                            {% if settings.whatsapp_2 %}
+                            <a href="https://wa.me/254{{ settings.whatsapp_2|slice:'1:' }}?text={{ settings.whatsapp_message|urlencode }}" class="text-white-50" target="_blank">
+                                <i class="fab fa-whatsapp"></i> {{ settings.whatsapp_2 }}
+                            </a>
+                            {% endif %}
                         {% endif %}
                     </p>
                 </div>

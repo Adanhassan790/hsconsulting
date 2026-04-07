@@ -16,7 +16,7 @@ class CoreSettingsAdmin(admin.ModelAdmin):
             'fields': ('email_2', 'phone_2', 'whatsapp_2')
         }),
         ('Social Media', {
-            'fields': ('linkedin_url', 'twitter_url', 'instagram_url')
+            'fields': ('linkedin_url', 'twitter_url', 'instagram_url', 'facebook_url', 'whatsapp_message')
         }),
         ('Address', {
             'fields': ('address', 'city', 'country')
