@@ -59,10 +59,10 @@ class Command(BaseCommand):
             # Only add social fields if columns exist in DB
             if 'facebook_url' in columns:
                 defaults.update({
-                    'linkedin_url': 'https://www.linkedin.com/company/hsconsulting-ke/',
-                    'twitter_url': 'https://twitter.com/hsconsulting',
-                    'instagram_url': 'https://www.instagram.com/hsconsulting_ke/',
-                    'facebook_url': 'https://www.facebook.com/hsconsulting.ke/',
+                    'linkedin_url': 'https://www.linkedin.com/company/hs-consulting-ke/',
+                    'twitter_url': 'https://twitter.com/hs_consulting',
+                    'instagram_url': 'https://www.instagram.com/hs_consulting_ke/',
+                    'facebook_url': 'https://www.facebook.com/hs.consulting.ke/',
                 })
             if 'whatsapp_message' in columns:
                 defaults['whatsapp_message'] = 'Hello! I would like to inquire about your services.'
