@@ -7,6 +7,19 @@ python manage.py migrate --noinput
 echo "Collecting static files..."
 python manage.py collectstatic --noinput --clear
 
+echo "Creating admin superuser if needed..."
+python manage.py shell << END
+from django.contrib.auth.models import User
+
+# Create superuser with default password
+if not User.objects.filter(username='admin').exists():
+    User.objects.create_superuser('admin', 'admin@hsconsulting.co.ke', 'Admin@123')
+    print("✓ Superuser admin created with temporary password: Admin@123")
+    print("  Please change this password in Django admin panel!")
+else:
+    print("✓ Superuser admin already exists")
+END
+
 echo "Initializing CoreSettings..."
 python manage.py shell << END
 from apps.core.models import CoreSettings
