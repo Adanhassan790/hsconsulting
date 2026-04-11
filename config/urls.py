@@ -22,8 +22,10 @@ urlpatterns = [
     path('careers/', include(('apps.careers.urls', 'careers'))),
 ]
 
-# Serve media and static files (in production, these should be served by WhiteNoise and storage service)
-# But we include them here as fallback for development and basic production deployments
+# Serve media files always (user uploads, images)
 urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
-if settings.DEBUG:
-    urlpatterns += static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
+
+# Serve static files - ALWAYS in production with WhiteNoise, or in DEBUG
+# WhiteNoise will efficiently serve these in production
+# Django fallback in development
+urlpatterns += static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
