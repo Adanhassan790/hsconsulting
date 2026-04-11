@@ -7,34 +7,24 @@ python manage.py migrate --noinput
 echo "Collecting static files..."
 python manage.py collectstatic --noinput --clear
 
-echo "Creating admin superuser if needed..."
+echo "Initializing CoreSettings..."
 python manage.py shell << END
-import os
-from django.contrib.auth.models import User
 from apps.core.models import CoreSettings
-
-# Create superuser
-admin_password = os.getenv('ADMIN_PASSWORD', 'ChangeMeInProduction123!')
-if not User.objects.filter(username='admin').exists():
-    User.objects.create_superuser('admin', 'admin@hsconsulting.co.ke', admin_password)
-    print("✓ Superuser admin created")
-else:
-    print("✓ Superuser admin already exists")
 
 # Initialize CoreSettings with both partners
 settings, created = CoreSettings.objects.get_or_create(
     pk=1,
     defaults={
-        'site_name': os.getenv('SITE_NAME', 'HS Consulting'),
+        'site_name': 'HS Consulting',
         'tagline': 'Your trusted tax consultation partner',
         'about_us': 'Leading tax consultation firm in Kenya',
         'mission': 'To provide comprehensive tax solutions',
-        'email': os.getenv('PARTNER_1_EMAIL', 'info@hsconsulting.co.ke'),
-        'phone': os.getenv('PARTNER_1_PHONE', '+254729592895'),
-        'whatsapp': os.getenv('PARTNER_1_WHATSAPP', '+254729592895'),
-        'email_2': os.getenv('PARTNER_2_EMAIL', 'ibrahimhussein481@gmail.com'),
-        'phone_2': os.getenv('PARTNER_2_PHONE', '+254746645534'),
-        'whatsapp_2': os.getenv('PARTNER_2_WHATSAPP', '+254729592895'),
+        'email': 'info@hsconsulting.co.ke',
+        'phone': '+254729592895',
+        'whatsapp': '+254729592895',
+        'email_2': 'ibrahimhussein481@gmail.com',
+        'phone_2': '+254746645534',
+        'whatsapp_2': '+254729592895',
         'address': 'Nairobi, Kenya',
         'city': 'Nairobi',
         'country': 'Kenya'
@@ -43,12 +33,7 @@ settings, created = CoreSettings.objects.get_or_create(
 if created:
     print("✓ CoreSettings initialized")
 else:
-    if not settings.email_2:
-        settings.email_2 = 'ibrahimhussein481@gmail.com'
-        settings.phone_2 = '+254746645534'
-        settings.whatsapp_2 = '+254729592895'
-        settings.save()
-        print("✓ CoreSettings updated with partner 2 info")
+    print("✓ CoreSettings already exists")
 END
 
 echo "Populating initial data..."

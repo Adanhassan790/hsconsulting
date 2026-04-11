@@ -3,7 +3,7 @@ type = "web"
 name = "hsconsulting"
 runtime = "python"
 buildCommand = "pip install -r requirements.txt"
-startCommand = "bash build.sh && gunicorn config.wsgi:application"
+startCommand = "bash build.sh && python manage.py setup_admin && gunicorn config.wsgi:application"
 region = "eu"
 plan = "hobby"
 
