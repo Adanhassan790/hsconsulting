@@ -22,31 +22,36 @@ END
 
 echo "Initializing CoreSettings..."
 python manage.py shell << END
+import sys
 from apps.core.models import CoreSettings
 
-# Initialize CoreSettings with both partners
-settings, created = CoreSettings.objects.get_or_create(
-    pk=1,
-    defaults={
-        'site_name': 'HS Consulting',
-        'tagline': 'Your trusted tax consultation partner',
-        'about_us': 'Leading tax consultation firm in Kenya',
-        'mission': 'To provide comprehensive tax solutions',
-        'email': 'info@hsconsulting.co.ke',
-        'phone': '+254729592895',
-        'whatsapp': '+254729592895',
-        'email_2': 'ibrahimhussein481@gmail.com',
-        'phone_2': '+254746645534',
-        'whatsapp_2': '+254729592895',
-        'address': 'Nairobi, Kenya',
-        'city': 'Nairobi',
-        'country': 'Kenya'
-    }
-)
-if created:
-    print("✓ CoreSettings initialized")
-else:
-    print("✓ CoreSettings already exists")
+try:
+    # Initialize CoreSettings with both partners
+    settings, created = CoreSettings.objects.get_or_create(
+        pk=1,
+        defaults={
+            'site_name': 'HS Consulting',
+            'tagline': 'Your trusted tax consultation partner',
+            'about_us': 'Leading tax consultation firm in Kenya',
+            'mission': 'To provide comprehensive tax solutions',
+            'email': 'info@hsconsulting.co.ke',
+            'phone': '+254729592895',
+            'whatsapp': '+254729592895',
+            'email_2': 'ibrahimhussein481@gmail.com',
+            'phone_2': '+254746645534',
+            'whatsapp_2': '+254729592895',
+            'address': 'Nairobi, Kenya',
+            'city': 'Nairobi',
+            'country': 'Kenya'
+        }
+    )
+    if created:
+        print("✓ CoreSettings initialized successfully")
+    else:
+        print("✓ CoreSettings already exists")
+except Exception as e:
+    print(f"ERROR creating CoreSettings: {e}")
+    sys.exit(1)
 END
 
 echo "Populating initial data..."
