@@ -165,6 +165,14 @@ def main():
     staticfiles_path.mkdir(parents=True, exist_ok=True)
     log_timestamp(f"[OK] staticfiles directory verified: {staticfiles_path.absolute()}")
     
+    # Check if source static/ directory exists
+    source_static = Path('static')
+    if source_static.exists():
+        source_count = sum(1 for _ in source_static.rglob('*') if _.is_file())
+        log_timestamp(f"[OK] Source static/ directory found: {source_count} files")
+    else:
+        log_timestamp(f"[WARNING] Source static/ directory NOT found")
+    
     static_ok = run_command(
         "python manage.py collectstatic --noinput --clear --verbosity 2",
         "Collecting static files with verbose output",
@@ -176,6 +184,28 @@ def main():
     if staticfiles_path.exists():
         static_count = sum(1 for _ in staticfiles_path.rglob('*') if _.is_file())
         log_timestamp(f"[OK] Total static files: {static_count}")
+        
+        # If collectstatic returned 0 files, try manual copy
+        if static_count == 0 and source_static.exists():
+            log_timestamp("[WARNING] collectstatic returned 0 files - attempting manual fallback copy...")
+            
+            try:
+                import shutil
+                copy_count = 0
+                
+                # Copy from static/ to staticfiles/
+                for file_path in source_static.rglob('*'):
+                    if file_path.is_file():
+                        rel_path = file_path.relative_to(source_static)
+                        dest_path = staticfiles_path / rel_path
+                        dest_path.parent.mkdir(parents=True, exist_ok=True)
+                        shutil.copy2(file_path, dest_path)
+                        copy_count += 1
+                
+                static_count = sum(1 for _ in staticfiles_path.rglob('*') if _.is_file())
+                log_timestamp(f"[OK] Manual fallback copy complete: {copy_count} files copied -> {static_count} total")
+            except Exception as e:
+                log_timestamp(f"[ERROR] Manual copy failed: {type(e).__name__}: {str(e)}")
         
         # Check for critical files
         files_to_check = [
