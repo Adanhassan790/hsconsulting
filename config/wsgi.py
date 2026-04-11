@@ -4,6 +4,7 @@ WSGI config for HS Consulting project.
 
 import os
 import sys
+from pathlib import Path
 
 from django.core.wsgi import get_wsgi_application
 from django.core.management import call_command
@@ -11,6 +12,11 @@ from django.db import connection, connections
 from django.db.utils import OperationalError, ProgrammingError
 
 os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'config.settings')
+
+# Ensure staticfiles directory exists (needed for WhiteNoise middleware)
+from django.conf import settings as django_settings
+static_root = Path(django_settings.STATIC_ROOT)
+static_root.mkdir(parents=True, exist_ok=True)
 
 # Initialize Django
 application = get_wsgi_application()
