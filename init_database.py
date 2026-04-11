@@ -34,18 +34,18 @@ settings, created = CoreSettings.objects.get_or_create(
     }
 )
 if created:
-    print("✓ CoreSettings created")
+    print("[OK] CoreSettings created")
 else:
-    print("✓ CoreSettings already exists")
+    print("[OK] CoreSettings already exists")
 
 print("\n2. Creating superuser...")
 if not User.objects.filter(username='admin').exists():
     User.objects.create_superuser('admin', 'admin@hsconsulting.co.ke', 'Admin@123')
-    print("✓ Superuser 'admin' created")
+    print("[OK] Superuser 'admin' created")
     print("  Username: admin")
     print("  Password: Admin@123")
 else:
-    print("✓ Superuser 'admin' already exists")
+    print("[OK] Superuser 'admin' already exists")
 
 print("\n3. Setting up dashboard access...")
 superusers = User.objects.filter(is_superuser=True)
@@ -60,12 +60,12 @@ for user in superusers:
     access.can_view_reports = True
     access.save()
     if created:
-        print(f"✓ Dashboard access created for {user.username}")
+        print(f"[OK] Dashboard access created for {user.username}")
     else:
-        print(f"✓ Dashboard access updated for {user.username}")
+        print(f"[OK] Dashboard access updated for {user.username}")
 
 print("\n" + "=" * 70)
-print("✅ DATABASE INITIALIZATION COMPLETE!")
+print("[OK] DATABASE INITIALIZATION COMPLETE!")
 print("=" * 70)
 print("\nYou can now access:")
 print("  - Admin Panel: http://localhost:8000/admin/")

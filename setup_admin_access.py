@@ -31,10 +31,10 @@ def setup_admin_dashboard():
         access, created = DashboardAccessControl.objects.get_or_create(user=user)
         
         if created:
-            print(f"✅ Created dashboard access for: {user.username}")
+            print(f"[OK] Created dashboard access for: {user.username}")
             created_count += 1
         else:
-            print(f"📝 Found existing dashboard access for: {user.username}")
+            print(f"[INFO] Found existing dashboard access for: {user.username}")
         
         # Ensure superusers have full access
         if user.is_superuser:
