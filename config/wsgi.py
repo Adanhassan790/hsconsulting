@@ -50,34 +50,48 @@ if os.environ.get('DATABASE_URL'):
         # Initialize CoreSettings
         try:
             from apps.core.models import CoreSettings
-            settings, created = CoreSettings.objects.get_or_create(
-                pk=1,
-                defaults={
-                    'site_name': 'HS Consulting',
-                    'tagline': 'Your trusted tax consultation partner',
-                    'about_us': 'Leading tax consultation firm in Kenya',
-                    'mission': 'To provide comprehensive tax solutions',
-                    'email': 'info@hsconsulting.co.ke',
-                    'phone': '+254729592895',
-                    'whatsapp': '+254729592895',
-                    'email_2': 'ibrahimhussein481@gmail.com',
-                    'phone_2': '+254746645534',
-                    'whatsapp_2': '+254729592895',
-                    'address': 'Nairobi, Kenya',
-                    'city': 'Nairobi',
-                    'country': 'Kenya'
-                }
-            )
-            if created:
-                print("✓ STARTUP: CoreSettings initialized", file=sys.stderr)
+            from django.db import connection
+            
+            # Verify table exists before querying
+            with connection.cursor() as cursor:
+                cursor.execute(
+                    "SELECT name FROM sqlite_master WHERE type='table' AND name='core_coresettings';"
+                )
+                table_exists = cursor.fetchone() is not None
+            
+            if not table_exists:
+                print("⚠ STARTUP: CoreSettings table not found, skipping initialization", file=sys.stderr)
             else:
-                # Update if partner 2 info is missing
-                if not settings.email_2:
-                    settings.email_2 = 'ibrahimhussein481@gmail.com'
-                    settings.phone_2 = '+254746645534'
-                    settings.whatsapp_2 = '+254729592895'
-                    settings.save()
-                    print("✓ STARTUP: CoreSettings updated", file=sys.stderr)
+                settings, created = CoreSettings.objects.get_or_create(
+                    pk=1,
+                    defaults={
+                        'site_name': 'HS Consulting',
+                        'tagline': 'Your trusted tax consultation partner',
+                        'about_us': 'Leading tax consultation firm in Kenya',
+                        'mission': 'To provide comprehensive tax solutions',
+                        'email': 'info@hsconsulting.co.ke',
+                        'phone': '+254729592895',
+                        'whatsapp': '+254729592895',
+                        'email_2': 'ibrahimhussein481@gmail.com',
+                        'phone_2': '+254746645534',
+                        'whatsapp_2': '+254729592895',
+                        'address': 'Nairobi, Kenya',
+                        'city': 'Nairobi',
+                        'country': 'Kenya'
+                    }
+                )
+                if created:
+                    print("✓ STARTUP: CoreSettings initialized", file=sys.stderr)
+                else:
+                    # Update if partner 2 info is missing
+                    if not settings.email_2:
+                        settings.email_2 = 'ibrahimhussein481@gmail.com'
+                        settings.phone_2 = '+254746645534'
+                        settings.whatsapp_2 = '+254729592895'
+                        settings.save()
+                        print("✓ STARTUP: CoreSettings updated", file=sys.stderr)
+        except (OperationalError, ProgrammingError) as e:
+            print(f"⚠ STARTUP: CoreSettings DB error (table not ready): {type(e).__name__}", file=sys.stderr)
         except Exception as e:
             print(f"⚠ STARTUP: CoreSettings error: {type(e).__name__}: {str(e)[:150]}", file=sys.stderr)
         
