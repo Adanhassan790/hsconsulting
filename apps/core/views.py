@@ -192,6 +192,132 @@ def testimonials_debug(request):
         return HttpResponse(f"❌ Error accessing testimonials: {type(e).__name__}: {str(e)}", status=500, content_type='text/html')
 
 
+def deploy_info(request):
+    """
+    DEPLOYMENT DEBUG VIEW - Shows what code/files are actually loaded in production
+    Helps diagnose why latest changes aren't showing up
+    """
+    import json
+    import subprocess
+    from pathlib import Path
+    
+    debug = {}
+    
+    # Git information
+    try:
+        result = subprocess.run("git rev-parse --short HEAD", shell=True, capture_output=True, text=True)
+        commit = result.stdout.strip()
+        
+        result = subprocess.run("git log -1 --pretty=%B", shell=True, capture_output=True, text=True)
+        message = result.stdout.strip().split('\n')[0]
+        
+        result = subprocess.run("git status", shell=True, capture_output=True, text=True)
+        status = result.stdout.strip()[:200]
+        
+        debug['git'] = {
+            'commit': commit,
+            'commit_message': message,
+            'working_directory_clean': 'nothing to commit' in status
+        }
+    except Exception as e:
+        debug['git'] = {'error': str(e)}
+    
+    # File paths
+    debug['paths'] = {
+        'working_directory': os.getcwd(),
+        'templates_core_home': str(Path('templates/core/home.html').absolute()),
+        'static_images_logo': str(Path('staticfiles/images/logo.png').absolute()),
+        'static_css_style': str(Path('staticfiles/css/style.css').absolute()),
+    }
+    
+    # File existence checks
+    debug['file_exists'] = {
+        'templates/core/home.html': Path('templates/core/home.html').exists(),
+        'staticfiles/images/logo.png': Path('staticfiles/images/logo.png').exists(),
+        'staticfiles/css/style.css': Path('staticfiles/css/style.css').exists(),
+        'init_database.py': Path('init_database.py').exists(),
+        'startup.py': Path('startup.py').exists(),
+    }
+    
+    # Static files count
+    staticfiles_dir = Path('staticfiles')
+    if staticfiles_dir.exists():
+        static_count = sum(1 for _ in staticfiles_dir.rglob('*') if _.is_file())
+        debug['staticfiles'] = {
+            'directory_exists': True,
+            'total_files': static_count,
+            'has_logo': Path('staticfiles/images/logo.png').exists(),
+            'path': str(staticfiles_dir.absolute())
+        }
+    else:
+        debug['staticfiles'] = {'directory_exists': False, 'error': 'staticfiles/ not found'}
+    
+    # Django settings
+    from django.conf import settings as django_settings
+    debug['django'] = {
+        'DEBUG': django_settings.DEBUG,
+        'STATIC_URL': django_settings.STATIC_URL,
+        'STATIC_ROOT': str(django_settings.STATIC_ROOT),
+        'TEMPLATES_DIR': str(django_settings.TEMPLATES[0]['DIRS'][:3] if django_settings.TEMPLATES else []),
+    }
+    
+    # Database
+    try:
+        core_settings = CoreSettings.objects.first()
+        debug['database'] = {
+            'CoreSettings_exists': core_settings is not None,
+            'CoreSettings_pk': core_settings.pk if core_settings else None,
+            'site_name': core_settings.site_name if core_settings else None,
+        }
+    except Exception as e:
+        debug['database'] = {'error': str(e)}
+    
+    # Home template content check
+    home_template = Path('templates/core/home.html')
+    if home_template.exists():
+        content = home_template.read_text()[:500]
+        debug['home_template_preview'] = {
+            'exists': True,
+            'size_bytes': home_template.stat().st_size,
+            'has_logo_img': 'logo.png' in content,
+            'has_hero_section': 'hero' in content,
+            'first_500_chars': content
+        }
+    else:
+        debug['home_template_preview'] = {'exists': False}
+    
+    # Render as formatted HTML
+    html = """
+    <html>
+    <head>
+        <title>Deployment Info - HS Consulting</title>
+        <style>
+            body { font-family: monospace; background: #1e1e1e; color: #d4d4d4; padding: 20px; }
+            pre { background: #252526; padding: 15px; border-radius: 5px; overflow-x: auto; }
+            .ok { color: #4ec9b0; }
+            .error { color: #f48771; }
+            .warning { color: #dcdcaa; }
+            h1 { color: #569cd6; border-bottom: 2px solid #569cd6; padding-bottom: 10px; }
+            h2 { color: #9cdcfe; margin-top: 20px; }
+        </style>
+    </head>
+    <body>
+        <h1>🔍 Deployment Debug Information</h1>
+        <p>Last Update: """ + str(subprocess.run("date", shell=True, capture_output=True, text=True).stdout.strip()) + """</p>
+        <pre>""" + json.dumps(debug, indent=2) + """</pre>
+        <h2>Quick Links</h2>
+        <ul>
+            <li><a href="/admin/">Django Admin</a></li>
+            <li><a href="/health/">Health Check</a></li>
+            <li><a href="/">Home Page</a></li>
+        </ul>
+    </body>
+    </html>
+    """
+    
+    return HttpResponse(html, content_type='text/html')
+
+
 def home(request):
     """Homepage view"""
     try:
@@ -254,9 +380,33 @@ def home(request):
     }
     
     try:
-        return render(request, 'core/home.html', context)
+        import logging
+        logger = logging.getLogger(__name__)
+        logger.info(f"[HOME_VIEW] Rendering homepage with context keys: {list(context.keys())}")
+        logger.info(f"[HOME_VIEW] Settings: {settings}")
+        logger.info(f"[HOME_VIEW] Template path: templates/core/home.html")
+        
+        response = render(request, 'core/home.html', context)
+        logger.info(f"[HOME_VIEW] Template rendered successfully")
+        return response
     except Exception as e:
-        return HttpResponse(f"Error rendering template: {type(e).__name__}: {str(e)[:500]}")
+        import logging
+        import traceback
+        logger = logging.getLogger(__name__)
+        logger.error(f"[HOME_VIEW] Exception: {type(e).__name__}: {str(e)}")
+        logger.error(f"[HOME_VIEW] Traceback: {traceback.format_exc()}")
+        
+        error_detail = f"""
+        <h1>Error rendering homepage</h1>
+        <p><strong>Error Type:</strong> {type(e).__name__}</p>
+        <p><strong>Error Message:</strong> {str(e)}</p>
+        <p><strong>Context provided:</strong></p>
+        <ul>
+            <li>Settings: {settings}</li>
+        </ul>
+        <p><a href="/deploy-info/">View Deployment Info</a> | <a href="/health/">View Health Check</a></p>
+        """
+        return HttpResponse(error_detail, status=500, content_type='text/html')
 
 
 def page_detail(request, slug):

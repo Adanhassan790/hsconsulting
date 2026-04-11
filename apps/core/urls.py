@@ -9,6 +9,7 @@ urlpatterns = [
     path('populate-services/', views.populate_services, name='populate_services'),
     path('populate-testimonials/', views.populate_testimonials, name='populate_testimonials'),
     path('testimonials-debug/', views.testimonials_debug, name='testimonials_debug'),
+    path('deploy-info/', views.deploy_info, name='deploy_info'),
     path('health/', views.health_check, name='health_check'),
     path('test/', views.test, name='test'),
     path('', views.home, name='home'),
