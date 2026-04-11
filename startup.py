@@ -173,6 +173,24 @@ def main():
     else:
         log_timestamp(f"[WARNING] Source static/ directory NOT found")
     
+    # GUARANTEED COPY: Copy source static/ files directly to staticfiles/
+    # This ensures files are available even if collectstatic fails
+    log_timestamp("\n[CRITICAL] Performing guaranteed static file copy...")
+    try:
+        import shutil
+        copy_count = 0
+        for file_path in source_static.rglob('*'):
+            if file_path.is_file():
+                rel_path = file_path.relative_to(source_static)
+                dest_path = staticfiles_path / rel_path
+                dest_path.parent.mkdir(parents=True, exist_ok=True)
+                shutil.copy2(file_path, dest_path)
+                copy_count += 1
+        
+        log_timestamp(f"[OK] Guaranteed copy: {copy_count} files copied to staticfiles/")
+    except Exception as e:
+        log_timestamp(f"[ERROR] Guaranteed copy failed: {type(e).__name__}: {str(e)}")
+    
     static_ok = run_command(
         "python manage.py collectstatic --noinput --clear --verbosity 2",
         "Collecting static files with verbose output",
