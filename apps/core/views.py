@@ -201,7 +201,6 @@ def home(request):
             settings = CoreSettings.objects.get_or_create(pk=1)[0]
     except Exception as e:
         # Return a basic homepage if we can't load settings
-        from django.shortcuts import render
         return render(request, 'core/home.html', {
             'settings': None,
             'error': f"Could not load site settings: {type(e).__name__}"
