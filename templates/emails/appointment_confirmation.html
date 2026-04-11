@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            line-height: 1.6;
+            color: #333;
+        }
+        .container {
+            max-width: 600px;
+            margin: 0 auto;
+            padding: 20px;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+        }
+        .header {
+            background-color: #E60000;
+            color: white;
+            padding: 20px;
+            text-align: center;
+            border-radius: 8px 8px 0 0;
+            margin: -20px -20px 20px -20px;
+        }
+        .content {
+            padding: 20px 0;
+        }
+        .details {
+            background-color: #f9f9f9;
+            padding: 15px;
+            border-left: 4px solid #E60000;
+            margin: 20px 0;
+        }
+        .detail-item {
+            margin: 10px 0;
+        }
+        .label {
+            font-weight: bold;
+            color: #2A2A2A;
+        }
+        .footer {
+            margin-top: 30px;
+            padding-top: 20px;
+            border-top: 1px solid #ddd;
+            font-size: 12px;
+            color: #666;
+            text-align: center;
+        }
+        .cta-button {
+            display: inline-block;
+            background-color: #E60000;
+            color: white;
+            padding: 12px 30px;
+            text-decoration: none;
+            border-radius: 5px;
+            margin: 20px 0;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>Appointment Confirmation</h1>
+        </div>
+
+        <div class="content">
+            <p>Hello <strong>{{ appointment.client_name }}</strong>,</p>
+
+            <p>Thank you for booking an appointment with <strong>HS Consulting</strong>. We're excited to help you with your tax and consulting needs.</p>
+
+            <p>Here are your appointment details:</p>
+
+            <div class="details">
+                <div class="detail-item">
+                    <span class="label">Service:</span>
+                    {{ appointment.service.name }}
+                </div>
+                <div class="detail-item">
+                    <span class="label">Date & Time:</span>
+                    {{ appointment.appointment_date|date:"l, F j, Y" }} at {{ appointment.appointment_date|time:"H:i" }}
+                </div>
+                <div class="detail-item">
+                    <span class="label">Duration:</span>
+                    {{ appointment.duration_minutes }} minutes
+                </div>
+                {% if appointment.message %}
+                <div class="detail-item">
+                    <span class="label">Your Message:</span>
+                    {{ appointment.message }}
+                </div>
+                {% endif %}
+                <div class="detail-item">
+                    <span class="label">Status:</span>
+                    <span style="color: #E60000; font-weight: bold;">{{ appointment.get_status_display }}</span>
+                </div>
+            </div>
+
+            <p>We'll send you a reminder 24 hours before your appointment. If you need to reschedule or have any questions, please contact us at:</p>
+
+            <div class="details">
+                <div class="detail-item">
+                    <span class="label">Phone:</span>
+                    +254 729 592 895
+                </div>
+                <div class="detail-item">
+                    <span class="label">Email:</span>
+                    info@hsconsulting.co.ke
+                </div>
+                <div class="detail-item">
+                    <span class="label">WhatsApp:</span>
+                    +254 729 592 895
+                </div>
+            </div>
+
+            <p>We look forward to working with you!</p>
+
+            <p>Best regards,<br>
+            <strong>HS Consulting Team</strong></p>
+        </div>
+
+        <div class="footer">
+            <p>&copy; 2024 HS Consulting. All rights reserved.</p>
+            <p>This is an automated email. Please do not reply directly to this message.</p>
+        </div>
+    </div>
+</body>
+</html>

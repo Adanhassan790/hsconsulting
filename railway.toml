@@ -1,20 +1,19 @@
-services:
-  - type: web
-    name: hsconsulting
-    runtime: python
-    buildCommand: "pip install -r requirements.txt"
-    startCommand: "bash build.sh && gunicorn config.wsgi:application"
-    region: eu
-    plan: free
-    envVars:
-      - key: DEBUG
-        value: "False"
-      - key: ALLOWED_HOSTS
-        value: "*.onrender.com"
-  
-  - type: postgres
-    name: hsconsulting-db
-    plan: free
-    region: eu
-    databaseName: hsconsulting_db
+[build]
+builder = "dockerfile"
+
+[[services]]
+type = "web"
+name = "hsconsulting"
+runtime = "python"
+buildCommand = "pip install -r requirements.txt"
+startCommand = "bash build.sh && gunicorn config.wsgi:application"
+region = "eu"
+plan = "hobby"
+
+[[services]]
+type = "postgres"
+name = "hsconsulting-db"
+plan = "hobby"
+region = "eu"
+databaseName = "hsconsulting_db"
 

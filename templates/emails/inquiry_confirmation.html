@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            line-height: 1.6;
+            color: #333;
+        }
+        .container {
+            max-width: 600px;
+            margin: 0 auto;
+            padding: 20px;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+        }
+        .header {
+            background-color: #E60000;
+            color: white;
+            padding: 20px;
+            text-align: center;
+            border-radius: 8px 8px 0 0;
+            margin: -20px -20px 20px -20px;
+        }
+        .content {
+            padding: 20px 0;
+        }
+        .details {
+            background-color: #f9f9f9;
+            padding: 15px;
+            border-left: 4px solid #E60000;
+            margin: 20px 0;
+        }
+        .detail-item {
+            margin: 10px 0;
+        }
+        .label {
+            font-weight: bold;
+            color: #2A2A2A;
+        }
+        .footer {
+            margin-top: 30px;
+            padding-top: 20px;
+            border-top: 1px solid #ddd;
+            font-size: 12px;
+            color: #666;
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>Thank You for Contacting Us</h1>
+        </div>
+
+        <div class="content">
+            <p>Hello <strong>{{ inquiry.name }}</strong>,</p>
+
+            <p>Thank you for reaching out to <strong>HS Consulting</strong>. We have received your inquiry and truly appreciate your interest in our services.</p>
+
+            <p>Our team will review your message and get back to you as soon as possible, typically within 24 business hours.</p>
+
+            <h3>Your Inquiry Summary:</h3>
+            <div class="details">
+                {% if inquiry.service_interested %}
+                <div class="detail-item">
+                    <span class="label">Service of Interest:</span>
+                    {{ inquiry.service_interested.name }}
+                </div>
+                {% endif %}
+                {% if inquiry.company_name %}
+                <div class="detail-item">
+                    <span class="label">Company:</span>
+                    {{ inquiry.company_name }}
+                </div>
+                {% endif %}
+                <div class="detail-item">
+                    <span class="label">Email:</span>
+                    {{ inquiry.email }}
+                </div>
+                <div class="detail-item">
+                    <span class="label">Phone:</span>
+                    {{ inquiry.phone }}
+                </div>
+            </div>
+
+            <p>In the meantime, if you have any urgent questions, please feel free to contact us directly:</p>
+
+            <div class="details">
+                <div class="detail-item">
+                    <span class="label">Phone:</span>
+                    +254 729 592 895
+                </div>
+                <div class="detail-item">
+                    <span class="label">Email:</span>
+                    info@hsconsulting.co.ke
+                </div>
+                <div class="detail-item">
+                    <span class="label">WhatsApp:</span>
+                    +254 729 592 895
+                </div>
+            </div>
+
+            <p>We look forward to the opportunity to serve you!</p>
+
+            <p>Best regards,<br>
+            <strong>HS Consulting Team</strong></p>
+        </div>
+
+        <div class="footer">
+            <p>&copy; 2024 HS Consulting. All rights reserved.</p>
+            <p>This is an automated email. Please do not reply directly to this message.</p>
+        </div>
+    </div>
+</body>
+</html>

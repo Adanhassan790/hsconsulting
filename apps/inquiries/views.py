@@ -9,7 +9,20 @@ def contact_us(request):
     if request.method == 'POST':
         form = InquiryForm(request.POST)
         if form.is_valid():
-            form.save()
+            inquiry = form.save()
+            
+            # Send confirmation email to client
+            try:
+                inquiry.send_confirmation_email()
+            except Exception as e:
+                print(f"Error sending confirmation email: {e}")
+            
+            # Send notification email to owner
+            try:
+                inquiry.send_owner_notification()
+            except Exception as e:
+                print(f"Error sending owner notification: {e}")
+            
             messages.success(request, 'Thank you for your inquiry! We will get back to you shortly.')
             return redirect('inquiries:contact_success')
     else:

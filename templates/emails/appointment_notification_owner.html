@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            line-height: 1.6;
+            color: #333;
+        }
+        .container {
+            max-width: 600px;
+            margin: 0 auto;
+            padding: 20px;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+        }
+        .header {
+            background-color: #2A2A2A;
+            color: #E60000;
+            padding: 20px;
+            text-align: center;
+            border-radius: 8px 8px 0 0;
+            margin: -20px -20px 20px -20px;
+        }
+        .content {
+            padding: 20px 0;
+        }
+        .details {
+            background-color: #f9f9f9;
+            padding: 15px;
+            border-left: 4px solid #E60000;
+            margin: 20px 0;
+        }
+        .detail-item {
+            margin: 10px 0;
+        }
+        .label {
+            font-weight: bold;
+            color: #2A2A2A;
+        }
+        .footer {
+            margin-top: 30px;
+            padding-top: 20px;
+            border-top: 1px solid #ddd;
+            font-size: 12px;
+            color: #666;
+            text-align: center;
+        }
+        .alert {
+            background-color: #fff3cd;
+            border-left: 4px solid #ffc107;
+            padding: 15px;
+            margin: 20px 0;
+            border-radius: 4px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>🔔 New Appointment Booking</h1>
+        </div>
+
+        <div class="content">
+            <p>Hello,</p>
+
+            <p>A new appointment has been booked on your system.</p>
+
+            <div class="alert">
+                <strong>ACTION REQUIRED:</strong> Review and confirm this appointment in your admin dashboard.
+            </div>
+
+            <h3>Client Information:</h3>
+            <div class="details">
+                <div class="detail-item">
+                    <span class="label">Name:</span>
+                    {{ appointment.client_name }}
+                </div>
+                <div class="detail-item">
+                    <span class="label">Email:</span>
+                    {{ appointment.client_email }}
+                </div>
+                <div class="detail-item">
+                    <span class="label">Phone:</span>
+                    {{ appointment.client_phone }}
+                </div>
+            </div>
+
+            <h3>Appointment Details:</h3>
+            <div class="details">
+                <div class="detail-item">
+                    <span class="label">Service:</span>
+                    {{ appointment.service.name }}
+                </div>
+                <div class="detail-item">
+                    <span class="label">Date & Time:</span>
+                    {{ appointment.appointment_date|date:"l, F j, Y" }} at {{ appointment.appointment_date|time:"H:i" }}
+                </div>
+                <div class="detail-item">
+                    <span class="label">Duration:</span>
+                    {{ appointment.duration_minutes }} minutes
+                </div>
+                <div class="detail-item">
+                    <span class="label">Status:</span>
+                    <span style="color: #E60000; font-weight: bold;">{{ appointment.get_status_display }}</span>
+                </div>
+            </div>
+
+            {% if appointment.message %}
+            <h3>Client Message:</h3>
+            <div class="details">
+                <p>{{ appointment.message }}</p>
+            </div>
+            {% endif %}
+
+            <p>Please log in to your admin dashboard to confirm or adjust this appointment if needed.</p>
+
+            <p>Best regards,<br>
+            <strong>HS Consulting System</strong></p>
+        </div>
+
+        <div class="footer">
+            <p>&copy; 2024 HS Consulting. All rights reserved.</p>
+        </div>
+    </div>
+</body>
+</html>

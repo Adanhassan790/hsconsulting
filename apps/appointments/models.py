@@ -68,20 +68,44 @@ class Appointment(models.Model):
         return f"{self.client_name} - {self.appointment_date}"
     
     def send_confirmation_email(self):
-        """Send appointment confirmation email"""
+        """Send appointment confirmation email to both client and owner"""
+        from django.conf import settings
+        
         subject = f"Appointment Confirmation - {self.service.name if self.service else 'HS Consulting'}"
         html_message = render_to_string('emails/appointment_confirmation.html', {
             'appointment': self,
         })
         plain_message = strip_tags(html_message)
+        
+        # Email to client
         send_mail(
             subject,
             plain_message,
             'noreply@hsconsulting.co.ke',
             [self.client_email],
             html_message=html_message,
-            fail_silently=False,
+            fail_silently=True,
         )
+        
+        # Email to owner
+        owner_emails = []
+        if hasattr(settings, 'OWNER_EMAIL') and settings.OWNER_EMAIL:
+            owner_emails.append(settings.OWNER_EMAIL)
+        
+        if owner_emails:
+            owner_subject = f"New Appointment Booking - {self.client_name}"
+            owner_html = render_to_string('emails/appointment_notification_owner.html', {
+                'appointment': self,
+            })
+            owner_plain = strip_tags(owner_html)
+            send_mail(
+                owner_subject,
+                owner_plain,
+                'noreply@hsconsulting.co.ke',
+                owner_emails,
+                html_message=owner_html,
+                fail_silently=True,
+            )
     
     def send_reminder_email(self):
         """Send appointment reminder email 24 hours before"""

@@ -9,12 +9,14 @@ python manage.py collectstatic --noinput --clear
 
 echo "Creating admin superuser if needed..."
 python manage.py shell << END
+import os
 from django.contrib.auth.models import User
 from apps.core.models import CoreSettings
 
 # Create superuser
+admin_password = os.getenv('ADMIN_PASSWORD', 'ChangeMeInProduction123!')
 if not User.objects.filter(username='admin').exists():
-    User.objects.create_superuser('admin', 'admin@hsconsulting.co.ke', 'Admin@123')
+    User.objects.create_superuser('admin', 'admin@hsconsulting.co.ke', admin_password)
     print("✓ Superuser admin created")
 else:
     print("✓ Superuser admin already exists")
@@ -23,16 +25,16 @@ else:
 settings, created = CoreSettings.objects.get_or_create(
     pk=1,
     defaults={
-        'site_name': 'HS Consulting',
+        'site_name': os.getenv('SITE_NAME', 'HS Consulting'),
         'tagline': 'Your trusted tax consultation partner',
         'about_us': 'Leading tax consultation firm in Kenya',
         'mission': 'To provide comprehensive tax solutions',
-        'email': 'info@hsconsulting.co.ke',
-        'phone': '+254729592895',
-        'whatsapp': '+254729592895',
-        'email_2': 'ibrahimhussein481@gmail.com',
-        'phone_2': '+254746645534',
-        'whatsapp_2': '+254729592895',
+        'email': os.getenv('PARTNER_1_EMAIL', 'info@hsconsulting.co.ke'),
+        'phone': os.getenv('PARTNER_1_PHONE', '+254729592895'),
+        'whatsapp': os.getenv('PARTNER_1_WHATSAPP', '+254729592895'),
+        'email_2': os.getenv('PARTNER_2_EMAIL', 'ibrahimhussein481@gmail.com'),
+        'phone_2': os.getenv('PARTNER_2_PHONE', '+254746645534'),
+        'whatsapp_2': os.getenv('PARTNER_2_WHATSAPP', '+254729592895'),
         'address': 'Nairobi, Kenya',
         'city': 'Nairobi',
         'country': 'Kenya'

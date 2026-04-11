@@ -19,7 +19,7 @@ else:
 
 # SECURITY WARNING: keep the secret key used in production secret!
 # Use environment variable, fallback to a placeholder if not set
-SECRET_KEY = env_config('DJANGO_SECRET_KEY', default='django-insecure-change-this-key-in-production-NOW')
+SECRET_KEY = env_config('SECRET_KEY', default='django-insecure-change-this-key-in-production-NOW')
 
 # SECURITY WARNING: don't run with debug turned on in production!
 # For local development, force DEBUG=True. Environment variable can override in production.
@@ -31,7 +31,7 @@ if not DEBUG:
         # We're running the development server locally, force DEBUG=True
         DEBUG = True
 
-ALLOWED_HOSTS = env_config('ALLOWED_HOSTS', default='localhost,127.0.0.1,*.onrender.com,hsconsulting.onrender.com', cast=lambda v: [s.strip() for s in v.split(',')])
+ALLOWED_HOSTS = env_config('ALLOWED_HOSTS', default='localhost,127.0.0.1,*.railway.app', cast=lambda v: [s.strip() for s in v.split(',')])
 
 # Application definition
 INSTALLED_APPS = [
@@ -199,6 +199,7 @@ EMAIL_USE_TLS = config('EMAIL_USE_TLS', default=True, cast=bool)
 EMAIL_HOST_USER = config('EMAIL_HOST_USER', default='')
 EMAIL_HOST_PASSWORD = config('EMAIL_HOST_PASSWORD', default='')
 DEFAULT_FROM_EMAIL = config('DEFAULT_FROM_EMAIL', default='noreply@hsconsulting.co.ke')
+OWNER_EMAIL = config('OWNER_EMAIL', default='')
 
 # Twilio Configuration
 TWILIO_ACCOUNT_SID = config('TWILIO_ACCOUNT_SID', default='')

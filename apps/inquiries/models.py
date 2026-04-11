@@ -1,5 +1,8 @@
 from django.db import models
 from django.utils.translation import gettext_lazy as _
+from django.core.mail import send_mail
+from django.template.loader import render_to_string
+from django.utils.html import strip_tags
 from apps.services.models import Service
 
 
@@ -34,3 +37,44 @@ class Inquiry(models.Model):
     
     def __str__(self):
         return f"{self.name} - {self.email}"
+    
+    def send_confirmation_email(self):
+        """Send inquiry confirmation email to client"""
+        subject = "Thank you for contacting HS Consulting"
+        html_message = render_to_string('emails/inquiry_confirmation.html', {
+            'inquiry': self,
+        })
+        plain_message = strip_tags(html_message)
+        
+        send_mail(
+            subject,
+            plain_message,
+            'noreply@hsconsulting.co.ke',
+            [self.email],
+            html_message=html_message,
+            fail_silently=True,
+        )
+    
+    def send_owner_notification(self):
+        """Send inquiry notification email to owner"""
+        from django.conf import settings
+        
+        owner_emails = []
+        if hasattr(settings, 'OWNER_EMAIL') and settings.OWNER_EMAIL:
+            owner_emails.append(settings.OWNER_EMAIL)
+        
+        if owner_emails:
+            subject = f"New Inquiry from {self.name}"
+            html_message = render_to_string('emails/inquiry_notification_owner.html', {
+                'inquiry': self,
+            })
+            plain_message = strip_tags(html_message)
+            
+            send_mail(
+                subject,
+                plain_message,
+                'noreply@hsconsulting.co.ke',
+                owner_emails,
+                html_message=html_message,
+                fail_silently=True,
+            )
