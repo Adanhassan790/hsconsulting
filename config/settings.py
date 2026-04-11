@@ -74,6 +74,9 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    # Production error logging and diagnostics
+    'apps.core.middleware.ProductionErrorLoggingMiddleware',
+    'apps.core.middleware.RequestLoggingMiddleware',
 ]
 
 # Disable HTTPS enforcement in development
