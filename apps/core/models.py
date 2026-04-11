@@ -31,8 +31,8 @@ class CoreSettings(models.Model):
     city = models.CharField(max_length=100)
     country = models.CharField(max_length=100, default='Kenya')
     
-    logo = models.ImageField(upload_to='branding/')
-    favicon = models.ImageField(upload_to='branding/', blank=True)
+    logo = models.ImageField(upload_to='branding/', blank=True, null=True)
+    favicon = models.ImageField(upload_to='branding/', blank=True, null=True)
     
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
