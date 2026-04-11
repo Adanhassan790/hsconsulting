@@ -42,15 +42,44 @@ def dashboard_access_required(view_func):
                 messages.error(request, 'You do not have dashboard access.')
                 return redirect('core:home')
         
+        # Store access object on request for use in view
+        request.dashboard_access = access
         return view_func(request, *args, **kwargs)
     return wrapper
+
+
+def get_dashboard_access(request):
+    """Safe getter for dashboard access - use in views instead of .get()"""
+    if hasattr(request, 'dashboard_access'):
+        return request.dashboard_access
+    
+    # Fallback to database query with graceful error handling
+    try:
+        return DashboardAccessControl.objects.get(user=request.user)
+    except DashboardAccessControl.DoesNotExist:
+        # Should not happen if decorator worked, but be safe
+        if request.user.is_superuser or request.user.is_staff:
+            access, _ = DashboardAccessControl.objects.get_or_create(
+                user=request.user,
+                defaults={
+                    'can_access_dashboard': True,
+                    'can_manage_inquiries': True,
+                    'can_manage_appointments': True,
+                    'can_manage_clients': True,
+                    'can_manage_services': True,
+                    'can_manage_blog': True,
+                    'can_view_reports': True,
+                }
+            )
+            return access
+        return None
 
 
 @login_required
 @dashboard_access_required
 def dashboard(request):
     """Main admin dashboard"""
-    access = DashboardAccessControl.objects.get(user=request.user)
+    access = get_dashboard_access(request)
     
     # Count metrics
     new_inquiries = Inquiry.objects.filter(status='new').count()
@@ -92,7 +121,7 @@ def dashboard(request):
 @dashboard_access_required
 def inquiries_list(request):
     """Manage inquiries"""
-    access = DashboardAccessControl.objects.get(user=request.user)
+    access = get_dashboard_access(request)
     if not access.can_manage_inquiries:
         messages.error(request, 'You do not have permission to manage inquiries.')
         return redirect('admin_dashboard:dashboard')
@@ -114,7 +143,7 @@ def inquiries_list(request):
 @dashboard_access_required
 def inquiry_detail(request, pk):
     """View and update inquiry"""
-    access = DashboardAccessControl.objects.get(user=request.user)
+    access = get_dashboard_access(request)
     if not access.can_manage_inquiries:
         messages.error(request, 'You do not have permission to manage inquiries.')
         return redirect('admin_dashboard:dashboard')
@@ -138,7 +167,7 @@ def inquiry_detail(request, pk):
 @dashboard_access_required
 def appointments_calendar(request):
     """View appointments in calendar"""
-    access = DashboardAccessControl.objects.get(user=request.user)
+    access = get_dashboard_access(request)
     if not access.can_manage_appointments:
         messages.error(request, 'You do not have permission to manage appointments.')
         return redirect('admin_dashboard:dashboard')
@@ -171,7 +200,7 @@ def appointments_calendar(request):
 @dashboard_access_required
 def clients_list(request):
     """Manage clients"""
-    access = DashboardAccessControl.objects.get(user=request.user)
+    access = get_dashboard_access(request)
     if not access.can_manage_clients:
         messages.error(request, 'You do not have permission to manage clients.')
         return redirect('admin_dashboard:dashboard')
@@ -202,7 +231,7 @@ def clients_list(request):
 @dashboard_access_required
 def reports(request):
     """Dashboard reports and analytics"""
-    access = DashboardAccessControl.objects.get(user=request.user)
+    access = get_dashboard_access(request)
     if not access.can_view_reports:
         messages.error(request, 'You do not have permission to view reports.')
         return redirect('admin_dashboard:dashboard')

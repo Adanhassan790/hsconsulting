@@ -22,6 +22,8 @@ urlpatterns = [
     path('careers/', include(('apps.careers.urls', 'careers'))),
 ]
 
+# Serve media and static files (in production, these should be served by WhiteNoise and storage service)
+# But we include them here as fallback for development and basic production deployments
+urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 if settings.DEBUG:
-    urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
     urlpatterns += static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
