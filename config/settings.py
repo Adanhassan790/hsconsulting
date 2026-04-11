@@ -36,7 +36,6 @@ ALLOWED_HOSTS = env_config('ALLOWED_HOSTS', default='localhost,127.0.0.1,*.railw
 # Application definition
 INSTALLED_APPS = [
     # 'daphne',  # ASGI support - install when needed
-    'jazzmin',  # Modern admin interface
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -218,6 +217,3 @@ if DEBUG:
 else:
     # Production: use WhiteNoise with compression (no manifest required)
     STATICFILES_STORAGE = 'whitenoise.storage.CompressedStaticFilesStorage'
-
-# Jazzmin Admin Configuration
-from jazzmin_config import JAZZMIN_SETTINGS, JAZZMIN_UI_TWEAKS
