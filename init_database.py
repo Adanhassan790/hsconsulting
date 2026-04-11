@@ -30,13 +30,27 @@ settings, created = CoreSettings.objects.get_or_create(
         'whatsapp_2': '+254729592895',
         'address': 'Nairobi, Kenya',
         'city': 'Nairobi',
-        'country': 'Kenya'
+        'country': 'Kenya',
+        'twitter_url': 'https://twitter.com/hsconsulting',
+        'instagram_url': 'https://instagram.com/hsconsulting',
+        'facebook_url': 'https://facebook.com/hsconsulting',
+        'linkedin_url': 'https://linkedin.com/company/hsconsulting'
     }
 )
 if created:
     print("[OK] CoreSettings created")
 else:
     print("[OK] CoreSettings already exists")
+    # Ensure social media URLs are set
+    if not settings.twitter_url:
+        settings.twitter_url = 'https://twitter.com/hsconsulting'
+    if not settings.instagram_url:
+        settings.instagram_url = 'https://instagram.com/hsconsulting'
+    if not settings.facebook_url:
+        settings.facebook_url = 'https://facebook.com/hsconsulting'
+    if not settings.linkedin_url:
+        settings.linkedin_url = 'https://linkedin.com/company/hsconsulting'
+    settings.save()
 
 print("\n2. Creating superuser...")
 if not User.objects.filter(username='admin').exists():
