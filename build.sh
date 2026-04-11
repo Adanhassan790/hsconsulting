@@ -25,13 +25,16 @@ fi
 # 2. Create staticfiles directory if it doesn't exist
 echo ""
 echo "2. Creating staticfiles directory..."
+# Try both absolute and relative paths
 mkdir -p staticfiles
+mkdir -p /app/staticfiles 2>/dev/null || true
 echo -e "${GREEN}✓ staticfiles directory ready${NC}"
 
 # 3. Collect static files
 echo ""
 echo "3. Collecting static files..."
 mkdir -p staticfiles
+mkdir -p /app/staticfiles 2>/dev/null || true
 python manage.py collectstatic --noinput --clear 2>/dev/null || true
 if [ -d "staticfiles" ]; then
     echo -e "${GREEN}✓ Static files directory ready${NC}"
@@ -41,6 +44,8 @@ if [ -d "staticfiles" ]; then
     else
         echo -e "${YELLOW}⚠ staticfiles directory is empty${NC}"
     fi
+elif [ -d "/app/staticfiles" ]; then
+    echo -e "${GREEN}✓ /app/staticfiles directory ready${NC}"
 else
     mkdir -p staticfiles
     echo -e "${YELLOW}⚠ Created empty staticfiles directory${NC}"

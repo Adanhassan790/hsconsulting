@@ -13,22 +13,41 @@ from django.db.utils import OperationalError, ProgrammingError
 
 os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'config.settings')
 
-# Initialize Django first
+# CRITICAL: Create staticfiles directory BEFORE Django initializes
+# WhiteNoise middleware will check for this directory during handler initialization
+import logging
+logger = logging.getLogger('django.request')
+
+def ensure_staticfiles_dir():
+    """Ensure staticfiles directory exists - try multiple strategies"""
+    strategies = [
+        Path('/app/staticfiles'),  # Railway/Container absolute path
+        Path.cwd() / 'staticfiles',  # Current working directory
+        Path(__file__).parent.parent / 'staticfiles',  # Relative to project
+    ]
+    
+    for static_dir in strategies:
+        try:
+            static_dir.mkdir(parents=True, exist_ok=True)
+            return static_dir
+        except Exception:
+            continue
+    
+    return None
+
+# Try to create the directory
+created_dir = ensure_staticfiles_dir()
+
+# Initialize Django
 application = get_wsgi_application()
 
-# Ensure staticfiles directory exists (needed for WhiteNoise middleware)
-# This is critical and must not fail - create empty directory if needed
+# Final safety check - ensure directory exists for Django's STATIC_ROOT
 try:
     from django.conf import settings as django_settings
     static_root = Path(django_settings.STATIC_ROOT)
     static_root.mkdir(parents=True, exist_ok=True)
-except Exception as e:
-    # Fallback: create directory using absolute path
-    try:
-        static_root = Path('./staticfiles')
-        static_root.mkdir(parents=True, exist_ok=True)
-    except:
-        pass  # Last resort - continue anyway, we tried our best
+except Exception:
+    pass
 
 # Run startup tasks ONLY in production (when DATABASE_URL is set)
 if os.environ.get('DATABASE_URL'):
