@@ -1,6 +1,3 @@
-[build]
-builder = "dockerfile"
-
 [[services]]
 type = "web"
 name = "hsconsulting"
