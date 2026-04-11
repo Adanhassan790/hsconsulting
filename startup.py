@@ -123,7 +123,18 @@ def main():
     log_timestamp(f"Working directory: {os.getcwd()}")
     log_timestamp(f"PATH: {os.environ.get('PATH', '')[:100]}...")
     
+    # Set Django settings FIRST
     os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'config.settings')
+    
+    # Initialize Django BEFORE any database operations
+    log_timestamp("\n[SETUP] Initializing Django...")
+    try:
+        import django
+        django.setup()
+        log_timestamp("[OK] Django initialized successfully")
+    except Exception as e:
+        log_timestamp(f"[ERROR] Django initialization failed: {type(e).__name__}: {str(e)}")
+        log_timestamp("[ERROR] This may cause database operations to fail")
     
     # CRITICAL STEP 1: Database migrations
     log_timestamp("\n" + "="*80)
@@ -139,21 +150,32 @@ def main():
     if not migrations_ok:
         log_timestamp("[WARNING] Migrations may have failed. Checking database...")
         
-    # Check database connection
-    log_timestamp("\nChecking database connection...")
-    os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'config.settings')
-    
-    # Initialize Django
+    # Check database connection and verify tables exist
+    log_timestamp("\nChecking database connection and tables...")
     try:
-        import django
-        django.setup()
+        from django.db import connections
+        from django.core.management import call_command
         
-        if check_database():
-            log_timestamp("[OK] Database is accessible")
-        else:
-            log_timestamp("[ERROR] Database is NOT accessible - migrations may not have worked")
+        conn = connections['default']
+        cursor = conn.cursor()
+        
+        # Try to query a critical table
+        try:
+            cursor.execute("SELECT COUNT(*) FROM core_coresettings")
+            count = cursor.fetchone()[0]
+            log_timestamp(f"[OK] Database is accessible and core_coresettings table exists ({count} records)")
+        except Exception as table_error:
+            log_timestamp(f"[WARNING] core_coresettings table not found: {str(table_error)[:100]}")
+            log_timestamp("[ACTION] Running migrations again...")
+            try:
+                call_command('migrate', verbosity=0, interactive=False)
+                log_timestamp("[OK] Re-ran migrations")
+            except Exception as retry_error:
+                log_timestamp(f"[ERROR] Re-run migration failed: {str(retry_error)[:100]}")
+        
+        cursor.close()
     except Exception as e:
-        log_timestamp(f"[ERROR] Django setup failed: {e}")
+        log_timestamp(f"[ERROR] Database check failed: {type(e).__name__}: {str(e)[:100]}")
     
     # CRITICAL STEP 2: Collect static files
     log_timestamp("\n" + "="*80)
@@ -179,17 +201,35 @@ def main():
     try:
         import shutil
         copy_count = 0
-        for file_path in source_static.rglob('*'):
-            if file_path.is_file():
-                rel_path = file_path.relative_to(source_static)
-                dest_path = staticfiles_path / rel_path
-                dest_path.parent.mkdir(parents=True, exist_ok=True)
-                shutil.copy2(file_path, dest_path)
-                copy_count += 1
         
-        log_timestamp(f"[OK] Guaranteed copy: {copy_count} files copied to staticfiles/")
+        if source_static.exists():
+            log_timestamp(f"[INFO] Source static directory exists at: {source_static.absolute()}")
+            for file_path in source_static.rglob('*'):
+                if file_path.is_file():
+                    rel_path = file_path.relative_to(source_static)
+                    dest_path = staticfiles_path / rel_path
+                    dest_path.parent.mkdir(parents=True, exist_ok=True)
+                    shutil.copy2(file_path, dest_path)
+                    copy_count += 1
+                    log_timestamp(f"[COPY] {rel_path}")
+            
+            log_timestamp(f"[OK] Guaranteed copy: {copy_count} files copied to staticfiles/")
+        else:
+            log_timestamp(f"[WARNING] Source static/ directory not found at {source_static.absolute()}")
+            # Create fallback static structure
+            fallback_files = {
+                'images/logo.png': 'Logo file',
+                'css/style.css': 'Stylesheet',
+                'js/main.js': 'JavaScript'
+            }
+            for file_rel, desc in fallback_files.items():
+                dest_path = staticfiles_path / file_rel
+                dest_path.parent.mkdir(parents=True, exist_ok=True)
+                log_timestamp(f"[FALLBACK] Created directory structure for {desc}")
+            
     except Exception as e:
         log_timestamp(f"[ERROR] Guaranteed copy failed: {type(e).__name__}: {str(e)}")
+        log_timestamp(f"[ERROR] Details: {str(e)}")
     
     static_ok = run_command(
         "python manage.py collectstatic --noinput --clear --verbosity 2",
