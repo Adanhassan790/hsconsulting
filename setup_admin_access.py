@@ -78,7 +78,7 @@ def setup_admin_dashboard():
     print("=" * 70)
     print(f"  Created: {created_count} new access records")
     print(f"  Updated: {updated_count} existing access records")
-    print("\n✅ Admin dashboard is now properly configured!")
+    print("[OK] Admin dashboard is now properly configured!")
     print("\nYou can now access:")
     print("  - Admin panel: /admin/")
     print("  - Dashboard: /admin-dashboard/")

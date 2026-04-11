@@ -232,10 +232,11 @@ def main():
     log_timestamp("[SUCCESS] STARTUP COMPLETE - Gunicorn can now start")
     log_timestamp("="*80)
     log_timestamp(f"Summary:")
-    log_timestamp(f"  - Migrations: {'✓ OK' if migrations_ok else '⚠ Check logs'}")
+    log_timestamp(f"  - Migrations: {'[OK]' if migrations_ok else '[WARN] Check logs'}")
     log_timestamp(f"  - Static files: {sum(1 for _ in Path('staticfiles').rglob('*') if _.is_file()) if Path('staticfiles').exists() else 0} files")
     log_timestamp(f"  - ready for gunicorn on 0.0.0.0:8080")
     log_timestamp("="*80 + "\n")
+    sys.exit(0)  # Explicit success exit
 
 if __name__ == '__main__':
     main()
