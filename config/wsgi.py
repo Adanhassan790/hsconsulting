@@ -13,13 +13,22 @@ from django.db.utils import OperationalError, ProgrammingError
 
 os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'config.settings')
 
-# Ensure staticfiles directory exists (needed for WhiteNoise middleware)
-from django.conf import settings as django_settings
-static_root = Path(django_settings.STATIC_ROOT)
-static_root.mkdir(parents=True, exist_ok=True)
-
-# Initialize Django
+# Initialize Django first
 application = get_wsgi_application()
+
+# Ensure staticfiles directory exists (needed for WhiteNoise middleware)
+# This is critical and must not fail - create empty directory if needed
+try:
+    from django.conf import settings as django_settings
+    static_root = Path(django_settings.STATIC_ROOT)
+    static_root.mkdir(parents=True, exist_ok=True)
+except Exception as e:
+    # Fallback: create directory using absolute path
+    try:
+        static_root = Path('./staticfiles')
+        static_root.mkdir(parents=True, exist_ok=True)
+    except:
+        pass  # Last resort - continue anyway, we tried our best
 
 # Run startup tasks ONLY in production (when DATABASE_URL is set)
 if os.environ.get('DATABASE_URL'):

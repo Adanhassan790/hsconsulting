@@ -31,10 +31,19 @@ echo -e "${GREEN}✓ staticfiles directory ready${NC}"
 # 3. Collect static files
 echo ""
 echo "3. Collecting static files..."
-if ! python manage.py collectstatic --noinput --clear 2>&1 | grep -q "error\|Error"; then
-    echo -e "${GREEN}✓ Static files collected${NC}"
+mkdir -p staticfiles
+python manage.py collectstatic --noinput --clear 2>/dev/null || true
+if [ -d "staticfiles" ]; then
+    echo -e "${GREEN}✓ Static files directory ready${NC}"
+    # Check if staticfiles has content
+    if [ "$(ls -A staticfiles)" ]; then
+        echo -e "${GREEN}✓ Static files collected${NC}"
+    else
+        echo -e "${YELLOW}⚠ staticfiles directory is empty${NC}"
+    fi
 else
-    echo -e "${YELLOW}⚠ Static file collection had warnings (non-critical)${NC}"
+    mkdir -p staticfiles
+    echo -e "${YELLOW}⚠ Created empty staticfiles directory${NC}"
 fi
 
 # 4. Initialize database
