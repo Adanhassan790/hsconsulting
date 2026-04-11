@@ -25,8 +25,22 @@ def dashboard_access_required(view_func):
                 messages.error(request, 'You do not have permission to access the dashboard.')
                 return redirect('core:home')
         except DashboardAccessControl.DoesNotExist:
-            messages.error(request, 'You do not have dashboard access.')
-            return redirect('core:home')
+            # If superuser/staff but no access record, create one
+            if request.user.is_superuser or request.user.is_staff:
+                access = DashboardAccessControl.objects.create(
+                    user=request.user,
+                    can_access_dashboard=True,
+                    can_manage_inquiries=True,
+                    can_manage_appointments=True,
+                    can_manage_clients=True,
+                    can_manage_services=True,
+                    can_manage_blog=True,
+                    can_view_reports=True,
+                )
+                # Continue to view_func
+            else:
+                messages.error(request, 'You do not have dashboard access.')
+                return redirect('core:home')
         
         return view_func(request, *args, **kwargs)
     return wrapper
