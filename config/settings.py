@@ -35,7 +35,7 @@ ALLOWED_HOSTS = env_config('ALLOWED_HOSTS', default='localhost,127.0.0.1,*.railw
 
 # Application definition
 INSTALLED_APPS = [
-    # 'daphne',  # ASGI support - install when needed
+    'jazzmin',  # Django admin theme - must be BEFORE django.contrib.admin
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -220,3 +220,74 @@ if DEBUG:
 else:
     # Production: use WhiteNoise with compression (no manifest required)
     STATICFILES_STORAGE = 'whitenoise.storage.CompressedStaticFilesStorage'
+
+# Django Jazzmin Admin Theme Configuration
+JAZZMIN_SETTINGS = {
+    "site_title": "HS Consulting Admin",
+    "site_header": "HS Consulting",
+    "site_brand": "HS Consulting",
+    "welcome_sign": "Welcome to HS Consulting Admin Panel",
+    "copyright": "HS Consulting © 2026",
+    
+    # UI customization
+    "show_ui_builder": False,
+    "navigation_expanded": True,
+    
+    # Icons
+    "icons": {
+        "auth": "fas fa-users-cog",
+        "auth.user": "fas fa-user",
+        "auth.Group": "fas fa-users",
+        "core.CoreSettings": "fas fa-cogs",
+        "services.Service": "fas fa-briefcase",
+        "appointments.Appointment": "fas fa-calendar",
+        "inquiries.Inquiry": "fas fa-envelope",
+        "clients.Client": "fas fa-building",
+        "blog.Post": "fas fa-newspaper",
+        "testimonials.Testimonial": "fas fa-star",
+        "careers.JobOpening": "fas fa-briefcase",
+    },
+    
+    # Order of apps/models in sidebar
+    "order_with_respect_to": [
+        "core",
+        "services",
+        "appointments",
+        "inquiries",
+        "clients",
+        "testimonials",
+        "blog",
+        "careers",
+    ],
+}
+
+JAZZMIN_UI_TWEAKS = {
+    "navbar_small": False,
+    "footer_small": False,
+    "body_small": False,
+    "brand_small": False,
+    "brand_colour": False,
+    "accent": "accent-primary",
+    "navbar": "navbar-white navbar-light",
+    "no_navbar_border": False,
+    "navbar_fixed": False,
+    "layout_boxed": False,
+    "footer_fixed": False,
+    "sidebar_fixed": True,
+    "sidebar_nav_small_icon": False,
+    "sidebar_disable_expand": False,
+    "sidebar_nav_child_indent": False,
+    "sidebar_nav_compact_style": False,
+    "sidebar_nav_legacy_style": False,
+    "sidebar_nav_flat_style": False,
+    "theme": "default",
+    "dark_mode_theme": None,
+    "button_classes": {
+        "primary": "btn-primary",
+        "secondary": "btn-secondary",
+        "info": "btn-info",
+        "warning": "btn-warning",
+        "danger": "btn-danger",
+        "success": "btn-success",
+    },
+}
