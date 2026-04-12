@@ -61,13 +61,13 @@ try:
             'whatsapp': '+254729592895',
             'email_2': 'ibrahimhussein481@gmail.com',
             'phone_2': '+254746645534',
-            'whatsapp_2': '+254729592895',
+            'whatsapp_2': '+254746645534',
             'address': 'Nairobi, Kenya',
             'city': 'Nairobi',
             'country': 'Kenya',
             'twitter_url': 'https://twitter.com/hsconsulting',
             'instagram_url': 'https://instagram.com/hsconsulting_tax',
-            'facebook_url': 'https://facebook.com/hsconsulting',
+            'facebook_url': 'https://www.facebook.com/profile.php?id=61578462577692',
             'linkedin_url': 'https://linkedin.com/company/hs-consulting'
         }
     )
@@ -81,7 +81,7 @@ try:
         if not settings.instagram_url:
             settings.instagram_url = 'https://instagram.com/hsconsulting_tax'
         if not settings.facebook_url:
-            settings.facebook_url = 'https://facebook.com/hsconsulting'
+            settings.facebook_url = 'https://www.facebook.com/profile.php?id=61578462577692'
         if not settings.linkedin_url:
             settings.linkedin_url = 'https://linkedin.com/company/hs-consulting'
         settings.save()
