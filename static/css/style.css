@@ -58,16 +58,24 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 .navbar-brand img {
-    animation: logoFlipFullScreen 3s ease-in-out forwards;
+    animation: none;
     position: relative;
     z-index: 9999;
 }
 
-.hero-logo {
+#navbar-logo.first-load {
     animation: logoFlipFullScreen 3s ease-in-out forwards;
+}
+
+.hero-logo {
+    animation: none;
     position: relative;
     z-index: 100;
-    filter: drop-shadow(0 8px 24px rgba(230, 0, 0, 0.3));
+    filter: drop-shadow(0 8px 24px rgba(232, 76, 159, 0.3));
+}
+
+.hero-logo.first-load {
+    animation: logoFlipFullScreen 3s ease-in-out forwards;
 }
 
 @keyframes logoFlipFullScreen {
@@ -127,8 +135,8 @@ h1, h2, h3, h4, h5, h6 {
 
 /* Hero Section */
 .hero {
-    background: linear-gradient(135deg, rgba(42, 42, 42, 0.8) 0%, rgba(230, 0, 0, 0.1) 100%), 
-                url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 600"><defs><linearGradient id="grad" x1="0%25" y1="0%25" x2="100%25" y2="100%25"><stop offset="0%25" style="stop-color:%23ffffff;stop-opacity:0.1" /><stop offset="100%25" style="stop-color:%23E60000;stop-opacity:0.15" /></linearGradient></defs><rect width="1200" height="600" fill="url(%23grad)"/></svg>');
+    background: linear-gradient(135deg, rgba(42, 42, 42, 0.8) 0%, rgba(232, 76, 159, 0.1) 100%), 
+                url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 600"><defs><linearGradient id="grad" x1="0%25" y1="0%25" x2="100%25" y2="100%25"><stop offset="0%25" style="stop-color:%23ffffff;stop-opacity:0.1" /><stop offset="100%25" style="stop-color:%23E84C9F;stop-opacity:0.15" /></linearGradient></defs><rect width="1200" height="600" fill="url(%23grad)"/></svg>');
     background-size: cover;
     background-position: center;
     color: var(--light-white);
@@ -181,7 +189,7 @@ h1, h2, h3, h4, h5, h6 {
 .btn-danger:hover {
     background: var(--accent-red) !important;
     transform: translateY(-2px);
-    box-shadow: 0 6px 20px rgba(230, 0, 0, 0.3) !important;
+    box-shadow: 0 6px 20px rgba(232, 76, 159, 0.3) !important;
 }
 
 .btn-primary {
@@ -204,7 +212,7 @@ h1, h2, h3, h4, h5, h6 {
 
 .card:hover {
     transform: translateY(-8px);
-    box-shadow: 0 12px 24px rgba(230, 0, 0, 0.15);
+    box-shadow: 0 12px 24px rgba(232, 76, 159, 0.15);
 }
 
 .card-body {
@@ -325,7 +333,7 @@ h1, h2, h3, h4, h5, h6 {
 
 .form-control:focus {
     border-color: var(--primary-red);
-    box-shadow: 0 0 0 0.2rem rgba(230, 0, 0, 0.15);
+    box-shadow: 0 0 0 0.2rem rgba(232, 76, 159, 0.15);
 }
 
 .form-label {
@@ -342,8 +350,8 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 .alert-danger {
-    background: rgba(230, 0, 0, 0.1);
-    color: #8B0000;
+    background: rgba(232, 76, 159, 0.1);
+    color: #A04E7F;
     border-left-color: var(--primary-red);
 }
 
