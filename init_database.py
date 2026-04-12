@@ -66,9 +66,9 @@ try:
             'city': 'Nairobi',
             'country': 'Kenya',
             'twitter_url': 'https://twitter.com/hsconsulting',
-            'instagram_url': 'https://instagram.com/hsconsulting',
+            'instagram_url': 'https://instagram.com/hsconsulting_tax',
             'facebook_url': 'https://facebook.com/hsconsulting',
-            'linkedin_url': 'https://linkedin.com/company/hsconsulting'
+            'linkedin_url': 'https://linkedin.com/company/hs-consulting'
         }
     )
     if created:
@@ -79,11 +79,11 @@ try:
         if not settings.twitter_url:
             settings.twitter_url = 'https://twitter.com/hsconsulting'
         if not settings.instagram_url:
-            settings.instagram_url = 'https://instagram.com/hsconsulting'
+            settings.instagram_url = 'https://instagram.com/hsconsulting_tax'
         if not settings.facebook_url:
             settings.facebook_url = 'https://facebook.com/hsconsulting'
         if not settings.linkedin_url:
-            settings.linkedin_url = 'https://linkedin.com/company/hsconsulting'
+            settings.linkedin_url = 'https://linkedin.com/company/hs-consulting'
         settings.save()
 except Exception as e:
     print(f"[ERROR] CoreSettings initialization failed: {e}")
