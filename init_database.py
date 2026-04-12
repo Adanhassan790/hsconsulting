@@ -68,7 +68,7 @@ try:
             'twitter_url': 'https://twitter.com/hsconsulting',
             'instagram_url': 'https://instagram.com/hsconsulting_tax',
             'facebook_url': 'https://www.facebook.com/profile.php?id=61578462577692',
-            'linkedin_url': 'https://linkedin.com/company/hs-consulting'
+            'linkedin_url': 'https://www.linkedin.com/company/hsconsultingkenya/'
         }
     )
     if created:
@@ -83,7 +83,7 @@ try:
         if not settings.facebook_url:
             settings.facebook_url = 'https://www.facebook.com/profile.php?id=61578462577692'
         if not settings.linkedin_url:
-            settings.linkedin_url = 'https://linkedin.com/company/hs-consulting'
+            settings.linkedin_url = 'https://www.linkedin.com/company/hsconsultingkenya/'
         settings.save()
 except Exception as e:
     print(f"[ERROR] CoreSettings initialization failed: {e}")
