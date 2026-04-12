@@ -96,7 +96,7 @@
                             </a>
                             {% endif %}
                             {% if settings.whatsapp %}
-                            <a href="https://wa.me/254{{ settings.whatsapp|slice:'1:' }}?text={{ settings.whatsapp_message|urlencode }}" target="_blank" rel="noopener" class="text-white-50 text-decoration-none" title="WhatsApp">
+                            <a href="https://wa.me/{{ settings.whatsapp|slice:'1:' }}?text={{ settings.whatsapp_message|urlencode }}" target="_blank" rel="noopener" class="text-white-50 text-decoration-none" title="WhatsApp">
                                 <i class="fab fa-whatsapp fs-5"></i>
                             </a>
                             {% endif %}
@@ -120,7 +120,7 @@
                             <a href="mailto:{{ settings.email }}" class="text-white-50">{{ settings.email }}</a><br>
                             <a href="tel:{{ settings.phone }}" class="text-white-50">{{ settings.phone }}</a><br>
                             {% if settings.whatsapp %}
-                            <a href="https://wa.me/254{{ settings.whatsapp|slice:'1:' }}?text={{ settings.whatsapp_message|urlencode }}" class="text-white-50" target="_blank">
+                            <a href="https://wa.me/{{ settings.whatsapp|slice:'1:' }}?text={{ settings.whatsapp_message|urlencode }}" class="text-white-50" target="_blank">
                                 <i class="fab fa-whatsapp"></i> {{ settings.whatsapp }}
                             </a>
                             {% endif %}
@@ -142,7 +142,7 @@
                             <a href="tel:{{ settings.phone_2 }}" class="text-white-50">{{ settings.phone_2 }}</a><br>
                             {% endif %}
                             {% if settings.whatsapp_2 %}
-                            <a href="https://wa.me/254{{ settings.whatsapp_2|slice:'1:' }}?text={{ settings.whatsapp_message|urlencode }}" class="text-white-50" target="_blank">
+                            <a href="https://wa.me/{{ settings.whatsapp_2|slice:'1:' }}?text={{ settings.whatsapp_message|urlencode }}" class="text-white-50" target="_blank">
                                 <i class="fab fa-whatsapp"></i> {{ settings.whatsapp_2 }}
                             </a>
                             {% endif %}
