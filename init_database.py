@@ -65,10 +65,10 @@ try:
             'address': 'Nairobi, Kenya',
             'city': 'Nairobi',
             'country': 'Kenya',
-            'twitter_url': 'https://twitter.com/hs_consulting',
-            'instagram_url': 'https://www.instagram.com/hs_consulting_ke/',
-            'facebook_url': 'https://www.facebook.com/hs.consulting.ke/',
-            'linkedin_url': 'https://www.linkedin.com/company/hs-consulting-ke/'
+            'twitter_url': 'https://twitter.com/hsconsulting',
+            'instagram_url': 'https://instagram.com/hsconsulting',
+            'facebook_url': 'https://facebook.com/hsconsulting',
+            'linkedin_url': 'https://linkedin.com/company/hsconsulting'
         }
     )
     if created:
@@ -77,13 +77,13 @@ try:
         print("[OK] CoreSettings already exists")
         # Ensure social media URLs are set
         if not settings.twitter_url:
-            settings.twitter_url = 'https://twitter.com/hs_consulting'
+            settings.twitter_url = 'https://twitter.com/hsconsulting'
         if not settings.instagram_url:
-            settings.instagram_url = 'https://www.instagram.com/hs_consulting_ke/'
+            settings.instagram_url = 'https://instagram.com/hsconsulting'
         if not settings.facebook_url:
-            settings.facebook_url = 'https://www.facebook.com/hs.consulting.ke/'
+            settings.facebook_url = 'https://facebook.com/hsconsulting'
         if not settings.linkedin_url:
-            settings.linkedin_url = 'https://www.linkedin.com/company/hs-consulting-ke/'
+            settings.linkedin_url = 'https://linkedin.com/company/hsconsulting'
         settings.save()
 except Exception as e:
     print(f"[ERROR] CoreSettings initialization failed: {e}")
