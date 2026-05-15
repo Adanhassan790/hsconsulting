@@ -87,11 +87,7 @@ if os.environ.get('DATABASE_URL'):
             from django.db import connection
             
             # Verify table exists before querying
-            with connection.cursor() as cursor:
-                cursor.execute(
-                    "SELECT name FROM sqlite_master WHERE type='table' AND name='core_coresettings';"
-                )
-                table_exists = cursor.fetchone() is not None
+            table_exists = 'core_coresettings' in connection.introspection.table_names()
             
             if not table_exists:
                 print("⚠ STARTUP: CoreSettings table not found, skipping initialization", file=sys.stderr)

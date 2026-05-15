@@ -22,22 +22,21 @@ print("=" * 70)
 
 # First, verify tables exist
 print("\n[CHECK] Verifying database tables...")
-with connection.cursor() as cursor:
-    try:
-        cursor.execute("SELECT name FROM sqlite_master WHERE type='table' AND name='core_coresettings'")
-        if not cursor.fetchone():
-            print("[ERROR] core_coresettings table does not exist!")
-            print("[ERROR] Migrations may not have run properly")
-            print("[ACTION] Attempting to run migrations...")
-            try:
-                from django.core.management import call_command
-                call_command('migrate', verbosity=1, interactive=False)
-                print("[OK] Migrations completed")
-            except Exception as e:
-                print(f"[ERROR] Migration attempt failed: {e}")
-                sys.exit(1)
-    except Exception as e:
-        print(f"[WARNING] Table check failed: {e}")
+try:
+    table_names = connection.introspection.table_names()
+    if 'core_coresettings' not in table_names:
+        print("[ERROR] core_coresettings table does not exist!")
+        print("[ERROR] Migrations may not have run properly")
+        print("[ACTION] Attempting to run migrations...")
+        try:
+            from django.core.management import call_command
+            call_command('migrate', verbosity=1, interactive=False)
+            print("[OK] Migrations completed")
+        except Exception as e:
+            print(f"[ERROR] Migration attempt failed: {e}")
+            sys.exit(1)
+except Exception as e:
+    print(f"[WARNING] Table check failed: {e}")
 
 # Now try to import models
 try:
