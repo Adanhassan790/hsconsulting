@@ -9,20 +9,7 @@ class Migration(migrations.Migration):
         ('core', '0001_initial'),
     ]
 
-    operations = [
-        migrations.AddField(
-            model_name='coresettings',
-            name='email_2',
-            field=models.EmailField(blank=True, help_text="Second partner's email", max_length=254),
-        ),
-        migrations.AddField(
-            model_name='coresettings',
-            name='phone_2',
-            field=models.CharField(blank=True, help_text="Second partner's phone", max_length=20),
-        ),
-        migrations.AddField(
-            model_name='coresettings',
-            name='whatsapp_2',
-            field=models.CharField(blank=True, help_text="Second partner's WhatsApp", max_length=20),
-        ),
-    ]
+    # The requested partner contact fields already exist in 0001_initial.
+    # Keep this migration as a no-op so databases with a stale migration graph
+    # can mark it applied without attempting duplicate column additions.
+    operations = []
