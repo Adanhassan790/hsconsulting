@@ -3,28 +3,104 @@
 {% block title %}{{ post.title }} - HS Consulting Blog{% endblock %}
 
 {% block content %}
-<section class="section-padding">
+<section class="section-padding blog-page">
     <div class="container">
-        <div class="row">
-            <div class="col-md-8 offset-md-2">
-                {% if post.featured_image %}
-                    <img src="{{ post.featured_image.url }}" alt="{{ post.title }}" class="img-fluid rounded mb-4">
-                {% endif %}
-
-                <h1 class="text-danger mb-2">{{ post.title }}</h1>
-                <p class="text-muted post-meta mb-3">{{ post.published_date|date:'M d, Y' }} • Views: {{ post.view_count }}</p>
-                <hr>
-
-                <div class="blog-content mb-5 fs-6" style="color:#444; line-height:1.8;">
-                    {{ post.content }}
+        <div class="blog-hero card shadow-sm border-0 mb-4">
+            <div class="card-body p-4 p-lg-5">
+                <div class="row align-items-end g-4">
+                    <div class="col-lg-8">
+                        <span class="blog-kicker">Article</span>
+                        <h1 class="blog-page-title mb-3">{{ post.title }}</h1>
+                        <div class="d-flex flex-wrap gap-2 align-items-center">
+                            {% if post.category %}
+                            <span class="badge bg-secondary blog-badge">{{ post.category.name }}</span>
+                            {% endif %}
+                            <span class="blog-meta-chip">{{ post.published_at|date:'M d, Y' }}</span>
+                            <span class="blog-meta-chip">{{ post.views_count }} views</span>
+                            <span class="blog-meta-chip">By {{ post.author }}</span>
+                        </div>
+                    </div>
+                    <div class="col-lg-4 text-lg-end">
+                        <a href="{% url 'blog:list' %}" class="btn btn-outline-light blog-back-btn">← Back to Blog</a>
+                    </div>
                 </div>
-                
-                {% if post.category %}
-                    <p><strong>Category:</strong> {{ post.category.name }}</p>
-                {% endif %}
-                
-                <a href="{% url 'blog:list' %}" class="btn btn-secondary">← Back to Blog</a>
             </div>
+        </div>
+
+        <div class="row g-4 align-items-start">
+            <div class="col-lg-8">
+                <article class="blog-panel">
+                    {% if post.featured_image %}
+                    <img src="{{ post.featured_image.url }}" alt="{{ post.title }}" class="blog-detail-image">
+                    {% endif %}
+
+                    <div class="p-3 p-lg-4 p-xl-5">
+                        <div class="blog-content blog-article-content">
+                            {{ post.content|linebreaks }}
+                        </div>
+                    </div>
+                </article>
+
+                {% if related_posts %}
+                <div class="blog-panel mt-4">
+                    <div class="blog-panel-header">
+                        <h2 class="h5 mb-0">Related Posts</h2>
+                    </div>
+                    <div class="row g-3 p-3 p-lg-4">
+                        {% for related in related_posts %}
+                        <div class="col-md-4">
+                            <a href="{% url 'blog:detail' related.slug %}" class="related-blog-card">
+                                {% if related.featured_image %}
+                                <img src="{{ related.featured_image.url }}" alt="{{ related.title }}">
+                                {% endif %}
+                                <div>
+                                    <h3>{{ related.title }}</h3>
+                                    <p>{{ related.published_at|date:'M d, Y' }}</p>
+                                </div>
+                            </a>
+                        </div>
+                        {% endfor %}
+                    </div>
+                </div>
+                {% endif %}
+            </div>
+
+            <aside class="col-lg-4">
+                <div class="blog-panel mb-4">
+                    <div class="blog-panel-header">
+                        <h2 class="h5 mb-0">Article Details</h2>
+                    </div>
+                    <div class="p-3 p-lg-4 blog-detail-side">
+                        <div class="blog-detail-row">
+                            <span>Author</span>
+                            <strong>{{ post.author }}</strong>
+                        </div>
+                        <div class="blog-detail-row">
+                            <span>Published</span>
+                            <strong>{{ post.published_at|date:'M d, Y' }}</strong>
+                        </div>
+                        <div class="blog-detail-row">
+                            <span>Views</span>
+                            <strong>{{ post.views_count }}</strong>
+                        </div>
+                        {% if post.category %}
+                        <div class="blog-detail-row">
+                            <span>Category</span>
+                            <strong>{{ post.category.name }}</strong>
+                        </div>
+                        {% endif %}
+                    </div>
+                </div>
+
+                <div class="blog-panel">
+                    <div class="blog-panel-header">
+                        <h2 class="h5 mb-0">Summary</h2>
+                    </div>
+                    <div class="p-3 p-lg-4">
+                        <p class="mb-0 text-muted">{{ post.excerpt|default:post.content|truncatewords:45 }}</p>
+                    </div>
+                </div>
+            </aside>
         </div>
     </div>
 </section>

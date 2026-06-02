@@ -3,34 +3,153 @@
 {% block title %}Blog - HS Consulting{% endblock %}
 
 {% block content %}
-<section class="section-padding">
+<section class="section-padding blog-page">
     <div class="container">
-        <h1 class="section-title text-center mb-5">Tax Insights & Articles</h1>
-        
-        <div class="row blog-grid">
-            {% for post in posts %}
-                <div class="col-md-6 mb-4">
-                    <article class="card h-100 blog-card shadow-sm">
-                        {% if post.featured_image %}
-                        <img src="{{ post.featured_image.url }}" alt="{{ post.title }}" class="post-image">
-                        {% endif %}
-                        <div class="card-body d-flex flex-column">
-                            <h5 class="card-title text-danger mb-2">{{ post.title }}</h5>
-                            {% if post.category %}
-                                <span class="badge bg-secondary mb-2">{{ post.category.name }}</span>
-                            {% endif %}
-                            <p class="post-excerpt mb-3">{{ post.content|truncatewords:30 }}</p>
-
-                            <div class="mt-auto d-flex justify-content-between align-items-center">
-                                <small class="text-muted post-meta">{{ post.published_date|date:'M d, Y' }} • Views: {{ post.view_count }}</small>
-                                <a href="{% url 'blog:detail' post.slug %}" class="btn btn-danger btn-sm">Read More</a>
+        <div class="blog-hero card shadow-sm border-0 mb-4">
+            <div class="card-body p-4 p-lg-5">
+                <div class="row align-items-center g-4">
+                    <div class="col-lg-8">
+                        <span class="blog-kicker">Insights</span>
+                        <h1 class="blog-page-title mb-3">Tax Insights & Articles</h1>
+                        <p class="blog-page-lead mb-0">Clear, sectioned updates on tax, compliance, and business topics presented in a professional layout.</p>
+                    </div>
+                    <div class="col-lg-4">
+                        <div class="blog-hero-stats">
+                            <div class="blog-stat">
+                                <span class="blog-stat-value">{{ posts.paginator.count }}</span>
+                                <span class="blog-stat-label">Articles</span>
+                            </div>
+                            <div class="blog-stat">
+                                <span class="blog-stat-value">{{ categories|length }}</span>
+                                <span class="blog-stat-label">Categories</span>
+                            </div>
+                            <div class="blog-stat">
+                                <span class="blog-stat-value">{{ featured|length }}</span>
+                                <span class="blog-stat-label">Featured</span>
                             </div>
                         </div>
-                    </article>
+                    </div>
                 </div>
-            {% empty %}
-                <div class="alert alert-info w-100">No blog posts available yet.</div>
-            {% endfor %}
+            </div>
+        </div>
+
+        <div class="row g-4 align-items-start">
+            <div class="col-lg-8">
+                {% if featured %}
+                <div class="blog-panel mb-4">
+                    <div class="blog-panel-header">
+                        <h2 class="h5 mb-0">Featured Articles</h2>
+                    </div>
+                    <div class="row g-4 p-3 p-lg-4">
+                        {% for post in featured %}
+                        <div class="col-md-6">
+                            <article class="card h-100 blog-card blog-featured-card shadow-sm">
+                                {% if post.featured_image %}
+                                <img src="{{ post.featured_image.url }}" alt="{{ post.title }}" class="post-image">
+                                {% endif %}
+                                <div class="card-body d-flex flex-column">
+                                    {% if post.category %}
+                                    <span class="badge bg-secondary blog-badge mb-2">{{ post.category.name }}</span>
+                                    {% endif %}
+                                    <h3 class="card-title blog-card-title mb-2">{{ post.title }}</h3>
+                                    <p class="post-excerpt mb-3">{{ post.excerpt|default:post.content|truncatewords:28 }}</p>
+                                    <div class="mt-auto d-flex justify-content-between align-items-center gap-3">
+                                        <small class="text-muted post-meta">{{ post.published_at|date:'M d, Y' }} • By {{ post.author }}</small>
+                                        <a href="{% url 'blog:detail' post.slug %}" class="btn btn-danger btn-sm">Read More</a>
+                                    </div>
+                                </div>
+                            </article>
+                        </div>
+                        {% endfor %}
+                    </div>
+                </div>
+                {% endif %}
+
+                <div class="blog-panel">
+                    <div class="blog-panel-header d-flex justify-content-between align-items-center flex-wrap gap-2">
+                        <h2 class="h5 mb-0">Latest Posts</h2>
+                        {% if request.GET.category %}
+                        <span class="blog-filter-pill">Filtered by category</span>
+                        {% endif %}
+                    </div>
+
+                    <div class="row g-4 p-3 p-lg-4">
+                        {% for post in posts %}
+                        <div class="col-12">
+                            <article class="card blog-card blog-list-card shadow-sm">
+                                <div class="row g-0">
+                                    <div class="col-md-4">
+                                        {% if post.featured_image %}
+                                        <img src="{{ post.featured_image.url }}" alt="{{ post.title }}" class="post-image blog-list-image">
+                                        {% else %}
+                                        <div class="blog-image-placeholder"></div>
+                                        {% endif %}
+                                    </div>
+                                    <div class="col-md-8">
+                                        <div class="card-body d-flex flex-column h-100">
+                                            <div class="d-flex flex-wrap gap-2 mb-2">
+                                                {% if post.category %}
+                                                <span class="badge bg-secondary blog-badge">{{ post.category.name }}</span>
+                                                {% endif %}
+                                                <span class="blog-meta-chip">{{ post.published_at|date:'M d, Y' }}</span>
+                                                <span class="blog-meta-chip">{{ post.views_count }} views</span>
+                                            </div>
+                                            <h3 class="card-title blog-card-title mb-2">{{ post.title }}</h3>
+                                            <p class="post-excerpt mb-3">{{ post.excerpt|default:post.content|truncatewords:34 }}</p>
+                                            <div class="mt-auto d-flex justify-content-between align-items-center gap-3">
+                                                <small class="text-muted post-meta">By {{ post.author }}</small>
+                                                <a href="{% url 'blog:detail' post.slug %}" class="btn btn-danger btn-sm">Read More</a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </article>
+                        </div>
+                        {% empty %}
+                        <div class="alert alert-info w-100 mb-0">No blog posts available yet.</div>
+                        {% endfor %}
+                    </div>
+                </div>
+            </div>
+
+            <aside class="col-lg-4">
+                <div class="blog-panel mb-4">
+                    <div class="blog-panel-header">
+                        <h2 class="h5 mb-0">Categories</h2>
+                    </div>
+                    <div class="p-3 p-lg-4 blog-sidebar-list">
+                        {% for category in categories %}
+                        <a href="?category={{ category.slug }}" class="blog-sidebar-link{% if request.GET.category == category.slug %} active{% endif %}">
+                            <span>{{ category.name }}</span>
+                            <span>{{ category.blogpost_set.count }}</span>
+                        </a>
+                        {% empty %}
+                        <p class="text-muted mb-0">No categories yet.</p>
+                        {% endfor %}
+                    </div>
+                </div>
+
+                <div class="blog-panel">
+                    <div class="blog-panel-header">
+                        <h2 class="h5 mb-0">Quick Reads</h2>
+                    </div>
+                    <div class="p-3 p-lg-4 blog-sidebar-stack">
+                        {% for post in featured|slice:':3' %}
+                        <a href="{% url 'blog:detail' post.slug %}" class="blog-quick-item">
+                            {% if post.featured_image %}
+                            <img src="{{ post.featured_image.url }}" alt="{{ post.title }}">
+                            {% endif %}
+                            <div>
+                                <h3>{{ post.title }}</h3>
+                                <p>{{ post.published_at|date:'M d, Y' }}</p>
+                            </div>
+                        </a>
+                        {% empty %}
+                        <p class="text-muted mb-0">No featured posts yet.</p>
+                        {% endfor %}
+                    </div>
+                </div>
+            </aside>
         </div>
     </div>
 </section>
