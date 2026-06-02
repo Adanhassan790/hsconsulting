@@ -7,11 +7,15 @@
     <div class="container">
         <div class="row">
             <div class="col-md-8 offset-md-2">
-                <h1 class="text-danger mb-3">{{ post.title }}</h1>
-                <small class="text-muted">{{ post.published_date|date:'M d, Y' }} • Views: {{ post.view_count }}</small>
+                {% if post.featured_image %}
+                    <img src="{{ post.featured_image.url }}" alt="{{ post.title }}" class="img-fluid rounded mb-4">
+                {% endif %}
+
+                <h1 class="text-danger mb-2">{{ post.title }}</h1>
+                <p class="text-muted post-meta mb-3">{{ post.published_date|date:'M d, Y' }} • Views: {{ post.view_count }}</p>
                 <hr>
-                
-                <div class="blog-content mb-5">
+
+                <div class="blog-content mb-5 fs-6" style="color:#444; line-height:1.8;">
                     {{ post.content }}
                 </div>
                 
