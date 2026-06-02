@@ -299,6 +299,8 @@ h1, h2, h3, h4, h5, h6 {
 
 /* Wave Divider */
 .wave-divider {
+    display: block;
+    width: 100%;
     position: relative;
     height: 100px;
     overflow: hidden;
