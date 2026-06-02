@@ -2,22 +2,170 @@
 
 {% block title %}Contact Us - HS Consulting{% endblock %}
 
+{% block extra_css %}
+<style>
+    .contact-page {
+        background: radial-gradient(circle at 8% 12%, rgba(230, 0, 0, 0.08), transparent 32%),
+                    radial-gradient(circle at 92% 88%, rgba(42, 42, 42, 0.09), transparent 34%),
+                    #f6f7f9;
+        padding: 3rem 0;
+    }
+
+    .contact-shell {
+        border-radius: 18px;
+        overflow: hidden;
+        box-shadow: 0 24px 45px rgba(17, 23, 38, 0.12);
+        background: #fff;
+    }
+
+    .contact-aside {
+        background: linear-gradient(165deg, #1f1f1f 0%, #2a2a2a 52%, #e60000 165%);
+        color: #fff;
+        padding: 2.5rem;
+        height: 100%;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+    }
+
+    .contact-aside h2 {
+        font-size: clamp(1.7rem, 4vw, 2.4rem);
+        font-weight: 800;
+        margin-bottom: 1rem;
+    }
+
+    .contact-aside p {
+        color: rgba(255, 255, 255, 0.86);
+        margin-bottom: 1.2rem;
+    }
+
+    .contact-points {
+        list-style: none;
+        margin: 0;
+        padding: 0;
+        display: grid;
+        gap: 0.8rem;
+    }
+
+    .contact-points li {
+        background: rgba(255, 255, 255, 0.09);
+        border: 1px solid rgba(255, 255, 255, 0.12);
+        border-radius: 10px;
+        padding: 0.75rem 0.9rem;
+        font-size: 0.95rem;
+    }
+
+    .contact-form-wrap {
+        padding: 2.4rem;
+        background: #fff;
+    }
+
+    .contact-form-title {
+        font-size: 2rem;
+        font-weight: 800;
+        color: #1f2637;
+        margin-bottom: 0.35rem;
+    }
+
+    .contact-form-subtitle {
+        color: #6b7384;
+        margin-bottom: 1.65rem;
+    }
+
+    .contact-form-wrap .form-group {
+        margin-bottom: 1rem;
+    }
+
+    .contact-form-wrap label {
+        display: block;
+        margin-bottom: 0.35rem;
+        font-weight: 700;
+        color: #1f2637;
+    }
+
+    .contact-form-wrap .form-control,
+    .contact-form-wrap .form-select {
+        border-radius: 10px;
+        border: 1px solid #d5dae2;
+        padding: 0.72rem 0.85rem;
+    }
+
+    .contact-form-wrap .form-control:focus,
+    .contact-form-wrap .form-select:focus {
+        border-color: #e60000;
+        box-shadow: 0 0 0 0.2rem rgba(230, 0, 0, 0.14);
+    }
+
+    .contact-submit {
+        width: 100%;
+        border: 0;
+        border-radius: 10px;
+        padding: 0.9rem 1rem;
+        font-weight: 700;
+        color: #fff;
+        background: linear-gradient(135deg, #e60000 0%, #b60000 100%);
+        margin-top: 0.55rem;
+    }
+
+    .contact-submit:hover {
+        background: linear-gradient(135deg, #cb0000 0%, #990000 100%);
+    }
+
+    @media (max-width: 991px) {
+        .contact-aside,
+        .contact-form-wrap {
+            padding: 1.8rem;
+        }
+    }
+</style>
+{% endblock %}
+
 {% block content %}
-<section class="section-padding">
+<section class="contact-page">
     <div class="container">
-        <div class="row">
-            <div class="col-md-8 offset-md-2">
-                <h1 class="section-title text-center mb-4 text-danger">Get In Touch</h1>
-                
-                <form method="POST" class="needs-validation">
-                    {% csrf_token %}
-                    <div class="card">
-                        <div class="card-body">
-                            {{ form.as_p }}
-                            <button type="submit" class="btn btn-danger btn-lg w-100">Send Inquiry</button>
+        <div class="row justify-content-center">
+            <div class="col-xl-10">
+                <div class="contact-shell">
+                    <div class="row g-0">
+                        <div class="col-lg-5">
+                            <div class="contact-aside">
+                                <h2>Get In Touch</h2>
+                                <p>Tell us what you need and our team will respond with practical next steps for your tax and financial goals.</p>
+
+                                <ul class="contact-points">
+                                    <li><i class="fas fa-clock me-2"></i>Fast response during working hours</li>
+                                    <li><i class="fas fa-user-shield me-2"></i>Your details remain confidential</li>
+                                    <li><i class="fas fa-handshake me-2"></i>Expert support tailored to your case</li>
+                                </ul>
+                            </div>
+                        </div>
+                        <div class="col-lg-7">
+                            <div class="contact-form-wrap">
+                                <h1 class="contact-form-title">Send an Inquiry</h1>
+                                <p class="contact-form-subtitle">Complete the form and we will get back to you shortly.</p>
+
+                                <form method="POST" novalidate>
+                                    {% csrf_token %}
+
+                                    {% for field in form %}
+                                    <div class="form-group">
+                                        <label for="{{ field.id_for_label }}">{{ field.label }}</label>
+                                        {{ field }}
+                                        {% if field.help_text %}
+                                        <small class="text-muted d-block mt-1">{{ field.help_text }}</small>
+                                        {% endif %}
+                                        {% if field.errors %}
+                                        <div class="text-danger small mt-1">{{ field.errors }}</div>
+                                        {% endif %}
+                                    </div>
+                                    {% endfor %}
+
+                                    <button type="submit" class="contact-submit">Send Inquiry</button>
+                                </form>
+                            </div>
                         </div>
                     </div>
-                </form>
+                </div>
             </div>
         </div>
     </div>

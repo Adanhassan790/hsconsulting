@@ -5,93 +5,171 @@
 
 {% block extra_css %}
 <style>
-    .register-container {
-        min-height: 80vh;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        background: linear-gradient(135deg, #f5f5f5 0%, #e9ecef 100%);
-        padding: 40px 0;
+    .register-page {
+        padding: 3rem 0;
+        background: radial-gradient(circle at 5% 10%, rgba(230, 0, 0, 0.08), transparent 35%),
+                    radial-gradient(circle at 95% 90%, rgba(42, 42, 42, 0.09), transparent 30%),
+                    #f6f7f9;
+        min-height: 85vh;
     }
-    .register-card {
-        box-shadow: 0 10px 40px rgba(0,0,0,0.1);
-        border-radius: 10px;
+
+    .register-shell {
+        border-radius: 18px;
         overflow: hidden;
-        border: none;
+        background: #fff;
+        box-shadow: 0 22px 45px rgba(24, 32, 56, 0.12);
     }
-    .register-header {
-        background: linear-gradient(135deg, #DC143C 0%, #a01030 100%);
-        padding: 40px 20px;
-        text-align: center;
-        color: white;
+
+    .register-aside {
+        background: linear-gradient(160deg, #1f1f1f 0%, #2a2a2a 52%, #e60000 160%);
+        color: #fff;
+        padding: 2.5rem;
+        height: 100%;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
     }
-    .register-header h2 {
+
+    .register-aside h2 {
+        font-size: clamp(1.8rem, 4vw, 2.5rem);
+        font-weight: 800;
+        line-height: 1.15;
+        margin-bottom: 1rem;
+    }
+
+    .register-aside p {
+        color: rgba(255, 255, 255, 0.85);
+        margin-bottom: 1.25rem;
+    }
+
+    .register-benefits {
+        list-style: none;
+        padding: 0;
         margin: 0;
-        font-weight: bold;
+        display: grid;
+        gap: 0.7rem;
     }
-    .register-body {
-        padding: 40px;
+
+    .register-benefits li {
+        background: rgba(255, 255, 255, 0.08);
+        border: 1px solid rgba(255, 255, 255, 0.12);
+        border-radius: 10px;
+        padding: 0.65rem 0.9rem;
+        font-size: 0.95rem;
     }
-    .form-control {
-        border-radius: 5px;
-        border: 1px solid #ddd;
-        padding: 12px;
+
+    .register-form-wrap {
+        padding: 2.5rem;
+        background: #fff;
     }
-    .form-control:focus {
-        border-color: #DC143C;
-        box-shadow: 0 0 0 0.2rem rgba(220, 20, 60, 0.25);
+
+    .register-form-title {
+        font-size: 2rem;
+        font-weight: 800;
+        color: #1e2433;
+        margin-bottom: 0.35rem;
     }
-    .btn-register {
-        background-color: #DC143C;
-        border: none;
-        padding: 12px;
-        font-weight: bold;
-        font-size: 16px;
-        margin-top: 20px;
+
+    .register-form-subtitle {
+        color: #6a7284;
+        margin-bottom: 1.75rem;
     }
-    .btn-register:hover {
-        background-color: #a01030;
+
+    .register-form-wrap .form-group {
+        margin-bottom: 1.05rem;
     }
-    .login-link {
+
+    .register-form-wrap label {
+        display: block;
+        margin-bottom: 0.35rem;
+        font-weight: 700;
+        color: #1f2637;
+        font-size: 0.95rem;
+    }
+
+    .register-form-wrap .form-control {
+        border-radius: 10px;
+        border: 1px solid #d5dae2;
+        padding: 0.72rem 0.85rem;
+    }
+
+    .register-form-wrap .form-control:focus {
+        border-color: #e60000;
+        box-shadow: 0 0 0 0.2rem rgba(230, 0, 0, 0.15);
+    }
+
+    .register-form-wrap .form-text,
+    .register-form-wrap ul {
+        color: #6f7788;
+        font-size: 0.8rem;
+        margin-top: 0.45rem;
+    }
+
+    .register-form-wrap ul {
+        padding-left: 1rem;
+    }
+
+    .register-btn {
+        width: 100%;
+        border: 0;
+        border-radius: 10px;
+        padding: 0.85rem 1rem;
+        background: linear-gradient(135deg, #e60000 0%, #b50000 100%);
+        color: #fff;
+        font-weight: 700;
+        margin-top: 0.8rem;
+    }
+
+    .register-btn:hover {
+        background: linear-gradient(135deg, #c90000 0%, #980000 100%);
+    }
+
+    .register-login-link {
+        margin-top: 1.5rem;
+        padding-top: 1.2rem;
+        border-top: 1px solid #eceff4;
         text-align: center;
-        margin-top: 20px;
-        padding-top: 20px;
-        border-top: 1px solid #ddd;
+        color: #6f7788;
     }
-    .login-link a {
-        color: #DC143C;
+
+    .register-login-link a {
+        color: #e60000;
+        font-weight: 700;
         text-decoration: none;
-        font-weight: bold;
     }
-    .form-group {
-        margin-bottom: 20px;
-    }
-    .form-group label {
-        font-weight: 600;
-        color: #333;
-        margin-bottom: 8px;
-    }
-    .form-text {
-        font-size: 12px;
-        color: #666;
-    }
-    .alert {
-        border-radius: 5px;
+
+    @media (max-width: 991px) {
+        .register-aside,
+        .register-form-wrap {
+            padding: 1.8rem;
+        }
     }
 </style>
 {% endblock %}
 
 {% block content %}
-<div class="register-container">
+<section class="register-page">
     <div class="container">
-        <div class="row">
-            <div class="col-md-6 offset-md-3">
-                <div class="card register-card">
-                    <div class="register-header">
-                        <h2>Create Your Account</h2>
-                        <p class="m-0">Join HS Consulting Now</p>
-                    </div>
-                    <div class="register-body">
+        <div class="row justify-content-center">
+            <div class="col-xl-10">
+                <div class="register-shell">
+                    <div class="row g-0">
+                        <div class="col-lg-5">
+                            <div class="register-aside">
+                                <h2>Create Your Account</h2>
+                                <p>Join HS Consulting and access your personalized client dashboard for documents, appointments, and service updates.</p>
+                                <ul class="register-benefits">
+                                    <li><i class="fas fa-check-circle me-2"></i>Secure client portal access</li>
+                                    <li><i class="fas fa-check-circle me-2"></i>Track service progress in one place</li>
+                                    <li><i class="fas fa-check-circle me-2"></i>Fast support from our advisory team</li>
+                                </ul>
+                            </div>
+                        </div>
+                        <div class="col-lg-7">
+                            <div class="register-form-wrap">
+                                <h1 class="register-form-title">Register</h1>
+                                <p class="register-form-subtitle">Set up your profile in less than two minutes.</p>
+
                         {% if form.non_field_errors %}
                             <div class="alert alert-danger">
                                 {{ form.non_field_errors }}
@@ -114,18 +192,19 @@
                                 </div>
                             {% endfor %}
                             
-                            <button type="submit" class="btn btn-register btn-danger w-100">Create Account</button>
+                            <button type="submit" class="register-btn">Create Account</button>
                         </form>
                         
-                        <div class="login-link">
+                        <div class="register-login-link">
                             <p>Already have an account?</p>
-                            <a href="{% url 'accounts:login' %}" class="btn btn-outline-danger btn-sm">Login Here</a>
+                            <a href="{% url 'accounts:login' %}">Login Here</a>
+                        </div>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
     </div>
-</div>
+</section>
 {% endblock %}
 
