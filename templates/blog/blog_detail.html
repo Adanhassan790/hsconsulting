@@ -31,7 +31,14 @@
             <div class="col-lg-8">
                 <article class="blog-panel">
                     {% if post.featured_image %}
-                    <img src="{{ post.featured_image.url }}" alt="{{ post.title }}" class="blog-detail-image">
+                    <img src="{{ post.featured_image.url }}" alt="{{ post.title }}" class="blog-detail-image" onerror="this.style.display='none';this.nextElementSibling.style.display='flex';">
+                    <div class="blog-image-placeholder blog-detail-image-fallback" style="display:none;">
+                        <span>Featured image unavailable</span>
+                    </div>
+                    {% else %}
+                    <div class="blog-image-placeholder blog-detail-image-fallback">
+                        <span>No featured image</span>
+                    </div>
                     {% endif %}
 
                     <div class="p-3 p-lg-4 p-xl-5">
@@ -51,7 +58,10 @@
                         <div class="col-md-4">
                             <a href="{% url 'blog:detail' related.slug %}" class="related-blog-card">
                                 {% if related.featured_image %}
-                                <img src="{{ related.featured_image.url }}" alt="{{ related.title }}">
+                                <img src="{{ related.featured_image.url }}" alt="{{ related.title }}" onerror="this.style.display='none';this.nextElementSibling.style.display='flex';">
+                                <div class="related-image-fallback" style="display:none;">No image</div>
+                                {% else %}
+                                <div class="related-image-fallback">No image</div>
                                 {% endif %}
                                 <div>
                                     <h3>{{ related.title }}</h3>

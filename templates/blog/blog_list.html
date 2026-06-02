@@ -45,7 +45,14 @@
                         <div class="col-md-6">
                             <article class="card h-100 blog-card blog-featured-card shadow-sm">
                                 {% if post.featured_image %}
-                                <img src="{{ post.featured_image.url }}" alt="{{ post.title }}" class="post-image">
+                                <img src="{{ post.featured_image.url }}" alt="{{ post.title }}" class="post-image" onerror="this.style.display='none';this.nextElementSibling.style.display='flex';">
+                                <div class="blog-image-placeholder blog-image-placeholder-large" style="display:none;">
+                                    <span>Featured image unavailable</span>
+                                </div>
+                                {% else %}
+                                <div class="blog-image-placeholder blog-image-placeholder-large">
+                                    <span>No featured image</span>
+                                </div>
                                 {% endif %}
                                 <div class="card-body d-flex flex-column">
                                     {% if post.category %}
@@ -80,9 +87,14 @@
                                 <div class="row g-0">
                                     <div class="col-md-4">
                                         {% if post.featured_image %}
-                                        <img src="{{ post.featured_image.url }}" alt="{{ post.title }}" class="post-image blog-list-image">
+                                        <img src="{{ post.featured_image.url }}" alt="{{ post.title }}" class="post-image blog-list-image" onerror="this.style.display='none';this.nextElementSibling.style.display='flex';">
+                                        <div class="blog-image-placeholder blog-list-image" style="display:none;">
+                                            <span>No image</span>
+                                        </div>
                                         {% else %}
-                                        <div class="blog-image-placeholder"></div>
+                                        <div class="blog-image-placeholder blog-list-image">
+                                            <span>No image</span>
+                                        </div>
                                         {% endif %}
                                     </div>
                                     <div class="col-md-8">
@@ -137,7 +149,10 @@
                         {% for post in featured|slice:':3' %}
                         <a href="{% url 'blog:detail' post.slug %}" class="blog-quick-item">
                             {% if post.featured_image %}
-                            <img src="{{ post.featured_image.url }}" alt="{{ post.title }}">
+                            <img src="{{ post.featured_image.url }}" alt="{{ post.title }}" onerror="this.style.display='none';this.nextElementSibling.style.display='flex';">
+                            <div class="blog-quick-image-fallback" style="display:none;">No image</div>
+                            {% else %}
+                            <div class="blog-quick-image-fallback">No image</div>
                             {% endif %}
                             <div>
                                 <h3>{{ post.title }}</h3>

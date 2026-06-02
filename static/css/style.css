@@ -953,6 +953,39 @@ footer p {
     min-height: 100%;
     height: 100%;
     background: linear-gradient(135deg, rgba(230, 0, 0, 0.08), rgba(42, 42, 42, 0.08));
+    color: #666;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    padding: 1rem;
+    font-weight: 600;
+}
+
+.blog-image-placeholder-large,
+.blog-detail-image-fallback {
+    min-height: 260px;
+}
+
+.blog-list-image.blog-image-placeholder,
+.blog-detail-image-fallback {
+    min-height: 220px;
+}
+
+.blog-quick-image-fallback,
+.related-image-fallback {
+    width: 72px;
+    height: 72px;
+    border-radius: 10px;
+    background: linear-gradient(135deg, rgba(230, 0, 0, 0.08), rgba(42, 42, 42, 0.08));
+    color: #666;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    font-size: 0.75rem;
+    font-weight: 600;
+    flex-shrink: 0;
 }
 
 .blog-card-title {
