@@ -146,15 +146,7 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 .hero::after {
-    content: '';
-    position: absolute;
-    bottom: -2px;
-    left: 0;
-    right: 0;
-    height: 80px;
-    background: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 120"><path d="M0,60 Q150,20 300,60 T600,60 T900,60 T1200,60 L1200,120 L0,120 Z" fill="%23E60000" opacity="0.8"/><path d="M0,70 Q150,40 300,70 T600,70 T900,70 T1200,70 L1200,120 L0,120 Z" fill="%23ffffff" opacity="0.3"/></svg>');
-    background-size: repeat-x;
-    z-index: 1;
+    display: none;
 }
 
 .hero h1 {
