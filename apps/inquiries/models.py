@@ -3,6 +3,7 @@ from django.utils.translation import gettext_lazy as _
 from django.core.mail import send_mail
 from django.template.loader import render_to_string
 from django.utils.html import strip_tags
+from django.conf import settings
 from apps.services.models import Service
 
 
@@ -49,7 +50,7 @@ class Inquiry(models.Model):
         send_mail(
             subject,
             plain_message,
-            'noreply@hsconsulting.co.ke',
+            settings.DEFAULT_FROM_EMAIL,
             [self.email],
             html_message=html_message,
             fail_silently=True,
@@ -73,7 +74,7 @@ class Inquiry(models.Model):
             send_mail(
                 subject,
                 plain_message,
-                'noreply@hsconsulting.co.ke',
+                settings.DEFAULT_FROM_EMAIL,
                 owner_emails,
                 html_message=html_message,
                 fail_silently=True,

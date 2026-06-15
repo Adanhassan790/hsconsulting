@@ -81,7 +81,7 @@ class Appointment(models.Model):
         send_mail(
             subject,
             plain_message,
-            'noreply@hsconsulting.co.ke',
+            settings.DEFAULT_FROM_EMAIL,
             [self.client_email],
             html_message=html_message,
             fail_silently=True,
@@ -101,7 +101,7 @@ class Appointment(models.Model):
             send_mail(
                 owner_subject,
                 owner_plain,
-                'noreply@hsconsulting.co.ke',
+                settings.DEFAULT_FROM_EMAIL,
                 owner_emails,
                 html_message=owner_html,
                 fail_silently=True,
@@ -117,7 +117,7 @@ class Appointment(models.Model):
         send_mail(
             subject,
             plain_message,
-            'noreply@hsconsulting.co.ke',
+            settings.DEFAULT_FROM_EMAIL,
             [self.client_email],
             html_message=html_message,
             fail_silently=False,
