@@ -12,13 +12,16 @@ def client_dashboard(request):
     except Client.DoesNotExist:
         return redirect('clients:create_profile')
     
-    recent_documents = client.documents.all()[:5]
+    documents = client.documents.all()
+    recent_documents = documents[:5]
     service_history = client.service_history.all()[:5]
-    
+
     context = {
         'client': client,
+        'documents': documents,
         'recent_documents': recent_documents,
         'service_history': service_history,
+        'upcoming_appointments': service_history.filter(status='ongoing') if service_history else [],
     }
     return render(request, 'clients/dashboard.html', context)
 
@@ -69,6 +72,7 @@ def upload_document(request):
     return render(request, 'clients/upload_document.html', context)
 
 
+@login_required
 def create_profile(request):
     """Create client profile after registration"""
     if request.method == 'POST':
