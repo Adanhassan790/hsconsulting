@@ -1413,3 +1413,211 @@ table td, table th {
         transition: none !important;
     }
 }
+
+/* ===== HERO FLOATING SHAPES ===== */
+.hero-shapes {
+    position: absolute;
+    inset: 0;
+    overflow: hidden;
+    pointer-events: none;
+    z-index: 0;
+}
+
+.hero-shape {
+    position: absolute;
+    border-radius: 50%;
+    animation: floatShape linear infinite;
+}
+
+.shape-1 {
+    width: 320px; height: 320px;
+    top: -100px; right: -80px;
+    background: rgba(230, 0, 0, 0.06);
+    border: 1px solid rgba(230, 0, 0, 0.1);
+    animation-duration: 20s;
+}
+
+.shape-2 {
+    width: 200px; height: 200px;
+    bottom: 60px; left: 3%;
+    background: rgba(255, 255, 255, 0.03);
+    border: 1px solid rgba(255, 255, 255, 0.06);
+    border-radius: 30% 70% 70% 30% / 30% 30% 70% 70%;
+    animation-duration: 15s;
+    animation-delay: -6s;
+}
+
+.shape-3 {
+    width: 110px; height: 110px;
+    top: 28%; right: 8%;
+    background: rgba(230, 0, 0, 0.08);
+    animation-duration: 11s;
+    animation-delay: -3s;
+}
+
+.shape-4 {
+    width: 250px; height: 250px;
+    top: 15%; left: -60px;
+    background: rgba(255, 255, 255, 0.025);
+    border: 1px solid rgba(255, 255, 255, 0.04);
+    border-radius: 40%;
+    animation-duration: 25s;
+    animation-delay: -10s;
+}
+
+.shape-5 {
+    width: 70px; height: 70px;
+    bottom: 25%; right: 22%;
+    background: rgba(230, 0, 0, 0.05);
+    animation-duration: 9s;
+    animation-delay: -2s;
+}
+
+@keyframes floatShape {
+    0%   { transform: translateY(0)    rotate(0deg); }
+    25%  { transform: translateY(-18px) rotate(90deg); }
+    50%  { transform: translateY(-8px)  rotate(180deg); }
+    75%  { transform: translateY(-22px) rotate(270deg); }
+    100% { transform: translateY(0)    rotate(360deg); }
+}
+
+/* ===== STATS STRIP ===== */
+.stats-strip {
+    background: var(--primary-red);
+    padding: 45px 0;
+    position: relative;
+    z-index: 2;
+}
+
+.stats-strip .stat-item {
+    text-align: center;
+    padding: 10px 15px;
+    border-right: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+.stats-strip .stat-item:last-child {
+    border-right: none;
+}
+
+.stats-strip .stat-number {
+    font-size: 2.6rem;
+    font-weight: 800;
+    color: white;
+    line-height: 1;
+    display: block;
+    font-family: var(--font-primary);
+}
+
+.stats-strip .stat-label {
+    font-size: 0.9rem;
+    color: rgba(255, 255, 255, 0.85);
+    margin-top: 6px;
+    display: block;
+    font-weight: 500;
+    letter-spacing: 0.3px;
+}
+
+@media (max-width: 768px) {
+    .stats-strip .stat-item {
+        border-right: none;
+        border-bottom: 1px solid rgba(255, 255, 255, 0.15);
+        margin-bottom: 10px;
+        padding-bottom: 15px;
+    }
+    .stats-strip .stat-item:last-child {
+        border-bottom: none;
+        margin-bottom: 0;
+    }
+    .stats-strip .stat-number { font-size: 2rem; }
+}
+
+/* ===== FEATURED SERVICE CARD ===== */
+.featured-service-card {
+    border-left: 4px solid var(--primary-red) !important;
+    border-top: 3px solid var(--primary-red) !important;
+    position: relative;
+}
+
+.featured-badge {
+    position: absolute;
+    top: 14px;
+    right: 14px;
+    background: var(--primary-red);
+    color: white;
+    font-size: 0.65rem;
+    padding: 3px 10px;
+    border-radius: 20px;
+    font-weight: 700;
+    letter-spacing: 0.6px;
+    text-transform: uppercase;
+}
+
+/* ===== BENEFIT ICON CIRCLES (Why Choose Us) ===== */
+.benefit-circle {
+    width: 56px;
+    height: 56px;
+    background: var(--primary-red);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    color: white;
+    font-size: 1.25rem;
+    box-shadow: 0 4px 12px rgba(230, 0, 0, 0.3);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.benefit-circle:hover {
+    transform: scale(1.1);
+    box-shadow: 0 6px 18px rgba(230, 0, 0, 0.4);
+}
+
+/* ===== TRUST BAR ===== */
+.trust-bar {
+    background: var(--off-white);
+    border-top: 1px solid var(--light-gray);
+    border-bottom: 1px solid var(--light-gray);
+    padding: 36px 0;
+}
+
+.trust-item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
+    text-align: center;
+    padding: 10px 20px;
+}
+
+.trust-icon-wrap {
+    width: 52px;
+    height: 52px;
+    background: white;
+    border: 2px solid var(--primary-red);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--primary-red);
+    font-size: 1.2rem;
+}
+
+.trust-item strong {
+    font-size: 0.85rem;
+    color: var(--text-dark);
+    font-weight: 700;
+    display: block;
+    line-height: 1.3;
+}
+
+.trust-divider {
+    width: 1px;
+    height: 60px;
+    background: var(--light-gray);
+    align-self: center;
+}
+
+@media (max-width: 768px) {
+    .trust-divider { display: none; }
+}

@@ -373,10 +373,18 @@ def home(request):
         print(f"Error loading deadlines: {e}")
         upcoming_deadlines = []
     
+    # Get latest published blog posts
+    try:
+        from apps.blog.models import BlogPost
+        latest_posts = list(BlogPost.objects.filter(is_published=True).order_by('-published_at')[:3])
+    except Exception:
+        latest_posts = []
+
     context = {
         'settings': settings,
         'upcoming_deadlines': upcoming_deadlines,
         'featured_testimonials': [],
+        'latest_posts': latest_posts,
     }
     
     try:
