@@ -31,8 +31,20 @@
                             </ul>
                         </div>
 
+                        <!-- WhatsApp follow-up CTA -->
+                        <div style="background: #f0fdf4; border: 2px solid #25D366; border-radius: 12px; padding: 20px; margin-bottom: 24px;">
+                            <p class="fw-bold mb-1" style="color: #166534; font-size: 1rem;">
+                                <i class="fab fa-whatsapp me-2" style="color: #25D366; font-size: 1.2rem;"></i>Want to confirm faster? Chat with us
+                            </p>
+                            <p class="text-muted small mb-3">Send us a quick WhatsApp message and we will confirm your appointment details right away.</p>
+                            <a href="https://wa.me/254756715493?text=Hello+HS+Consulting%2C+I+just+booked+an+appointment+and+would+like+to+confirm+the+details." target="_blank" rel="noopener"
+                               class="btn w-100 fw-bold" style="background: #25D366; color: #fff; border: none; padding: 12px; border-radius: 8px; font-size: 1rem;">
+                                <i class="fab fa-whatsapp me-2"></i>Confirm on WhatsApp
+                            </a>
+                        </div>
+
                         <div class="d-flex gap-3 justify-content-center flex-wrap">
-                            <a href="{% url 'core:home' %}" class="btn btn-danger">
+                            <a href="{% url 'core:home' %}" class="btn btn-outline-secondary">
                                 <i class="fas fa-home me-2"></i>Return to Home
                             </a>
                             <a href="{% url 'clients:dashboard' %}" class="btn btn-outline-danger">
