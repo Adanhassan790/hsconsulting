@@ -33,6 +33,12 @@ if not DEBUG:
 
 ALLOWED_HOSTS = env_config('ALLOWED_HOSTS', default='localhost,127.0.0.1,*.railway.app', cast=lambda v: [s.strip() for s in v.split(',')])
 
+CSRF_TRUSTED_ORIGINS = env_config(
+    'CSRF_TRUSTED_ORIGINS',
+    default='https://*.railway.app',
+    cast=lambda v: [s.strip() for s in v.split(',')],
+)
+
 # Application definition
 INSTALLED_APPS = [
     'jazzmin',  # Django admin theme - must be BEFORE django.contrib.admin
