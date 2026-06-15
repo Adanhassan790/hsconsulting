@@ -4,9 +4,51 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="HS Consulting - Professional Tax and Financial Solutions in Kenya">
-    <title>{% block title %}HS Consulting - Tax Consulting & Financial Solutions{% endblock %}</title>
-    
+
+    <!-- Primary SEO -->
+    <title>{% block title %}HS Consulting — Tax Consulting & Financial Solutions in Kenya{% endblock %}</title>
+    <meta name="description" content="{% block meta_description %}HS Consulting offers professional tax advisory, audit, PAYE, VAT, and financial consulting services in Kenya. KRA-registered CPA firm. Call or WhatsApp 0756 715 493.{% endblock %}">
+    <meta name="keywords" content="{% block meta_keywords %}tax consultant Kenya, KRA filing, PAYE Kenya, VAT returns Kenya, audit services Nairobi, financial consulting Kenya, HS Consulting{% endblock %}">
+    <link rel="canonical" href="https://hsconsulting.co.ke{{ request.path }}">
+
+    <!-- Open Graph (Facebook, WhatsApp previews) -->
+    <meta property="og:type" content="{% block og_type %}website{% endblock %}">
+    <meta property="og:title" content="{% block og_title %}HS Consulting — Tax & Financial Solutions Kenya{% endblock %}">
+    <meta property="og:description" content="{% block og_description %}Professional tax advisory, audit, PAYE, VAT & financial consulting services in Kenya. KRA-registered CPA firm.{% endblock %}">
+    <meta property="og:url" content="https://hsconsulting.co.ke{{ request.path }}">
+    <meta property="og:image" content="{% block og_image %}https://hsconsulting.co.ke{% static 'images/logo.png' %}{% endblock %}">
+    <meta property="og:site_name" content="HS Consulting">
+    <meta property="og:locale" content="en_KE">
+
+    <!-- Twitter Card -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="{% block twitter_title %}HS Consulting — Tax & Financial Solutions Kenya{% endblock %}">
+    <meta name="twitter:description" content="{% block twitter_description %}Professional tax advisory, audit, PAYE, VAT & financial consulting in Kenya.{% endblock %}">
+
+    <!-- Local Business JSON-LD (homepage only via block) -->
+    {% block structured_data %}
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "AccountingService",
+      "name": "HS Consulting",
+      "description": "Professional tax advisory, audit, PAYE, VAT and financial consulting services in Kenya.",
+      "url": "https://hsconsulting.co.ke",
+      "telephone": "+254756715493",
+      "email": "hsconsultingke@gmail.com",
+      "address": {
+        "@type": "PostalAddress",
+        "addressCountry": "KE",
+        "addressLocality": "Nairobi"
+      },
+      "areaServed": "Kenya",
+      "priceRange": "KES",
+      "openingHours": "Mo-Fr 08:00-17:00",
+      "sameAs": []
+    }
+    </script>
+    {% endblock %}
+
     <!-- Bootstrap CSS -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <!-- Font Awesome -->

@@ -1,0 +1,14 @@
+User-agent: *
+Allow: /
+Disallow: /admin/
+Disallow: /admin-dashboard/
+Disallow: /clients/
+Disallow: /accounts/
+Disallow: /init/
+Disallow: /populate-services/
+Disallow: /populate-deadlines/
+Disallow: /populate-testimonials/
+Disallow: /deploy-info/
+Disallow: /test/
+
+Sitemap: https://hsconsulting.co.ke/sitemap.xml
