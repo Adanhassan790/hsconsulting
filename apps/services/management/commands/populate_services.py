@@ -109,9 +109,9 @@ class Command(BaseCommand):
             try:
                 service_data['slug'] = slugify(service_data['name'])
                 service = Service.objects.create(**service_data)
-                self.stdout.write(f'✓ Created: {service.name}')
+                self.stdout.write(f'[OK] Created: {service.name}')
                 created_count += 1
             except Exception as e:
-                self.stdout.write(self.style.ERROR(f'✗ Failed to create {service_data["name"]}: {str(e)}'))
+                self.stdout.write(self.style.ERROR(f'[ERROR] Failed to create {service_data["name"]}: {str(e)}'))
         
-        self.stdout.write(self.style.SUCCESS(f'✓ Successfully created {created_count} services'))
+        self.stdout.write(self.style.SUCCESS(f'[OK] Successfully created {created_count} services'))

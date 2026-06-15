@@ -5,21 +5,41 @@
 {% block content %}
 <section class="section-padding bg-light">
     <div class="container">
-        <div class="row">
-            <div class="col-md-6 offset-md-3 text-center">
-                <div class="card border-success">
+        <div class="row justify-content-center">
+            <div class="col-md-7 col-lg-6">
+                <div class="card border-0 shadow-sm text-center">
                     <div class="card-body p-5">
-                        <h1 class="text-success mb-3">✓ Booking Confirmed!</h1>
-                        <p class="lead">Your appointment has been successfully booked.</p>
-                        <p class="text-muted">A confirmation email has been sent to your inbox with all the details.</p>
-                        
-                        <div class="alert alert-info mt-4">
-                            <strong>What's Next?</strong><br>
-                            We will send you reminders via email and SMS before your appointment.
+
+                        <!-- Icon -->
+                        <div style="width: 80px; height: 80px; background: rgba(40,167,69,0.1); border: 2px solid #28a745; border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto 24px;">
+                            <i class="fas fa-calendar-check" style="font-size: 2rem; color: #28a745;"></i>
                         </div>
-                        
-                        <a href="{% url 'core:home' %}" class="btn btn-danger btn-lg">Return to Home</a>
-                        <a href="{% url 'clients:dashboard' %}" class="btn btn-outline-danger btn-lg ms-2">Go to Dashboard</a>
+
+                        <h2 style="color: #2A2A2A; font-weight: 800; margin-bottom: 10px;">Booking Confirmed</h2>
+                        <p class="lead text-muted mb-1">Your appointment has been successfully booked.</p>
+                        <p class="text-muted small mb-4">A confirmation email has been sent to your inbox with all the details.</p>
+
+                        <!-- What's next -->
+                        <div class="text-start" style="background: #F8F9FA; border-left: 4px solid #E60000; border-radius: 4px; padding: 18px 20px; margin-bottom: 30px;">
+                            <p class="fw-bold mb-2" style="color: #2A2A2A;">
+                                <i class="fas fa-info-circle me-2" style="color: #E60000;"></i>What happens next?
+                            </p>
+                            <ul class="list-unstyled mb-0 small text-muted" style="line-height: 2;">
+                                <li><i class="fas fa-envelope me-2" style="color: #E60000;"></i>You will receive a confirmation email shortly</li>
+                                <li><i class="fas fa-bell me-2" style="color: #E60000;"></i>We will send a reminder 24 hours before your appointment</li>
+                                <li><i class="fas fa-phone me-2" style="color: #E60000;"></i>Our team may contact you to confirm details</li>
+                            </ul>
+                        </div>
+
+                        <div class="d-flex gap-3 justify-content-center flex-wrap">
+                            <a href="{% url 'core:home' %}" class="btn btn-danger">
+                                <i class="fas fa-home me-2"></i>Return to Home
+                            </a>
+                            <a href="{% url 'clients:dashboard' %}" class="btn btn-outline-danger">
+                                <i class="fas fa-tachometer-alt me-2"></i>Go to Dashboard
+                            </a>
+                        </div>
+
                     </div>
                 </div>
             </div>

@@ -1,25 +1,45 @@
 {% extends 'base/base.html' %}
 
-{% block title %}Inquiry Submitted - HS Consulting{% endblock %}
+{% block title %}Inquiry Received - HS Consulting{% endblock %}
 
 {% block content %}
 <section class="section-padding bg-light">
     <div class="container">
-        <div class="row">
-            <div class="col-md-6 offset-md-3 text-center">
-                <div class="card border-success">
+        <div class="row justify-content-center">
+            <div class="col-md-7 col-lg-6">
+                <div class="card border-0 shadow-sm text-center">
                     <div class="card-body p-5">
-                        <h1 class="text-success mb-3">✓ Thank You!</h1>
-                        <p class="lead">Your inquiry has been received successfully.</p>
-                        <p class="text-muted">Our team will review your inquiry and get back to you shortly.</p>
-                        
-                        <div class="alert alert-info mt-4">
-                            <strong>Response Time</strong><br>
-                            We typically respond to inquiries within 24-48 business hours.
+
+                        <!-- Icon -->
+                        <div style="width: 80px; height: 80px; background: rgba(230,0,0,0.08); border: 2px solid #E60000; border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto 24px;">
+                            <i class="fas fa-paper-plane" style="font-size: 2rem; color: #E60000;"></i>
                         </div>
-                        
-                        <a href="{% url 'core:home' %}" class="btn btn-danger btn-lg">Return to Home</a>
-                        <a href="{% url 'inquiries:contact' %}" class="btn btn-outline-danger btn-lg ms-2">Send Another Inquiry</a>
+
+                        <h2 style="color: #2A2A2A; font-weight: 800; margin-bottom: 10px;">Inquiry Received</h2>
+                        <p class="lead text-muted mb-1">Thank you for reaching out to HS Consulting.</p>
+                        <p class="text-muted small mb-4">Our team will review your inquiry and respond as soon as possible.</p>
+
+                        <!-- Response time info -->
+                        <div class="text-start" style="background: #F8F9FA; border-left: 4px solid #E60000; border-radius: 4px; padding: 18px 20px; margin-bottom: 30px;">
+                            <p class="fw-bold mb-2" style="color: #2A2A2A;">
+                                <i class="fas fa-clock me-2" style="color: #E60000;"></i>What to expect
+                            </p>
+                            <ul class="list-unstyled mb-0 small text-muted" style="line-height: 2;">
+                                <li><i class="fas fa-envelope me-2" style="color: #E60000;"></i>A confirmation email has been sent to your address</li>
+                                <li><i class="fas fa-reply me-2" style="color: #E60000;"></i>We typically respond within 24–48 business hours</li>
+                                <li><i class="fas fa-phone-alt me-2" style="color: #E60000;"></i>For urgent matters, WhatsApp us on 0756 715 493</li>
+                            </ul>
+                        </div>
+
+                        <div class="d-flex gap-3 justify-content-center flex-wrap">
+                            <a href="{% url 'core:home' %}" class="btn btn-danger">
+                                <i class="fas fa-home me-2"></i>Return to Home
+                            </a>
+                            <a href="{% url 'inquiries:contact' %}" class="btn btn-outline-danger">
+                                <i class="fas fa-envelope me-2"></i>Send Another Inquiry
+                            </a>
+                        </div>
+
                     </div>
                 </div>
             </div>

@@ -64,9 +64,9 @@ if os.environ.get('DATABASE_URL'):
         try:
             print("STARTUP: Running migrations...", file=sys.stderr)
             call_command('migrate', '--noinput', verbosity=1)
-            print("✓ STARTUP: Migrations completed", file=sys.stderr)
+            print("[OK] STARTUP: Migrations completed", file=sys.stderr)
         except Exception as e:
-            print(f"⚠ STARTUP: Migration warning: {type(e).__name__}: {str(e)[:150]}", file=sys.stderr)
+            print(f"[WARN] STARTUP: Migration warning: {type(e).__name__}: {str(e)[:150]}", file=sys.stderr)
         
         # Try to create superuser
         try:
@@ -77,9 +77,9 @@ if os.environ.get('DATABASE_URL'):
                     email='admin@hsconsulting.co.ke',
                     password='Admin@123'
                 )
-                print("✓ STARTUP: Superuser created", file=sys.stderr)
+                print("[OK] STARTUP: Superuser created", file=sys.stderr)
         except Exception as e:
-            print(f"⚠ STARTUP: Superuser creation issue: {e}", file=sys.stderr)
+            print(f"[WARN] STARTUP: Superuser creation issue: {e}", file=sys.stderr)
         
         # Initialize CoreSettings
         try:
@@ -90,7 +90,7 @@ if os.environ.get('DATABASE_URL'):
             table_exists = 'core_coresettings' in connection.introspection.table_names()
             
             if not table_exists:
-                print("⚠ STARTUP: CoreSettings table not found, skipping initialization", file=sys.stderr)
+                print("[WARN] STARTUP: CoreSettings table not found, skipping initialization", file=sys.stderr)
             else:
                 settings, created = CoreSettings.objects.get_or_create(
                     pk=1,
@@ -111,7 +111,7 @@ if os.environ.get('DATABASE_URL'):
                     }
                 )
                 if created:
-                    print("✓ STARTUP: CoreSettings initialized", file=sys.stderr)
+                    print("[OK] STARTUP: CoreSettings initialized", file=sys.stderr)
                 else:
                     # Update if partner 2 info is missing
                     if not settings.email_2:
@@ -119,50 +119,50 @@ if os.environ.get('DATABASE_URL'):
                         settings.phone_2 = '+254746645534'
                         settings.whatsapp_2 = '+254729592895'
                         settings.save()
-                        print("✓ STARTUP: CoreSettings updated", file=sys.stderr)
+                        print("[OK] STARTUP: CoreSettings updated", file=sys.stderr)
         except (OperationalError, ProgrammingError) as e:
-            print(f"⚠ STARTUP: CoreSettings DB error (table not ready): {type(e).__name__}", file=sys.stderr)
+            print(f"[WARN] STARTUP: CoreSettings DB error (table not ready): {type(e).__name__}", file=sys.stderr)
         except Exception as e:
-            print(f"⚠ STARTUP: CoreSettings error: {type(e).__name__}: {str(e)[:150]}", file=sys.stderr)
+            print(f"[WARN] STARTUP: CoreSettings error: {type(e).__name__}: {str(e)[:150]}", file=sys.stderr)
         
         # Try to populate tax deadlines
         try:
             from apps.appointments.models import TaxDeadline
             if TaxDeadline.objects.count() == 0:
                 call_command('populate_tax_deadlines', verbosity=0)
-                print("✓ STARTUP: Tax deadlines populated", file=sys.stderr)
+                print("[OK] STARTUP: Tax deadlines populated", file=sys.stderr)
         except ProgrammingError:
-            print("⚠ STARTUP: Tax deadlines table not ready yet", file=sys.stderr)
+            print("[WARN] STARTUP: Tax deadlines table not ready yet", file=sys.stderr)
         except Exception as e:
-            print(f"⚠ STARTUP: Tax deadlines error: {type(e).__name__}", file=sys.stderr)
+            print(f"[WARN] STARTUP: Tax deadlines error: {type(e).__name__}", file=sys.stderr)
         
         # Try to populate services
         try:
             from apps.services.models import Service
             if Service.objects.count() == 0:
                 call_command('populate_services', verbosity=0)
-                print("✓ STARTUP: Services populated", file=sys.stderr)
+                print("[OK] STARTUP: Services populated", file=sys.stderr)
         except ProgrammingError:
-            print("⚠ STARTUP: Services table not ready yet", file=sys.stderr)
+            print("[WARN] STARTUP: Services table not ready yet", file=sys.stderr)
         except Exception as e:
-            print(f"⚠ STARTUP: Services error: {type(e).__name__}", file=sys.stderr)
+            print(f"[WARN] STARTUP: Services error: {type(e).__name__}", file=sys.stderr)
         
         # Try to populate testimonials
         try:
             from apps.testimonials.models import Testimonial
             if Testimonial.objects.count() == 0:
                 call_command('populate_testimonials', verbosity=0)
-                print("✓ STARTUP: Testimonials populated", file=sys.stderr)
+                print("[OK] STARTUP: Testimonials populated", file=sys.stderr)
         except ProgrammingError:
-            print("⚠ STARTUP: Testimonials table not ready yet", file=sys.stderr)
+            print("[WARN] STARTUP: Testimonials table not ready yet", file=sys.stderr)
         except Exception as e:
-            print(f"⚠ STARTUP: Testimonials error: {type(e).__name__}", file=sys.stderr)
+            print(f"[WARN] STARTUP: Testimonials error: {type(e).__name__}", file=sys.stderr)
         
         print("=" * 60, file=sys.stderr)
         print("STARTUP: Initialization complete", file=sys.stderr)
         print("=" * 60, file=sys.stderr)
     
     except OperationalError as e:
-        print(f"✗ STARTUP: Database connection failed: {e}", file=sys.stderr)
+        print(f"[ERROR] STARTUP: Database connection failed: {e}", file=sys.stderr)
     except Exception as e:
-        print(f"✗ STARTUP: Unexpected error: {type(e).__name__}: {e}", file=sys.stderr)
+        print(f"[ERROR] STARTUP: Unexpected error: {type(e).__name__}: {e}", file=sys.stderr)
