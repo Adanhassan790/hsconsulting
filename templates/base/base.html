@@ -68,7 +68,7 @@
     <footer class="bg-dark text-white mt-5 py-4">
         <div class="container">
             <div class="row">
-                <div class="col-md-3">
+                <div class="col-md-4">
                     <h5 class="text-danger">HS CONSULTING</h5>
                     <p>Professional tax and financial solutions for businesses and individuals in Kenya.</p>
                     <!-- Social Media Links -->
@@ -95,15 +95,13 @@
                                 <i class="fab fa-linkedin fs-5"></i>
                             </a>
                             {% endif %}
-                            {% if settings.whatsapp %}
-                            <a href="https://wa.me/{{ settings.whatsapp|slice:'1:' }}?text={{ settings.whatsapp_message|urlencode }}" target="_blank" rel="noopener" class="text-white-50 text-decoration-none" title="WhatsApp">
+                            <a href="https://wa.me/254756715493" target="_blank" rel="noopener" class="text-white-50 text-decoration-none" title="WhatsApp">
                                 <i class="fab fa-whatsapp fs-5"></i>
                             </a>
-                            {% endif %}
                         </div>
                     </div>
                 </div>
-                <div class="col-md-3">
+                <div class="col-md-4">
                     <h5>Quick Links</h5>
                     <ul class="list-unstyled">
                         <li><a href="{% url 'services:list' %}" class="text-white-50">Services</a></li>
@@ -112,42 +110,20 @@
                         <li><a href="{% url 'inquiries:contact' %}" class="text-white-50">Contact Us</a></li>
                     </ul>
                 </div>
-                <div class="col-md-3">
-                    <h5>Contact</h5>
-                    <p class="text-white-50 small">
-                        {% if settings %}
-                            <strong>Partner 1:</strong><br>
-                            <a href="mailto:{{ settings.email }}" class="text-white-50">{{ settings.email }}</a><br>
-                            <a href="tel:{{ settings.phone }}" class="text-white-50">{{ settings.phone }}</a><br>
-                            {% if settings.whatsapp %}
-                            <a href="https://wa.me/{{ settings.whatsapp|slice:'1:' }}?text={{ settings.whatsapp_message|urlencode }}" class="text-white-50" target="_blank">
-                                <i class="fab fa-whatsapp"></i> {{ settings.whatsapp }}
+                <div class="col-md-4">
+                    <h5>Contact Us</h5>
+                    <ul class="list-unstyled text-white-50 small">
+                        <li class="mb-2">
+                            <a href="mailto:hsconsultingke@gmail.com" class="text-white-50">
+                                <i class="fas fa-envelope me-2"></i>hsconsultingke@gmail.com
                             </a>
-                            {% endif %}
-                        {% else %}
-                            info@hsconsulting.co.ke<br>
-                            0729592895
-                        {% endif %}
-                    </p>
-                </div>
-                <div class="col-md-3">
-                    <h5>Secondary Contact</h5>
-                    <p class="text-white-50 small">
-                        {% if settings %}
-                            {% if settings.email_2 %}
-                            <strong>Partner 2:</strong><br>
-                            <a href="mailto:{{ settings.email_2 }}" class="text-white-50">{{ settings.email_2 }}</a><br>
-                            {% endif %}
-                            {% if settings.phone_2 %}
-                            <a href="tel:{{ settings.phone_2 }}" class="text-white-50">{{ settings.phone_2 }}</a><br>
-                            {% endif %}
-                            {% if settings.whatsapp_2 %}
-                            <a href="https://wa.me/{{ settings.whatsapp_2|slice:'1:' }}?text={{ settings.whatsapp_message|urlencode }}" class="text-white-50" target="_blank">
-                                <i class="fab fa-whatsapp"></i> {{ settings.whatsapp_2 }}
+                        </li>
+                        <li>
+                            <a href="https://wa.me/254756715493" target="_blank" rel="noopener" class="text-white-50">
+                                <i class="fab fa-whatsapp me-2"></i>0756 715 493
                             </a>
-                            {% endif %}
-                        {% endif %}
-                    </p>
+                        </li>
+                    </ul>
                 </div>
             </div>
             <hr class="bg-white-50">
