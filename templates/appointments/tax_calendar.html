@@ -1,27 +1,220 @@
 {% extends 'base/base.html' %}
 
-{% block title %}Kenyan Tax Calendar - HS Consulting{% endblock %}
+{% block title %}Kenyan Tax Calendar 2026 — HS Consulting{% endblock %}
 
 {% block content %}
-<section class="section-padding">
+
+<!-- Page Header -->
+<section style="background: linear-gradient(145deg, #1A1A1A 0%, #2A2A2A 65%, rgba(204,0,0,0.18) 100%); padding: 80px 0 60px; position: relative;">
+    <div class="container text-center">
+        <span style="display: inline-block; background: rgba(204,0,0,0.15); border: 1px solid rgba(204,0,0,0.4); color: #CC0000; font-size: 0.75rem; font-weight: 700; letter-spacing: 2px; text-transform: uppercase; padding: 6px 16px; border-radius: 20px; margin-bottom: 18px;">
+            <i class="fas fa-calendar-alt me-2"></i>KRA Official Schedule
+        </span>
+        <h1 style="color: #fff; font-size: 2.8rem; font-weight: 800; margin-bottom: 14px;">Kenya Tax Calendar 2026</h1>
+        <p style="color: rgba(255,255,255,0.65); font-size: 1.1rem; max-width: 600px; margin: 0 auto 30px;">
+            All KRA statutory deadlines for the current year. Never miss a filing date — penalties start at <strong style="color:#CC0000;">KES 2,000 or 5%</strong> of tax due.
+        </p>
+        <!-- Summary pills -->
+        <div class="d-flex flex-wrap justify-content-center gap-2">
+            <span style="background: rgba(255,255,255,0.07); border: 1px solid rgba(255,255,255,0.15); color: #fff; font-size: 0.8rem; padding: 6px 14px; border-radius: 20px;">
+                <i class="fas fa-check-circle me-1" style="color:#28a745;"></i>{{ upcoming_deadlines.count }} Upcoming
+            </span>
+            <span style="background: rgba(255,255,255,0.07); border: 1px solid rgba(255,255,255,0.15); color: rgba(255,255,255,0.5); font-size: 0.8rem; padding: 6px 14px; border-radius: 20px;">
+                <i class="fas fa-history me-1"></i>{{ past_deadlines.count }} Past
+            </span>
+            <span style="background: rgba(255,255,255,0.07); border: 1px solid rgba(255,255,255,0.15); color: rgba(255,255,255,0.7); font-size: 0.8rem; padding: 6px 14px; border-radius: 20px;">
+                <i class="fas fa-calendar me-1" style="color:#CC0000;"></i>{{ deadlines.count }} Total deadlines
+            </span>
+        </div>
+    </div>
+    <!-- Wave -->
+    <div style="position:absolute; bottom:-1px; left:0; width:100%; line-height:0;">
+        <svg viewBox="0 0 1200 60" preserveAspectRatio="none" style="width:100%; height:60px; display:block;">
+            <path d="M0,30 Q300,0 600,30 T1200,30 L1200,60 L0,60 Z" fill="#f8f9fa"/>
+        </svg>
+    </div>
+</section>
+
+<!-- Legend + Filter -->
+<section style="background: #f8f9fa; padding: 30px 0 0;">
     <div class="container">
-        <h1 class="section-title text-center mb-5">Kenyan Tax Deadlines Calendar</h1>
-        
-        <div class="row">
-            {% for deadline in upcoming_deadlines %}
-                <div class="col-md-6 mb-3">
-                    <div class="card border-danger">
-                        <div class="card-body">
-                            <h5 class="card-title text-danger">{{ deadline.name }}</h5>
-                            <p class="card-text">{{ deadline.description }}</p>
-                            <p class="mb-0"><strong>Due Date:</strong> <span class="badge bg-danger">{{ deadline.deadline_date|date:'M d, Y' }}</span></p>
-                        </div>
-                    </div>
-                </div>
-            {% empty %}
-                <div class="alert alert-info">No tax deadlines available.</div>
-            {% endfor %}
+        <div class="d-flex flex-wrap align-items-center justify-content-between gap-3 pb-3">
+            <div class="d-flex flex-wrap gap-2">
+                <span class="legend-pill paye-pill"><i class="fas fa-users me-1"></i>PAYE</span>
+                <span class="legend-pill vat-pill"><i class="fas fa-file-invoice me-1"></i>VAT</span>
+                <span class="legend-pill wht-pill"><i class="fas fa-percentage me-1"></i>Withholding Tax</span>
+                <span class="legend-pill income-pill"><i class="fas fa-building me-1"></i>Income / Corp Tax</span>
+                <span class="legend-pill other-pill"><i class="fas fa-shield-alt me-1"></i>NSSF</span>
+            </div>
+            <a href="{% url 'appointments:book' %}" class="btn btn-sm" style="background:#CC0000; color:#fff; border:none; font-weight:600; padding: 8px 20px; border-radius:6px;">
+                <i class="fas fa-headset me-2"></i>Book a Tax Advisor
+            </a>
         </div>
     </div>
 </section>
+
+<!-- Notice banner -->
+<div style="background: #fff3cd; border-top: 3px solid #ffc107; padding: 12px 0;">
+    <div class="container">
+        <p class="mb-0 small" style="color: #856404;">
+            <i class="fas fa-exclamation-triangle me-2"></i>
+            <strong>Note:</strong> When a deadline falls on a weekend or public holiday, KRA typically extends it to the next working day. Confirm current dates on <strong>iTax (itax.kra.go.ke)</strong> or contact our team.
+        </p>
+    </div>
+</div>
+
+<!-- Deadlines List -->
+<section style="background: #f8f9fa; padding: 40px 0 80px;">
+    <div class="container">
+
+        {% if not deadlines %}
+        <div class="text-center py-5">
+            <div style="width:80px; height:80px; background:rgba(204,0,0,0.08); border: 2px solid #CC0000; border-radius:50%; display:flex; align-items:center; justify-content:center; margin: 0 auto 20px;">
+                <i class="fas fa-calendar-times" style="font-size:2rem; color:#CC0000;"></i>
+            </div>
+            <h4 style="color:#2A2A2A;">No tax deadlines loaded yet.</h4>
+            <p class="text-muted">Contact us to get the full 2026 KRA tax schedule for your business.</p>
+            <a href="{% url 'inquiries:contact' %}" class="btn btn-danger mt-2">Contact Us</a>
+        </div>
+        {% else %}
+
+        <!-- UPCOMING DEADLINES -->
+        {% if upcoming_deadlines %}
+        <h5 class="fw-bold mb-3" style="color:#2A2A2A; letter-spacing:0.5px; text-transform:uppercase; font-size:0.8rem;">
+            <i class="fas fa-clock me-2" style="color:#CC0000;"></i>Upcoming Deadlines
+        </h5>
+
+        <div class="row g-3 mb-5">
+            {% for d in upcoming_deadlines %}
+            {% with dtype=d.deadline_type %}
+            <div class="col-md-6 col-lg-4">
+                <div class="deadline-card {% if dtype == 'paye' %}paye-card{% elif dtype == 'vat' %}vat-card{% elif dtype == 'income_tax' %}income-card{% else %}other-card{% endif %}">
+                    <!-- Type badge + date -->
+                    <div class="d-flex justify-content-between align-items-start mb-2">
+                        <span class="type-badge {% if dtype == 'paye' %}paye-badge{% elif dtype == 'vat' %}vat-badge{% elif dtype == 'income_tax' %}income-badge{% else %}other-badge{% endif %}">
+                            {% if dtype == 'paye' %}<i class="fas fa-users me-1"></i>PAYE
+                            {% elif dtype == 'vat' %}<i class="fas fa-file-invoice me-1"></i>VAT
+                            {% elif dtype == 'income_tax' %}<i class="fas fa-building me-1"></i>Income Tax
+                            {% else %}<i class="fas fa-shield-alt me-1"></i>Statutory
+                            {% endif %}
+                        </span>
+                        <div class="text-end">
+                            <div style="font-size:1.3rem; font-weight:800; color:#CC0000; line-height:1;">{{ d.deadline_date|date:"d" }}</div>
+                            <div style="font-size:0.7rem; color:#666; text-transform:uppercase; letter-spacing:1px;">{{ d.deadline_date|date:"M Y" }}</div>
+                        </div>
+                    </div>
+                    <h6 class="fw-bold mb-2" style="color:#2A2A2A; font-size:0.92rem;">{{ d.name }}</h6>
+                    <p class="mb-0 small text-muted" style="line-height:1.5;">{{ d.description|truncatewords:22 }}</p>
+                </div>
+            </div>
+            {% endwith %}
+            {% endfor %}
+        </div>
+        {% endif %}
+
+        <!-- PAST DEADLINES -->
+        {% if past_deadlines %}
+        <h5 class="fw-bold mb-3" style="color:#888; letter-spacing:0.5px; text-transform:uppercase; font-size:0.8rem;">
+            <i class="fas fa-history me-2"></i>Past Deadlines ({{ today.year }})
+        </h5>
+        <div class="row g-3">
+            {% for d in past_deadlines %}
+            <div class="col-md-6 col-lg-4">
+                <div class="deadline-card past-card">
+                    <div class="d-flex justify-content-between align-items-start mb-2">
+                        <span class="type-badge past-badge">
+                            {% if d.deadline_type == 'paye' %}<i class="fas fa-users me-1"></i>PAYE
+                            {% elif d.deadline_type == 'vat' %}<i class="fas fa-file-invoice me-1"></i>VAT
+                            {% elif d.deadline_type == 'income_tax' %}<i class="fas fa-building me-1"></i>Income Tax
+                            {% else %}<i class="fas fa-shield-alt me-1"></i>Statutory
+                            {% endif %}
+                        </span>
+                        <div class="text-end">
+                            <div style="font-size:1.3rem; font-weight:800; color:#aaa; line-height:1;">{{ d.deadline_date|date:"d" }}</div>
+                            <div style="font-size:0.7rem; color:#bbb; text-transform:uppercase; letter-spacing:1px;">{{ d.deadline_date|date:"M Y" }}</div>
+                        </div>
+                    </div>
+                    <h6 class="fw-bold mb-1" style="color:#999; font-size:0.92rem;">{{ d.name }}</h6>
+                    <p class="mb-0 small" style="color:#bbb; line-height:1.5;">{{ d.description|truncatewords:18 }}</p>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+        {% endif %}
+
+        {% endif %}
+    </div>
+</section>
+
+<!-- CTA Strip -->
+<section style="background: #2A2A2A; padding: 60px 0; border-top: 2px solid #CC0000;">
+    <div class="container text-center">
+        <h3 style="color:#fff; font-weight:800; margin-bottom:12px;">Need help staying compliant?</h3>
+        <p style="color:rgba(255,255,255,0.6); max-width:500px; margin:0 auto 28px;">
+            Our tax professionals handle all your KRA filings — PAYE, VAT, corporate tax, and more.
+        </p>
+        <div class="d-flex gap-3 justify-content-center flex-wrap">
+            <a href="{% url 'appointments:book' %}" class="btn" style="background:#CC0000; color:#fff; font-weight:700; padding:12px 28px; border-radius:6px;">
+                <i class="fas fa-calendar-check me-2"></i>Book Appointment
+            </a>
+            <a href="https://wa.me/254756715493" target="_blank" rel="noopener" class="btn" style="background:transparent; color:#fff; border:2px solid rgba(255,255,255,0.3); font-weight:600; padding:12px 28px; border-radius:6px;">
+                <i class="fab fa-whatsapp me-2" style="color:#25D366;"></i>WhatsApp Us
+            </a>
+        </div>
+    </div>
+</section>
+
+{% endblock %}
+
+{% block extra_css %}
+<style>
+.legend-pill {
+    display: inline-flex;
+    align-items: center;
+    font-size: 0.78rem;
+    font-weight: 600;
+    padding: 5px 12px;
+    border-radius: 20px;
+}
+.paye-pill  { background: #e8f4fd; color: #0d6efd; }
+.vat-pill   { background: #e6f9f0; color: #198754; }
+.wht-pill   { background: #f3e8fd; color: #6f42c1; }
+.income-pill{ background: #fde8e8; color: #CC0000; }
+.other-pill { background: #fff3e8; color: #fd7e14; }
+
+.deadline-card {
+    background: #fff;
+    border-radius: 10px;
+    padding: 20px;
+    height: 100%;
+    border-left: 4px solid transparent;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+    transition: transform 0.2s, box-shadow 0.2s;
+}
+.deadline-card:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(0,0,0,0.1);
+}
+.paye-card   { border-left-color: #0d6efd; }
+.vat-card    { border-left-color: #198754; }
+.income-card { border-left-color: #CC0000; }
+.other-card  { border-left-color: #fd7e14; }
+.past-card   { border-left-color: #dee2e6; background: #fafafa; opacity: 0.75; }
+
+.type-badge {
+    display: inline-flex;
+    align-items: center;
+    font-size: 0.7rem;
+    font-weight: 700;
+    padding: 3px 10px;
+    border-radius: 12px;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+.paye-badge  { background: #e8f4fd; color: #0d6efd; }
+.vat-badge   { background: #e6f9f0; color: #198754; }
+.income-badge{ background: #fde8e8; color: #CC0000; }
+.other-badge { background: #fff3e8; color: #fd7e14; }
+.past-badge  { background: #f0f0f0; color: #aaa; }
+</style>
 {% endblock %}

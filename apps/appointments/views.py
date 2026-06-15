@@ -41,8 +41,15 @@ def booking_success(request, pk):
 
 def tax_calendar(request):
     """Display Kenyan tax calendar"""
-    deadlines = TaxDeadline.objects.filter(deadline_date__isnull=False).order_by('deadline_date')
+    from datetime import date
+    today = date.today()
+    all_deadlines = TaxDeadline.objects.filter(deadline_date__isnull=False).order_by('deadline_date')
+    upcoming_deadlines = all_deadlines.filter(deadline_date__gte=today)
+    past_deadlines = all_deadlines.filter(deadline_date__lt=today)
     context = {
-        'deadlines': deadlines,
+        'deadlines': all_deadlines,
+        'upcoming_deadlines': upcoming_deadlines,
+        'past_deadlines': past_deadlines,
+        'today': today,
     }
     return render(request, 'appointments/tax_calendar.html', context)
