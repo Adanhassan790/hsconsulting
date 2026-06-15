@@ -24,16 +24,17 @@
         <h1 class="display-2 fw-bold mb-4 hero-animate-title" style="color: white; font-size: 3.5rem;">Professional Tax & Financial Solutions</h1>
         <p class="lead mb-5 hero-animate-subtitle" style="font-size: 1.3rem; color: #E8E8E8; font-weight: 300;">Simplifying tax compliance and financial management for businesses in Kenya</p>
         <div class="d-flex justify-content-center gap-3 flex-wrap hero-animate-cta" style="position: relative; z-index: 10;">
-            <a href="{% url 'appointments:book' %}" class="btn btn-lg" style="background-color: #E60000; color: white; border: none; padding: 14px 45px; font-weight: 600; border-radius: 4px; transition: all 0.3s ease;" onmouseover="this.style.backgroundColor='#CC0000'; this.style.transform='translateY(-2px)';" onmouseout="this.style.backgroundColor='#E60000'; this.style.transform='translateY(0)';">Book Appointment</a>
-            <a href="{% url 'services:list' %}" class="btn btn-lg" style="background-color: white; color: #E60000; border: 2px solid white; padding: 14px 45px; font-weight: 600; border-radius: 4px; transition: all 0.3s ease;" onmouseover="this.style.backgroundColor='#E60000'; this.style.color='white';" onmouseout="this.style.backgroundColor='white'; this.style.color='#E60000';">View Services</a>
+            <a href="{% url 'appointments:book' %}" class="btn btn-lg" style="background-color: #CC0000; color: white; border: none; padding: 14px 45px; font-weight: 600; border-radius: 4px; transition: all 0.3s ease;" onmouseover="this.style.backgroundColor='#CC0000'; this.style.transform='translateY(-2px)';" onmouseout="this.style.backgroundColor='#CC0000'; this.style.transform='translateY(0)';">Book Appointment</a>
+            <a href="{% url 'services:list' %}" class="btn btn-lg" style="background-color: white; color: #CC0000; border: 2px solid white; padding: 14px 45px; font-weight: 600; border-radius: 4px; transition: all 0.3s ease;" onmouseover="this.style.backgroundColor='#CC0000'; this.style.color='white';" onmouseout="this.style.backgroundColor='white'; this.style.color='#CC0000';">View Services</a>
         </div>
     </div>
 </section>
 
-<!-- Wave Divider -->
+<!-- Wave Divider: hero → stats (business card: charcoal base + thin red accent stripe) -->
 <svg class="wave-divider" viewBox="0 0 1200 120" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="none">
-    <path d="M0,60 Q150,20 300,60 T600,60 T900,60 T1200,60 L1200,120 L0,120 Z" fill="#E60000" opacity="0.95"/>
-    <path d="M0,70 Q150,40 300,70 T600,70 T900,70 T1200,70 L1200,120 L0,120 Z" fill="white" opacity="0.2"/>
+    <path d="M0,60 Q150,20 300,60 T600,60 T900,60 T1200,60 L1200,120 L0,120 Z" fill="#2A2A2A"/>
+    <path d="M0,60 Q150,20 300,60 T600,60 T900,60 T1200,60" fill="none" stroke="#CC0000" stroke-width="3.5" opacity="0.9"/>
+    <path d="M0,64 Q150,24 300,64 T600,64 T900,64 T1200,64" fill="none" stroke="white" stroke-width="1" opacity="0.12"/>
 </svg>
 
 <!-- ========== STATS STRIP ========== -->
@@ -59,6 +60,12 @@
         </div>
     </div>
 </section>
+
+<!-- Wave Divider: stats (charcoal) → services (white) -->
+<svg class="wave-divider" style="background: #2A2A2A;" viewBox="0 0 1200 120" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="none">
+    <path d="M0,40 Q200,90 400,40 T800,40 T1200,40 L1200,120 L0,120 Z" fill="#FFFFFF"/>
+    <path d="M0,40 Q200,90 400,40 T800,40 T1200,40" fill="none" stroke="#CC0000" stroke-width="2" opacity="0.35"/>
+</svg>
 
 <!-- ========== SERVICES SECTION ========== -->
 <section class="section-white">
@@ -164,9 +171,9 @@
         <div class="row g-4 justify-content-center">
             {% for deadline in upcoming_deadlines %}
             <div class="col-md-6 col-lg-5 mb-4 animate-on-scroll {% if forloop.counter|divisibleby:2 %}fade-in-right{% else %}fade-in-left{% endif %} delay-{{ forloop.counter }}">
-                <div class="card h-100 tax-deadline-card" style="border-left: 4px solid #E60000;">
+                <div class="card h-100 tax-deadline-card" style="border-left: 4px solid #CC0000;">
                     <div class="card-body">
-                        <h5 class="card-title mb-3" style="color: #E60000; font-size: 1.2rem;">
+                        <h5 class="card-title mb-3" style="color: #CC0000; font-size: 1.2rem;">
                             {% if deadline.deadline_type == 'paye' %}
                             <i class="fas fa-wallet"></i> PAYE & VAT
                             {% elif deadline.deadline_type == 'income_tax' %}
@@ -177,19 +184,19 @@
                         </h5>
                         <div class="countdown mb-3" data-deadline="{{ deadline.deadline_date|date:'Y-m-d' }}">
                             <div class="countdown-item">
-                                <div class="countdown-value" style="background: #E60000; color: white; font-weight: 700;"><span class="days-value">00</span></div>
+                                <div class="countdown-value" style="background: #CC0000; color: white; font-weight: 700;"><span class="days-value">00</span></div>
                                 <div class="countdown-label" style="color: #2A2A2A;">DAYS</div>
                             </div>
                             <div class="countdown-item">
-                                <div class="countdown-value" style="background: #E60000; color: white; font-weight: 700;"><span class="hours-value">00</span></div>
+                                <div class="countdown-value" style="background: #CC0000; color: white; font-weight: 700;"><span class="hours-value">00</span></div>
                                 <div class="countdown-label" style="color: #2A2A2A;">HRS</div>
                             </div>
                             <div class="countdown-item">
-                                <div class="countdown-value" style="background: #E60000; color: white; font-weight: 700;"><span class="mins-value">00</span></div>
+                                <div class="countdown-value" style="background: #CC0000; color: white; font-weight: 700;"><span class="mins-value">00</span></div>
                                 <div class="countdown-label" style="color: #2A2A2A;">MINS</div>
                             </div>
                             <div class="countdown-item">
-                                <div class="countdown-value" style="background: #E60000; color: white; font-weight: 700;"><span class="secs-value">00</span></div>
+                                <div class="countdown-value" style="background: #CC0000; color: white; font-weight: 700;"><span class="secs-value">00</span></div>
                                 <div class="countdown-label" style="color: #2A2A2A;">SECS</div>
                             </div>
                         </div>
@@ -276,24 +283,24 @@
 
             <!-- Stats card -->
             <div class="col-lg-6 animate-on-scroll zoom-in delay-2">
-                <div class="card" style="border-left: 4px solid #E60000; box-shadow: 0 10px 30px rgba(230, 0, 0, 0.1);">
+                <div class="card" style="border-left: 4px solid #CC0000; box-shadow: 0 10px 30px rgba(230, 0, 0, 0.1);">
                     <div class="card-body p-4">
-                        <h4 style="color: #E60000; margin-bottom: 25px; font-weight: 700; font-size: 1.5rem;"><i class="fas fa-trophy"></i> Our Track Record</h4>
+                        <h4 style="color: #CC0000; margin-bottom: 25px; font-weight: 700; font-size: 1.5rem;"><i class="fas fa-trophy"></i> Our Track Record</h4>
                         <div class="row text-center g-3">
                             <div class="col-6">
-                                <div style="font-size: 2.4rem; font-weight: 800; color: #E60000; line-height: 1;">500+</div>
+                                <div style="font-size: 2.4rem; font-weight: 800; color: #CC0000; line-height: 1;">500+</div>
                                 <p style="color: #666666; margin: 6px 0 0; font-size: 0.9rem;">Businesses Served</p>
                             </div>
                             <div class="col-6">
-                                <div style="font-size: 2.4rem; font-weight: 800; color: #E60000; line-height: 1;">15+</div>
+                                <div style="font-size: 2.4rem; font-weight: 800; color: #CC0000; line-height: 1;">15+</div>
                                 <p style="color: #666666; margin: 6px 0 0; font-size: 0.9rem;">Years Experience</p>
                             </div>
                             <div class="col-6">
-                                <div style="font-size: 2.4rem; font-weight: 800; color: #E60000; line-height: 1;">98%</div>
+                                <div style="font-size: 2.4rem; font-weight: 800; color: #CC0000; line-height: 1;">98%</div>
                                 <p style="color: #666666; margin: 6px 0 0; font-size: 0.9rem;">Client Satisfaction</p>
                             </div>
                             <div class="col-6">
-                                <div style="font-size: 2.4rem; font-weight: 800; color: #E60000; line-height: 1;">24/7</div>
+                                <div style="font-size: 2.4rem; font-weight: 800; color: #CC0000; line-height: 1;">24/7</div>
                                 <p style="color: #666666; margin: 6px 0 0; font-size: 0.9rem;">Professional Support</p>
                             </div>
                         </div>
@@ -317,37 +324,37 @@
         <p class="section-subtitle text-center animate-on-scroll fade-in-up delay-1">Trusted by over 500 businesses across Kenya</p>
         <div class="row g-4">
             <div class="col-md-4 animate-on-scroll fade-in-up delay-1">
-                <div class="card h-100" style="border-left: 4px solid #E60000;">
+                <div class="card h-100" style="border-left: 4px solid #CC0000;">
                     <div class="card-body">
-                        <div style="color: #E60000; margin-bottom: 12px; font-size: 1.1rem;">
+                        <div style="color: #CC0000; margin-bottom: 12px; font-size: 1.1rem;">
                             <i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i>
                         </div>
                         <p class="card-text" style="font-style: italic; color: #666666; line-height: 1.8; margin-bottom: 15px;">"HS Consulting has been instrumental in managing our tax compliance. Their professionalism is exceptional!"</p>
-                        <h6 style="color: #E60000; font-weight: 700; margin: 0;">John Mwangi</h6>
+                        <h6 style="color: #CC0000; font-weight: 700; margin: 0;">John Mwangi</h6>
                         <small style="color: #999999;">Tech Solutions Ltd</small>
                     </div>
                 </div>
             </div>
             <div class="col-md-4 animate-on-scroll fade-in-up delay-2">
-                <div class="card h-100" style="border-left: 4px solid #E60000;">
+                <div class="card h-100" style="border-left: 4px solid #CC0000;">
                     <div class="card-body">
-                        <div style="color: #E60000; margin-bottom: 12px; font-size: 1.1rem;">
+                        <div style="color: #CC0000; margin-bottom: 12px; font-size: 1.1rem;">
                             <i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i>
                         </div>
                         <p class="card-text" style="font-style: italic; color:#666666; line-height: 1.8; margin-bottom: 15px;">"They helped us save thousands in tax liability while ensuring full compliance. Highly recommended!"</p>
-                        <h6 style="color: #E60000; font-weight: 700; margin: 0;">Sarah Kipchoge</h6>
+                        <h6 style="color: #CC0000; font-weight: 700; margin: 0;">Sarah Kipchoge</h6>
                         <small style="color: #999999;">Fashion Boutique</small>
                     </div>
                 </div>
             </div>
             <div class="col-md-4 animate-on-scroll fade-in-up delay-3">
-                <div class="card h-100" style="border-left: 4px solid #E60000;">
+                <div class="card h-100" style="border-left: 4px solid #CC0000;">
                     <div class="card-body">
-                        <div style="color: #E60000; margin-bottom: 12px; font-size: 1.1rem;">
+                        <div style="color: #CC0000; margin-bottom: 12px; font-size: 1.1rem;">
                             <i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i>
                         </div>
                         <p class="card-text" style="font-style: italic; color:#666666; line-height: 1.8; margin-bottom: 15px;">"The team's expertise in ETIMS and VAT compliance is unmatched. Excellent service throughout!"</p>
-                        <h6 style="color: #E60000; font-weight: 700; margin: 0;">James Okonkwo</h6>
+                        <h6 style="color: #CC0000; font-weight: 700; margin: 0;">James Okonkwo</h6>
                         <small style="color: #999999;">Manufacturing Ltd</small>
                     </div>
                 </div>
@@ -371,16 +378,16 @@
         <div class="row g-4">
             {% for post in latest_posts %}
             <div class="col-md-4 animate-on-scroll fade-in-up delay-{{ forloop.counter }}">
-                <div class="card h-100" style="border-top: 3px solid #E60000; overflow: hidden;">
+                <div class="card h-100" style="border-top: 3px solid #CC0000; overflow: hidden;">
                     {% if post.featured_image %}
                         <img src="{{ post.featured_image.url }}" alt="{{ post.title }}" style="height: 180px; width: 100%; object-fit: cover; display: block;">
                     {% else %}
-                        <div style="height: 180px; background: linear-gradient(135deg, #E60000, #CC0000); display: flex; align-items: center; justify-content: center;">
+                        <div style="height: 180px; background: linear-gradient(135deg, #CC0000, #CC0000); display: flex; align-items: center; justify-content: center;">
                             <i class="fas fa-newspaper" style="font-size: 4rem; color: white; opacity: 0.7;"></i>
                         </div>
                     {% endif %}
                     <div class="card-body">
-                        <small style="color: #E60000; font-weight: 700;">{{ post.published_at|date:'F d, Y' }}</small>
+                        <small style="color: #CC0000; font-weight: 700;">{{ post.published_at|date:'F d, Y' }}</small>
                         <h5 class="card-title mt-2" style="color: #2A2A2A;">{{ post.title }}</h5>
                         <p class="card-text" style="color: #666666;">{{ post.excerpt|truncatewords:20 }}</p>
                         <a href="{% url 'blog:detail' post.slug %}" class="btn btn-sm btn-danger" style="margin-top: 10px;">Read More</a>
@@ -394,7 +401,7 @@
         <div class="row justify-content-center animate-on-scroll fade-in-up">
             <div class="col-md-8 text-center py-4">
                 <div style="width: 80px; height: 80px; background: rgba(230,0,0,0.08); border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto 20px;">
-                    <i class="fas fa-pen-nib" style="font-size: 2rem; color: #E60000;"></i>
+                    <i class="fas fa-pen-nib" style="font-size: 2rem; color: #CC0000;"></i>
                 </div>
                 <h5 style="color: #2A2A2A; margin-bottom: 10px;">Tax Insights Coming Soon</h5>
                 <p style="color: #666666; margin-bottom: 25px;">We'll be publishing expert tax tips, guides, and regulatory updates to help your business stay ahead.</p>
@@ -463,7 +470,7 @@
             <a href="{% url 'appointments:book' %}" class="btn btn-lg btn-danger">
                 <i class="fas fa-calendar-check"></i> Book Free Consultation
             </a>
-            <a href="{% url 'inquiries:contact' %}" class="btn btn-lg" style="background: white; color: #E60000; border: none; font-weight: 600; transition: all 0.3s ease;" onmouseover="this.style.backgroundColor='#F0F0F0';" onmouseout="this.style.backgroundColor='white';">
+            <a href="{% url 'inquiries:contact' %}" class="btn btn-lg" style="background: white; color: #CC0000; border: none; font-weight: 600; transition: all 0.3s ease;" onmouseover="this.style.backgroundColor='#F0F0F0';" onmouseout="this.style.backgroundColor='white';">
                 <i class="fas fa-envelope"></i> Send an Inquiry
             </a>
         </div>

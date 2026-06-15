@@ -5,8 +5,8 @@
 /* Primary Red: #E60000, Charcoal: #2A2A2A, White: #FFFFFF */
 
 :root {
-    --primary-red: #E60000;
-    --accent-red: #CC0000;
+    --primary-red: #CC0000;
+    --accent-red: #AA0000;
     --dark-charcoal: #2A2A2A;
     --light-charcoal: #3A3A3A;
     --light-white: #FFFFFF;
@@ -135,8 +135,7 @@ h1, h2, h3, h4, h5, h6 {
 
 /* Hero Section */
 .hero {
-    background: linear-gradient(135deg, rgba(42, 42, 42, 0.8) 0%, rgba(232, 76, 159, 0.1) 100%), 
-                url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 600"><defs><linearGradient id="grad" x1="0%25" y1="0%25" x2="100%25" y2="100%25"><stop offset="0%25" style="stop-color:%23ffffff;stop-opacity:0.1" /><stop offset="100%25" style="stop-color:%23E84C9F;stop-opacity:0.15" /></linearGradient></defs><rect width="1200" height="600" fill="url(%23grad)"/></svg>');
+    background: linear-gradient(145deg, #1A1A1A 0%, #2A2A2A 65%, rgba(204, 0, 0, 0.18) 100%);
     background-size: cover;
     background-position: center;
     color: var(--light-white);
@@ -1483,8 +1482,8 @@ table td, table th {
 
 /* ===== STATS STRIP ===== */
 .stats-strip {
-    background: var(--primary-red);
-    padding: 45px 0;
+    background: var(--dark-charcoal);
+    padding: 50px 0;
     position: relative;
     z-index: 2;
 }
@@ -1492,7 +1491,7 @@ table td, table th {
 .stats-strip .stat-item {
     text-align: center;
     padding: 10px 15px;
-    border-right: 1px solid rgba(255, 255, 255, 0.2);
+    border-right: 1px solid rgba(255, 255, 255, 0.08);
 }
 
 .stats-strip .stat-item:last-child {
@@ -1500,27 +1499,29 @@ table td, table th {
 }
 
 .stats-strip .stat-number {
-    font-size: 2.6rem;
+    font-size: 2.8rem;
     font-weight: 800;
-    color: white;
+    color: var(--primary-red);
     line-height: 1;
     display: block;
     font-family: var(--font-primary);
+    letter-spacing: -1px;
 }
 
 .stats-strip .stat-label {
-    font-size: 0.9rem;
-    color: rgba(255, 255, 255, 0.85);
-    margin-top: 6px;
+    font-size: 0.85rem;
+    color: rgba(255, 255, 255, 0.65);
+    margin-top: 8px;
     display: block;
     font-weight: 500;
-    letter-spacing: 0.3px;
+    letter-spacing: 0.5px;
+    text-transform: uppercase;
 }
 
 @media (max-width: 768px) {
     .stats-strip .stat-item {
         border-right: none;
-        border-bottom: 1px solid rgba(255, 255, 255, 0.15);
+        border-bottom: 1px solid rgba(255, 255, 255, 0.08);
         margin-bottom: 10px;
         padding-bottom: 15px;
     }
@@ -1528,7 +1529,7 @@ table td, table th {
         border-bottom: none;
         margin-bottom: 0;
     }
-    .stats-strip .stat-number { font-size: 2rem; }
+    .stats-strip .stat-number { font-size: 2.2rem; }
 }
 
 /* ===== FEATURED SERVICE CARD ===== */
