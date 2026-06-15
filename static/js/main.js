@@ -158,3 +158,23 @@ function switchTab(tabName) {
 function toggleDarkMode() {
     document.body.classList.toggle('dark-mode');
 }
+
+// Scroll-triggered animations via IntersectionObserver
+document.addEventListener('DOMContentLoaded', function () {
+    const animEls = document.querySelectorAll('.animate-on-scroll');
+    if (!animEls.length) return;
+
+    const observer = new IntersectionObserver(function (entries) {
+        entries.forEach(function (entry) {
+            if (entry.isIntersecting) {
+                entry.target.classList.add('animated');
+                observer.unobserve(entry.target);
+            }
+        });
+    }, {
+        threshold: 0.12,
+        rootMargin: '0px 0px -55px 0px'
+    });
+
+    animEls.forEach(function (el) { observer.observe(el); });
+});
