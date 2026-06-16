@@ -84,7 +84,7 @@ class Appointment(models.Model):
             settings.DEFAULT_FROM_EMAIL,
             [self.client_email],
             html_message=html_message,
-            fail_silently=True,
+            fail_silently=False,
         )
         
         # Email to owner
@@ -104,7 +104,7 @@ class Appointment(models.Model):
                 settings.DEFAULT_FROM_EMAIL,
                 owner_emails,
                 html_message=owner_html,
-                fail_silently=True,
+                fail_silently=False,
             )
     
     def send_reminder_email(self):

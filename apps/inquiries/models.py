@@ -53,7 +53,7 @@ class Inquiry(models.Model):
             settings.DEFAULT_FROM_EMAIL,
             [self.email],
             html_message=html_message,
-            fail_silently=True,
+            fail_silently=False,
         )
     
     def send_owner_notification(self):
@@ -77,5 +77,5 @@ class Inquiry(models.Model):
                 settings.DEFAULT_FROM_EMAIL,
                 owner_emails,
                 html_message=html_message,
-                fail_silently=True,
+                fail_silently=False,
             )
