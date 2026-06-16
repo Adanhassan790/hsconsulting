@@ -19,7 +19,11 @@
 
     <div class="container text-center" style="position: relative; z-index: 1;">
         <div style="margin-bottom: 40px; perspective: 1000px;">
-            <img src="{% static 'images/logo.png' %}" alt="HS Consulting" class="hero-logo" style="height: 120px; width: auto; display: inline-block;">
+            {% if settings and settings.logo %}
+                <img src="{{ settings.logo.url }}" alt="HS Consulting" class="hero-logo" style="height: 120px; width: auto; display: inline-block;">
+            {% else %}
+                <img src="{% static 'images/logo.png' %}" alt="HS Consulting" class="hero-logo" style="height: 120px; width: auto; display: inline-block;">
+            {% endif %}
         </div>
         <h1 class="display-2 fw-bold mb-4 hero-animate-title" style="color: white; font-size: 3.5rem;">Professional Tax & Financial Solutions</h1>
         <p class="lead mb-5 hero-animate-subtitle" style="font-size: 1.3rem; color: #E8E8E8; font-weight: 300;">Simplifying tax compliance and financial management for businesses in Kenya</p>
