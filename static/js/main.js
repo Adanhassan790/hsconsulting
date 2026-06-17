@@ -1,42 +1,5 @@
 /* Main JavaScript */
 
-// Logo flip animation - only on first page load
-document.addEventListener('DOMContentLoaded', function() {
-    // Check if this is the first load using sessionStorage
-    const isFirstLoad = !sessionStorage.getItem('site-loaded');
-    
-    // Handle navbar logo
-    const navLogo = document.getElementById('navbar-logo');
-    // Handle hero logo (if on home page)
-    const heroLogo = document.querySelector('.hero-logo');
-    
-    if (isFirstLoad) {
-        // First load: trigger animation on both logos
-        if (navLogo) {
-            navLogo.classList.remove('first-load');
-            void navLogo.offsetWidth; // Force reflow
-            navLogo.classList.add('first-load');
-        }
-        
-        if (heroLogo) {
-            heroLogo.classList.remove('first-load');
-            void heroLogo.offsetWidth; // Force reflow
-            heroLogo.classList.add('first-load');
-        }
-        
-        // Mark that site has been loaded
-        sessionStorage.setItem('site-loaded', 'true');
-    } else {
-        // Subsequent navigation: no animation
-        if (navLogo) {
-            navLogo.classList.remove('first-load');
-        }
-        if (heroLogo) {
-            heroLogo.classList.remove('first-load');
-        }
-    }
-});
-
 // Form validation
 function validateForm(formId) {
     const form = document.getElementById(formId);

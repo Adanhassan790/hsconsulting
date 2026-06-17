@@ -57,42 +57,45 @@ h1, h2, h3, h4, h5, h6 {
     opacity: 1;
 }
 
-.navbar-brand img {
-    animation: none;
+#navbar-logo {
     position: relative;
     z-index: 9999;
-}
-
-#navbar-logo.first-load {
-    animation: logoReveal 1s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+    animation: logoReveal 0.8s cubic-bezier(0.22, 1, 0.36, 1) forwards,
+               logoPulse 2.8s ease-in-out 0.8s infinite;
 }
 
 .hero-logo {
-    animation: none;
     position: relative;
     z-index: 100;
-    filter: drop-shadow(0 8px 24px rgba(232, 76, 159, 0.3));
-}
-
-.hero-logo.first-load {
-    animation: logoReveal 1.1s cubic-bezier(0.22, 1, 0.36, 1) 0.15s both;
+    filter: drop-shadow(0 8px 24px rgba(204, 0, 0, 0.25));
+    animation: logoReveal 0.9s cubic-bezier(0.22, 1, 0.36, 1) 0.1s both,
+               logoPulse 2.8s ease-in-out 1s infinite;
 }
 
 @keyframes logoReveal {
     0% {
         opacity: 0;
-        transform: scale(0.7);
+        transform: scale(0.6);
     }
-    60% {
+    65% {
         opacity: 1;
-        transform: scale(1.08);
+        transform: scale(1.1);
     }
-    80% {
-        transform: scale(0.97);
+    85% {
+        transform: scale(0.96);
     }
     100% {
         opacity: 1;
         transform: scale(1);
+    }
+}
+
+@keyframes logoPulse {
+    0%, 100% {
+        transform: scale(1);
+    }
+    50% {
+        transform: scale(1.1);
     }
 }
 
