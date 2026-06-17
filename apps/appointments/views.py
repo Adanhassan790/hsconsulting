@@ -1,7 +1,10 @@
+import logging
 from django.shortcuts import render, redirect
 from django.contrib import messages
 from .models import Appointment, TaxDeadline
 from .forms import AppointmentForm
+
+logger = logging.getLogger(__name__)
 
 
 def book_appointment(request):
@@ -12,12 +15,13 @@ def book_appointment(request):
             appointment = form.save(commit=False)
             appointment.status = 'scheduled'
             appointment.save()
-            
+
             # Send confirmation email
             try:
                 appointment.send_confirmation_email()
+                logger.info("Appointment confirmation email sent to %s", appointment.client_email)
             except Exception as e:
-                print(f"Error sending email: {e}")
+                logger.error("Failed to send appointment email to %s: %s", appointment.client_email, e, exc_info=True)
             
             messages.success(request, 'Appointment booked successfully! You will receive a confirmation email shortly.')
             return redirect('appointments:booking_success', pk=appointment.pk)
