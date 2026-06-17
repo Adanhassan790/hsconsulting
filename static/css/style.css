@@ -53,9 +53,8 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 .navbar-brand img {
-    transition: transform 0.6s cubic-bezier(0.68, -0.55, 0.265, 1.55);
     display: inline-block;
-    opacity: 0.5;
+    opacity: 1;
 }
 
 .navbar-brand img {
