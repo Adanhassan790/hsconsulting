@@ -60,6 +60,9 @@ INSTALLED_APPS = [
     'timezone_field',
     'django_filters',
     
+    # Transactional email via HTTP API (bypasses SMTP port blocks)
+    'anymail',
+
     # Local apps
     'apps.core',
     'apps.services',
@@ -212,17 +215,20 @@ CELERY_TASK_SERIALIZER = 'json'
 CELERY_RESULT_SERIALIZER = 'json'
 CELERY_TIMEZONE = 'Africa/Nairobi'
 
-# Email Configuration
-EMAIL_BACKEND = config('EMAIL_BACKEND', default='django.core.mail.backends.console.EmailBackend')
+# Email — uses Brevo HTTP API via django-anymail (avoids SMTP port blocks on Railway)
+EMAIL_BACKEND = config('EMAIL_BACKEND', default='anymail.backends.sendinblue.EmailBackend')
+DEFAULT_FROM_EMAIL = config('DEFAULT_FROM_EMAIL', default='HS Consulting <tax@hsconsulting.co.ke>')
+OWNER_EMAIL = config('OWNER_EMAIL', default='hsconsultingke@gmail.com')
+
+ANYMAIL = {
+    'SENDINBLUE_API_KEY': config('BREVO_API_KEY', default=''),
+}
+
+# Fallback SMTP settings (kept for local development with console backend)
 EMAIL_HOST = config('EMAIL_HOST', default='smtp-relay.brevo.com')
-EMAIL_PORT = config('EMAIL_PORT', default=465, cast=int)
-EMAIL_USE_TLS = config('EMAIL_USE_TLS', default=False, cast=bool)
-EMAIL_USE_SSL = config('EMAIL_USE_SSL', default=True, cast=bool)
+EMAIL_PORT = config('EMAIL_PORT', default=587, cast=int)
 EMAIL_HOST_USER = config('EMAIL_HOST_USER', default='')
 EMAIL_HOST_PASSWORD = config('EMAIL_HOST_PASSWORD', default='')
-EMAIL_TIMEOUT = config('EMAIL_TIMEOUT', default=30, cast=int)
-DEFAULT_FROM_EMAIL = config('DEFAULT_FROM_EMAIL', default='tax@hsconsulting.co.ke')
-OWNER_EMAIL = config('OWNER_EMAIL', default='hsconsultingke@gmail.com')
 
 # Twilio Configuration
 TWILIO_ACCOUNT_SID = config('TWILIO_ACCOUNT_SID', default='')
