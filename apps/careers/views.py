@@ -49,10 +49,10 @@ def job_detail(request, pk):
             try:
                 application.save()
                 messages.success(request, 'Your application has been submitted successfully! We\'ll review it and get back to you soon.')
-                return redirect('careers_list')
+                return redirect('careers:careers_list')
             except Exception as e:
                 messages.error(request, 'You have already applied for this position.')
-                return redirect('job_detail', pk=pk)
+                return redirect('careers:job_detail', pk=pk)
     else:
         form = JobApplicationForm()
     

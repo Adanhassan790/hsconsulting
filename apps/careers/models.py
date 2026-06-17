@@ -1,6 +1,12 @@
 from django.db import models
 from django.utils import timezone
 
+try:
+    from cloudinary_storage.storage import RawMediaCloudinaryStorage
+    _raw_storage = RawMediaCloudinaryStorage()
+except Exception:
+    _raw_storage = None
+
 
 class Job(models.Model):
     """Job posting model"""
@@ -67,7 +73,7 @@ class JobApplication(models.Model):
     full_name = models.CharField(max_length=200)
     email = models.EmailField()
     phone = models.CharField(max_length=20)
-    resume = models.FileField(upload_to='resumes/%Y/%m/')
+    resume = models.FileField(upload_to='resumes/%Y/%m/', storage=_raw_storage)
     cover_letter = models.TextField()
     status = models.CharField(max_length=20, choices=STATUS_CHOICES, default='applied')
     applied_date = models.DateTimeField(auto_now_add=True)
