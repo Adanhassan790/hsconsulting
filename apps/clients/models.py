@@ -2,6 +2,12 @@ from django.db import models
 from django.contrib.auth.models import User
 from django.utils.translation import gettext_lazy as _
 
+try:
+    from cloudinary_storage.storage import RawMediaCloudinaryStorage
+    _raw_storage = RawMediaCloudinaryStorage()
+except Exception:
+    _raw_storage = None
+
 
 class Client(models.Model):
     CLIENT_TYPE_CHOICES = [
@@ -61,7 +67,7 @@ class ClientDocument(models.Model):
     title = models.CharField(max_length=200)
     description = models.TextField(blank=True)
     
-    file = models.FileField(upload_to='client_documents/%Y/%m/')
+    file = models.FileField(upload_to='client_documents/%Y/%m/', storage=_raw_storage)
     is_verified = models.BooleanField(default=False)
     
     created_at = models.DateTimeField(auto_now_add=True)

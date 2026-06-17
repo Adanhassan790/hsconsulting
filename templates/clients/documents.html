@@ -9,7 +9,7 @@
         
         <div class="row mb-4">
             <div class="col-md-12">
-                <a href="{{ upload_url }}" class="btn btn-danger">Upload New Document</a>
+                <a href="{% url 'clients:upload_document' %}" class="btn btn-danger">Upload New Document</a>
             </div>
         </div>
         
@@ -31,7 +31,7 @@
                                     <tr>
                                         <td><a href="{{ doc.file.url }}">{{ doc.file.name }}</a></td>
                                         <td>{{ doc.get_document_type_display }}</td>
-                                        <td>{{ doc.uploaded_at|date:'M d, Y' }}</td>
+                                        <td>{{ doc.created_at|date:'M d, Y' }}</td>
                                         <td>
                                             {% if doc.is_verified %}
                                                 <span class="badge bg-success">Verified</span>
